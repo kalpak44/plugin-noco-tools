@@ -27,14 +27,14 @@ jobs:
         id: cache-app
         uses: actions/cache@v4
         with:
-          # Everything under app/source except the plugin dir we sync fresh each build.
-          path: |
-            app/source/node_modules
-            app/source/package.json
-            app/source/yarn.lock
-          key: nocobase-source-${{ runner.os }}-v2-${{ hashFiles('package.json') }}
+          # Cache the whole source tree. bootstrap-dev-app.sh short-circuits
+          # `nb source download` when app/source/package.json exists, so a
+          # cache hit skips the multi-minute install step. build-tgz.sh always
+          # rsyncs the plugin dir fresh, so a stale plugin copy isn't a risk.
+          path: app/source
+          key: nocobase-source-${{ runner.os }}-v3-${{ hashFiles('package.json') }}
           restore-keys: |
-            nocobase-source-${{ runner.os }}-v2-
+            nocobase-source-${{ runner.os }}-v3-
 
       - name: Build .tgz
         run: bash scripts/build-tgz.sh
