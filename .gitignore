@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnpm-store/
+
+# Build output
+dist/
+lib/
+build/
+*.tsbuildinfo
+
+# NocoBase plugin build artifacts (generated at build time)
+client-v2.js
+client-v2.d.ts
+client.js
+client.d.ts
+server.js
+server.d.ts
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+storage/
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test / coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# IDE / editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+tmp/
+temp/
+.cache/
+
+# Local NocoBase dev app (created by `nb init` into ./app)
+app/

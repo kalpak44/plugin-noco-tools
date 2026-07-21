@@ -1,0 +1,16 @@
+node_modules
+src
+app
+scripts
+.github
+.editorconfig
+.gitignore
+tsconfig.json
+build.config.ts
+*.tsbuildinfo
+*.log
+.env
+.env.*
+storage
+.idea
+.vscode

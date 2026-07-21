@@ -1,0 +1,23 @@
+{
+  "Google Tools": "Google Tools",
+  "Connect Google": "Connect Google",
+  "Connect Google Account": "Connect Google Account",
+  "Connect your Google account to let AI employees read and summarize your emails, send emails on your behalf, view your calendar events, create events, and check events on calendars shared with you.": "Connect your Google account to let AI employees read and summarize your emails, send emails on your behalf, view your calendar events, create events, and check events on calendars shared with you.",
+  "Not connected": "Not connected",
+  "Connected": "Connected",
+  "Connected as {{email}}": "Connected as {{email}}",
+  "Disconnect": "Disconnect",
+  "Reconnect": "Reconnect",
+  "Connecting…": "Connecting…",
+  "Connection window closed before completion. Please try again.": "Connection window closed before completion. Please try again.",
+  "Failed to start connection: {{message}}": "Failed to start connection: {{message}}",
+  "Failed to disconnect: {{message}}": "Failed to disconnect: {{message}}",
+  "Google account disconnected.": "Google account disconnected.",
+  "Google account connected.": "Google account connected.",
+  "Scopes granted": "Scopes granted",
+  "This block only shows configuration state for the currently logged-in user.": "This block only shows configuration state for the currently logged-in user.",
+  "Google Connect Block": "Google Connect Block",
+  "Google Connect settings": "Google Connect settings",
+  "Card title": "Card title",
+  "Show scopes": "Show scopes"
+}
