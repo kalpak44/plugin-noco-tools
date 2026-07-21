@@ -24,6 +24,13 @@
   "main": "dist/server/index.js",
   "module": "dist/server/index.js",
   "types": "dist/server/index.d.ts",
+  "nocobase": {
+    "defaultEnabled": false,
+    "supportedVersions": [
+      "2.x"
+    ],
+    "editionLevel": 0
+  },
   "files": [
     "dist",
     "client-v2.js",
@@ -41,12 +48,13 @@
     "clean": "rm -rf dist client-v2.js client-v2.d.ts client.js client.d.ts server.js server.d.ts"
   },
   "peerDependencies": {
-    "@nocobase/client-v2": ">=1.6.0",
-    "@nocobase/database": ">=1.6.0",
-    "@nocobase/flow-engine": ">=1.6.0",
-    "@nocobase/server": ">=1.6.0",
-    "antd": ">=5.0.0",
-    "react": ">=18.0.0"
+    "@nocobase/client-v2": "2.x",
+    "@nocobase/database": "2.x",
+    "@nocobase/flow-engine": "2.x",
+    "@nocobase/server": "2.x",
+    "@nocobase/utils": "2.x",
+    "antd": "^5.0.0",
+    "react": "^18.0.0"
   },
   "engines": {
     "node": ">=22"

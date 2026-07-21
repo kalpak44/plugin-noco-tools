@@ -83,7 +83,7 @@ export class PluginNocoToolsServer extends Plugin {
                 googleEmail: conn.googleEmail,
                 scopes: conn.scope ? conn.scope.split(/\s+/).filter(Boolean) : [],
                 expiresAt: conn.expiresAt,
-                lastError: (conn as any).lastError,
+                lastError: conn.lastError,
               }
             : { connected: false, status: 'not_connected', scopes: [] },
         };
@@ -130,7 +130,7 @@ export class PluginNocoToolsServer extends Plugin {
             googleEmail: userInfo?.email,
             googleSub: userInfo?.sub,
             status: 'active',
-            lastError: null as any,
+            lastError: null,
           });
 
           ctx.body = CALLBACK_HTML({ status: 'success', email: userInfo?.email });

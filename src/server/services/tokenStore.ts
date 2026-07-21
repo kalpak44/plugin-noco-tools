@@ -12,6 +12,7 @@ export interface StoredConnection {
   scope?: string;
   tokenType?: string;
   status?: string;
+  lastError?: string | null;
 }
 
 const REFRESH_SKEW_MS = 60_000;
@@ -70,7 +71,7 @@ export async function ensureFreshAccessToken(
       scope: refreshed.scope || conn.scope,
       tokenType: refreshed.token_type || conn.tokenType,
       status: 'active',
-      lastError: null as any,
+      lastError: null,
     });
     return updated;
   } catch (err: any) {
@@ -91,5 +92,6 @@ function normalize(row: any): StoredConnection {
     scope: row.scope,
     tokenType: row.tokenType,
     status: row.status,
+    lastError: row.lastError,
   };
 }

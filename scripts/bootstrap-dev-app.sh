@@ -1,18 +1,25 @@
 #!/usr/bin/env bash
 #
-# Bootstrap a local NocoBase dev app under ./app and link this plugin into it.
-# Idempotent: safe to re-run. Skips work that's already been done.
+# Bootstrap the local dev app under ./app that we use to build this plugin.
+# Steps:
+#   1. Download a NocoBase source tree via `nb source download` (npm mode).
+#   2. Add the extra dev-only deps that the build toolchain expects.
+#   3. Copy the plugin sources into app/source/packages/plugins/@…/…
+#      (copy, NOT symlink — lerna 4 in @nocobase/build ignores symlinks).
+#   4. yarn install so the workspace picks up our plugin.
 #
-# Requirements: `nb` CLI must be on PATH.
+# Idempotent: safe to re-run.
+#
+# Requirements: `nb` CLI on PATH.
 #   npm i -g @nocobase/cli
 #
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 APP_DIR="$REPO_ROOT/app"
+SOURCE_DIR="$APP_DIR/source"
 PLUGIN_NAME="$(node -pe "require('$REPO_ROOT/package.json').name")"
-# NocoBase expects <app>/plugins/@scope/plugin-name to match the package name exactly.
-LINK_TARGET="$APP_DIR/plugins/$PLUGIN_NAME"
+TARGET_DIR="$SOURCE_DIR/packages/plugins/$PLUGIN_NAME"
 
 if ! command -v nb >/dev/null 2>&1; then
   echo "error: the \`nb\` CLI was not found on PATH."
@@ -20,38 +27,55 @@ if ! command -v nb >/dev/null 2>&1; then
   exit 1
 fi
 
-if [ ! -f "$APP_DIR/source/package.json" ]; then
-  echo "==> bootstrapping NocoBase dev app in $APP_DIR (this can take a while)"
+if [ ! -f "$SOURCE_DIR/package.json" ]; then
+  echo "==> downloading NocoBase source into $SOURCE_DIR (npm mode, first run only)"
   mkdir -p "$APP_DIR"
-  (
-    cd "$APP_DIR"
-    nb init --skip-ui
-  )
+  (cd "$APP_DIR" && nb source download -y --source npm --output-dir source)
 else
-  echo "==> reusing existing dev app at $APP_DIR"
+  echo "==> reusing existing source tree at $SOURCE_DIR"
 fi
 
-echo "==> linking plugin \"$PLUGIN_NAME\" into dev app"
-mkdir -p "$(dirname "$LINK_TARGET")"
-if [ -e "$LINK_TARGET" ] || [ -L "$LINK_TARGET" ]; then
-  # Only replace if it doesn't already point at us.
-  current="$(readlink "$LINK_TARGET" 2>/dev/null || true)"
-  if [ "$current" != "$REPO_ROOT" ]; then
-    rm -rf "$LINK_TARGET"
-    ln -s "$REPO_ROOT" "$LINK_TARGET"
-  fi
-else
-  ln -s "$REPO_ROOT" "$LINK_TARGET"
-fi
+echo "==> ensuring build-time dev deps are installed in the source tree"
+# @nocobase/build     — the build orchestrator (`nocobase-build` binary)
+# ts-node             — required by @nocobase/cli-v1's dep check
+# @nocobase/flow-engine, @nocobase/client-v2, @nocobase/client
+#                     — resolvable during "write external version" step
+# react + react-dom + antd — resolvable during client-v2 rsbuild
+(
+  cd "$SOURCE_DIR"
+  # If any of these are already installed, `yarn add` is a no-op update.
+  yarn add -W --dev \
+    @nocobase/build \
+    @nocobase/flow-engine \
+    @nocobase/client-v2 \
+    @nocobase/client \
+    react react-dom antd \
+    ts-node
+)
 
-echo "==> enabling plugin"
-nb plugin enable "$PLUGIN_NAME" || {
-  echo "note: 'nb plugin enable' failed; run it manually after 'nb app start'."
-}
+echo "==> syncing plugin sources into $TARGET_DIR"
+mkdir -p "$(dirname "$TARGET_DIR")"
+rsync -a --delete \
+  --exclude 'node_modules' \
+  --exclude 'app' \
+  --exclude 'dist' \
+  --exclude '.git' \
+  --exclude 'scripts' \
+  --exclude '.github' \
+  --exclude '.idea' \
+  --exclude '.vscode' \
+  "$REPO_ROOT/" "$TARGET_DIR/"
 
-echo
-echo "Bootstrap complete."
-echo "  Dev app dir : $APP_DIR"
-echo "  Plugin link : $LINK_TARGET -> $REPO_ROOT"
-echo
-echo "Next:  yarn dev    # or:  nb app start"
+echo "==> yarn install to pick up the plugin in the workspace"
+(cd "$SOURCE_DIR" && yarn install --ignore-engines)
+
+cat <<EOF
+
+Bootstrap complete.
+  Source dir : $SOURCE_DIR
+  Plugin dir : $TARGET_DIR
+
+Next:
+  yarn build          # produces dist/*.tgz at the repo root
+  yarn dev            # runs NocoBase in dev mode (needs a working DB config)
+EOF

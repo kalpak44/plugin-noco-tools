@@ -20,20 +20,31 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install NocoBase CLI
+      - name: Install NocoBase CLI globally
         run: npm i -g @nocobase/cli
 
       - name: Cache local dev app
         id: cache-app
         uses: actions/cache@v4
         with:
-          path: app
-          key: nocobase-app-${{ runner.os }}-v1-${{ hashFiles('package.json') }}
+          # Everything under app/source except the plugin dir we sync fresh each build.
+          path: |
+            app/source/node_modules
+            app/source/package.json
+            app/source/yarn.lock
+          key: nocobase-source-${{ runner.os }}-v2-${{ hashFiles('package.json') }}
           restore-keys: |
-            nocobase-app-${{ runner.os }}-v1-
+            nocobase-source-${{ runner.os }}-v2-
 
-      - name: Bootstrap dev app + build .tgz
+      - name: Build .tgz
         run: bash scripts/build-tgz.sh
+
+      - name: Inspect artifact
+        run: |
+          ls -la dist/
+          tar tzf dist/*.tgz | head -30
+          echo "---package.json inside tgz---"
+          tar xOzf dist/*.tgz package/package.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
