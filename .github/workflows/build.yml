@@ -2,11 +2,11 @@ name: build
 
 on:
   push:
-    branches: [main]
-    tags: ['v*']
+    branches: [ main ]
+    tags: [ 'v*' ]
   pull_request:
-    branches: [main]
-  workflow_dispatch: {}
+    branches: [ main ]
+  workflow_dispatch: { }
 
 permissions:
   contents: write
@@ -30,17 +30,16 @@ jobs:
         id: cache-app
         uses: actions/cache@v4
         with:
-          # Cache the whole source tree. bootstrap-dev-app.sh short-circuits
-          # `nb source download` when app/source/package.json exists, so a
-          # cache hit skips the multi-minute install step. build-tgz.sh always
-          # rsyncs the plugin dir fresh, so a stale plugin copy isn't a risk.
+          # build.sh short-circuits the `nb source download` step when
+          # app/source/package.json is already there; the plugin dir is always
+          # rsynced fresh so a stale plugin copy isn't a risk.
           path: app/source
-          key: nocobase-source-${{ runner.os }}-v3-${{ hashFiles('package.json') }}
+          key: nocobase-source-${{ runner.os }}-v5-${{ hashFiles('package.json', 'scripts/build.sh') }}
           restore-keys: |
-            nocobase-source-${{ runner.os }}-v3-
+            nocobase-source-${{ runner.os }}-v5-
 
       - name: Build .tgz
-        run: bash scripts/build-tgz.sh
+        run: npm run build
 
       - name: Inspect artifact
         run: |

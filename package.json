@@ -1,6 +1,6 @@
 {
   "name": "@kalpak44/plugin-noco-tools",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "NocoBase plugin — connect NocoBase (and its AI employees) to Gmail and Google Calendar via user-consented OAuth. Adds a Connect-Google block, a public OAuth callback endpoint, token rotation, REST tools, and AI-plugin tool registration.",
   "displayName": "Noco Tools — Google (Gmail + Calendar)",
   "keywords": [
@@ -27,7 +27,7 @@
   "nocobase": {
     "defaultEnabled": false,
     "supportedVersions": [
-      "2.x"
+      "2.1.28"
     ],
     "editionLevel": 0
   },
@@ -41,21 +41,15 @@
     "package.json"
   ],
   "scripts": {
-    "bootstrap": "bash scripts/bootstrap-dev-app.sh",
-    "build": "bash scripts/build-tgz.sh",
-    "build:only": "bash scripts/build-only.sh",
-    "dev": "bash scripts/dev.sh",
-    "clean": "rm -rf dist client-v2.js client-v2.d.ts client.js client.d.ts server.js server.d.ts"
+    "build": "bash scripts/build.sh",
+    "clean": "rm -rf dist"
   },
   "peerDependencies": {
-    "@nocobase/client-v2": "2.1.29",
-    "@nocobase/database": "2.1.29",
-    "@nocobase/flow-engine": "2.1.29",
-    "@nocobase/server": "2.1.29",
-    "@nocobase/utils": "2.1.29",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "antd": "6.5.1"
+    "@nocobase/client-v2": "2.1.28",
+    "@nocobase/database": "2.1.28",
+    "@nocobase/flow-engine": "2.1.28",
+    "@nocobase/server": "2.1.28",
+    "@nocobase/utils": "2.1.28"
   },
   "engines": {
     "node": ">=22"
