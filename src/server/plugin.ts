@@ -151,53 +151,53 @@ export class PluginNocoToolsServer extends Plugin {
         listEmails: async (ctx, next) => {
           const userId = requireUserId(ctx);
           const { values } = ctx.action.params;
-          ctx.body = { data: await gmail.listEmails(this.app, userId, values || {}) };
+          ctx.body = await gmail.listEmails(this.app, userId, values || {});
           await next();
         },
         getEmail: async (ctx, next) => {
           const userId = requireUserId(ctx);
           const { values } = ctx.action.params;
           if (!values?.id) ctx.throw(400, 'Missing `id`');
-          ctx.body = { data: await gmail.getEmail(this.app, userId, values.id) };
+          ctx.body = await gmail.getEmail(this.app, userId, values.id);
           await next();
         },
         sendEmail: async (ctx, next) => {
           const userId = requireUserId(ctx);
           const { values } = ctx.action.params;
           if (!values?.to || !values?.subject || !values?.body) ctx.throw(400, 'Missing required fields: to, subject, body');
-          ctx.body = { data: await gmail.sendEmail(this.app, userId, values) };
+          ctx.body = await gmail.sendEmail(this.app, userId, values);
           await next();
         },
         listCalendars: async (ctx, next) => {
           const userId = requireUserId(ctx);
-          ctx.body = { data: await calendar.listCalendars(this.app, userId) };
+          ctx.body = await calendar.listCalendars(this.app, userId);
           await next();
         },
         listEvents: async (ctx, next) => {
           const userId = requireUserId(ctx);
           const { values } = ctx.action.params;
-          ctx.body = { data: await calendar.listEvents(this.app, userId, values || {}) };
+          ctx.body = await calendar.listEvents(this.app, userId, values || {});
           await next();
         },
         createEvent: async (ctx, next) => {
           const userId = requireUserId(ctx);
           const { values } = ctx.action.params;
           if (!values?.summary || !values?.start || !values?.end) ctx.throw(400, 'Missing required fields: summary, start, end');
-          ctx.body = { data: await calendar.createEvent(this.app, userId, values) };
+          ctx.body = await calendar.createEvent(this.app, userId, values);
           await next();
         },
         listSharedEvents: async (ctx, next) => {
           const userId = requireUserId(ctx);
           const { values } = ctx.action.params;
-          ctx.body = { data: await calendar.listSharedEvents(this.app, userId, values || {}) };
+          ctx.body = await calendar.listSharedEvents(this.app, userId, values || {});
           await next();
         },
         configStatus: async (ctx, next) => {
           try {
             const creds = await resolveGoogleCredentials(this.app, ctx);
-            ctx.body = { data: { configured: true, redirectUri: creds.redirectUri, clientIdSuffix: creds.clientId.slice(-6) } };
+            ctx.body = { configured: true, redirectUri: creds.redirectUri, clientIdSuffix: creds.clientId.slice(-6) };
           } catch (err: any) {
-            ctx.body = { data: { configured: false, message: err?.message || String(err) } };
+            ctx.body = { configured: false, message: err?.message || String(err) };
           }
           await next();
         },
