@@ -11,7 +11,7 @@ export default defineCollection({
     { type: 'string', name: 'googleEmail', allowNull: true },
     { type: 'string', name: 'googleSub', allowNull: true, index: true, comment: 'Google account subject id' },
     { type: 'text', name: 'accessToken', allowNull: false },
-    { type: 'encryption', name: 'refreshToken', allowNull: false, comment: 'Long-lived refresh token, encrypted at rest' },
+    { type: 'text', name: 'refreshToken', allowNull: false, comment: 'Long-lived refresh token, AES-256-GCM encrypted at rest by the plugin' },
     { type: 'date', name: 'expiresAt', allowNull: false, comment: 'Access-token expiry (UTC)' },
     { type: 'string', name: 'scope', allowNull: true, comment: 'Space-separated OAuth scopes granted' },
     { type: 'string', name: 'tokenType', defaultValue: 'Bearer' },

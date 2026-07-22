@@ -9,6 +9,7 @@ import {
   fetchUserInfo,
   revokeToken,
 } from './services/oauth';
+import { decryptSecret } from './services/crypto';
 import { deleteConnection, getConnection, saveConnection } from './services/tokenStore';
 import { registerAITools } from './ai-tools';
 
@@ -226,7 +227,7 @@ export class PluginNocoToolsServer extends Plugin {
       if (!repo) return;
       const rows = await repo.find();
       for (const row of rows) {
-        await revokeToken(row.refreshToken).catch(() => undefined);
+        await revokeToken(decryptSecret(row.refreshToken)).catch(() => undefined);
         await revokeToken(row.accessToken).catch(() => undefined);
       }
       await repo.destroy({ truncate: true } as any).catch(async () => {

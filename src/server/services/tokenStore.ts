@@ -1,4 +1,5 @@
 import type { Application } from '@nocobase/server';
+import { decryptSecret, encryptSecret } from './crypto';
 import { refreshAccessToken } from './oauth';
 
 export interface StoredConnection {
@@ -31,7 +32,8 @@ export async function saveConnection(
 ): Promise<StoredConnection> {
   const repo = app.db.getRepository('googleConnections');
   const existing = await repo.findOne({ filter: { userId } });
-  const values = { ...patch, userId };
+  const values: any = { ...patch, userId };
+  if (values.refreshToken) values.refreshToken = encryptSecret(values.refreshToken);
   const row = existing
     ? await repo.update({ filterByTk: existing.id, values })
     : await repo.create({ values });
@@ -87,7 +89,7 @@ function normalize(row: any): StoredConnection {
     googleEmail: row.googleEmail,
     googleSub: row.googleSub,
     accessToken: row.accessToken,
-    refreshToken: row.refreshToken,
+    refreshToken: decryptSecret(row.refreshToken),
     expiresAt: row.expiresAt instanceof Date ? row.expiresAt : new Date(row.expiresAt),
     scope: row.scope,
     tokenType: row.tokenType,
