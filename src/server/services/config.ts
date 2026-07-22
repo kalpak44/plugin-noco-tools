@@ -30,29 +30,16 @@ export async function resolveGoogleCredentials(
   app: Application,
   ctx?: { request?: { origin?: string; header?: any }; origin?: string } | any,
 ): Promise<GoogleClientCredentials> {
-  const env: any = (app as any).environment;
-
-  const readVar = (name: string): string | undefined => {
-    if (!env) return undefined;
-    if (typeof env.getVariable === 'function') return env.getVariable(name);
-    if (typeof env.get === 'function') return env.get(name);
-    return undefined;
-  };
-  const readSecret = (name: string): string | undefined => {
-    if (!env) return undefined;
-    if (typeof env.getSecret === 'function') return env.getSecret(name);
-    if (typeof env.getVariable === 'function') return env.getVariable(name);
-    return undefined;
-  };
+  const vars = readEnv(app);
 
   const clientId =
-    readVar('google_client_id') ||
-    readVar('GOOGLE_CLIENT_ID') ||
+    vars['google_client_id'] ||
+    vars['GOOGLE_CLIENT_ID'] ||
     process.env.GOOGLE_CLIENT_ID;
 
   const clientSecret =
-    readSecret('google_client_secret') ||
-    readSecret('GOOGLE_CLIENT_SECRET') ||
+    vars['google_client_secret'] ||
+    vars['GOOGLE_CLIENT_SECRET'] ||
     process.env.GOOGLE_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
@@ -62,8 +49,8 @@ export async function resolveGoogleCredentials(
   }
 
   const explicitRedirect =
-    readVar('google_redirect_uri') ||
-    readVar('GOOGLE_REDIRECT_URI') ||
+    vars['google_redirect_uri'] ||
+    vars['GOOGLE_REDIRECT_URI'] ||
     process.env.GOOGLE_REDIRECT_URI;
 
   const redirectUri = explicitRedirect || deriveRedirectUri(app, ctx);
@@ -71,17 +58,17 @@ export async function resolveGoogleCredentials(
   return { clientId, clientSecret, redirectUri };
 }
 
-function deriveRedirectUri(app: Application, ctx?: any): string {
+function readEnv(app: Application): Record<string, string> {
   const env: any = (app as any).environment;
-  const readVar = (name: string): string | undefined => {
-    if (!env) return undefined;
-    if (typeof env.getVariable === 'function') return env.getVariable(name);
-    if (typeof env.get === 'function') return env.get(name);
-    return undefined;
-  };
+  if (env && typeof env.getVariables === 'function') return env.getVariables() || {};
+  return {};
+}
+
+function deriveRedirectUri(app: Application, ctx?: any): string {
+  const vars = readEnv(app);
   const appPublicUrl =
-    readVar('app_public_url') ||
-    readVar('APP_PUBLIC_URL') ||
+    vars['app_public_url'] ||
+    vars['APP_PUBLIC_URL'] ||
     process.env.APP_PUBLIC_URL ||
     process.env.API_BASE_URL;
 

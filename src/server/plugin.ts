@@ -69,25 +69,23 @@ export class PluginNocoToolsServer extends Plugin {
       'googleConnections:authorize': async (ctx, next) => {
         const userId = requireUserId(ctx);
         const { url, redirectUri } = await buildAuthorizeUrl(this.app, userId, ctx);
-        ctx.body = { data: { authorizeUrl: url, redirectUri } };
+        ctx.body = { authorizeUrl: url, redirectUri };
         await next();
       },
 
       'googleConnections:status': async (ctx, next) => {
         const userId = requireUserId(ctx);
         const conn = await getConnection(this.app, userId);
-        ctx.body = {
-          data: conn
-            ? {
-                connected: conn.status === 'active',
-                status: conn.status,
-                googleEmail: conn.googleEmail,
-                scopes: conn.scope ? conn.scope.split(/\s+/).filter(Boolean) : [],
-                expiresAt: conn.expiresAt,
-                lastError: conn.lastError,
-              }
-            : { connected: false, status: 'not_connected', scopes: [] },
-        };
+        ctx.body = conn
+          ? {
+              connected: conn.status === 'active',
+              status: conn.status,
+              googleEmail: conn.googleEmail,
+              scopes: conn.scope ? conn.scope.split(/\s+/).filter(Boolean) : [],
+              expiresAt: conn.expiresAt,
+              lastError: conn.lastError,
+            }
+          : { connected: false, status: 'not_connected', scopes: [] };
         await next();
       },
 
@@ -99,7 +97,7 @@ export class PluginNocoToolsServer extends Plugin {
           await revokeToken(conn.accessToken).catch(() => undefined);
           await deleteConnection(this.app, userId);
         }
-        ctx.body = { data: { connected: false } };
+        ctx.body = { connected: false };
         await next();
       },
 

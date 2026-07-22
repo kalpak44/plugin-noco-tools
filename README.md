@@ -35,18 +35,36 @@ The plugin ships:
 
 ## Configure — Google Cloud Console
 
-1. Open <https://console.cloud.google.com/apis/credentials>.
+You'll need a Google Cloud project with the Gmail + Calendar APIs enabled and an OAuth 2.0 client. Handy shortcuts:
+
+- Cloud Console home: <https://console.cloud.google.com/>
+- List / switch projects: <https://console.cloud.google.com/cloud-resource-manager>
+- Create a new project: <https://console.cloud.google.com/projectcreate>
+- API Library (enable Gmail / Calendar): <https://console.cloud.google.com/apis/library>
+- Google Auth Platform (overview / start here for auth setup): <https://console.cloud.google.com/auth/overview>
+- OAuth branding (app name, support email, logo): <https://console.cloud.google.com/auth/branding>
+- OAuth data access (scopes): <https://console.cloud.google.com/auth/scopes>
+- OAuth audience (test users / publish to production): <https://console.cloud.google.com/auth/audience>
+- OAuth clients (create / manage OAuth Client IDs): <https://console.cloud.google.com/auth/clients>
+- Credentials (legacy view of the same clients + API keys): <https://console.cloud.google.com/apis/credentials>
+
+Then:
+
+1. Open the **Credentials** page (link above) and make sure you're in the right project (top-left project picker).
 2. **Create OAuth Client ID** → **Web application**.
-3. Add authorized **redirect URI**:
+3. Add an **Authorized redirect URI**. The value is always your app's public origin plus the fixed suffix `/api/googleConnections:callback`:
 
    ```
    <YOUR_APP_URL>/api/googleConnections:callback
    ```
 
-   Example for local dev:
+   Examples:
    ```
-   http://localhost:13000/api/googleConnections:callback
+   http://localhost:13000/api/googleConnections:callback           # local dev
+   https://nocobase.mycompany.com/api/googleConnections:callback   # production behind a domain / reverse proxy
    ```
+
+   > **Important:** the value you add here must **exactly** match the `redirectUri` returned by `POST /api/googleConnections:authorize`. If they differ, Google returns `redirect_uri_mismatch`. If you're behind a reverse proxy (Cloudflare, ingress, load balancer), set the `app_public_url` variable (next section) so the plugin generates the public URL instead of the internal `http://localhost:...`.
 
 4. In **APIs & Services → Library** enable:
    - **Gmail API**
@@ -71,8 +89,8 @@ Requires the built-in **Variables and Secrets** plugin (enabled by default in re
 | --------------------- | -------- | ------------------------------------------------ |
 | `google_client_id`    | Variable | The OAuth Client ID from Google Cloud Console.   |
 | `google_client_secret`| Secret   | The OAuth Client Secret from Google Cloud Console. |
-| `google_redirect_uri` | Variable | *(optional)* Override redirect URI if auto-detection is wrong. |
-| `app_public_url`      | Variable | *(optional)* Base URL used to build the redirect URI when the plugin can't infer it (e.g. `https://noco.mycompany.com`). |
+| `app_public_url`      | Variable | Public base URL of your NocoBase instance (e.g. `https://nocobase.mycompany.com`). The plugin appends `/api/googleConnections:callback` to build the OAuth callback URL. **Required when running behind a reverse proxy / Kubernetes ingress / Cloudflare**, otherwise the callback resolves to `http://localhost:13000/...` and Google rejects it. |
+| `google_redirect_uri` | Variable | *(optional)* Full override of the callback URL, e.g. `https://nocobase.mycompany.com/api/googleConnections:callback`. Use only if `app_public_url` isn't enough. Must match the value you registered in the Google Cloud Console. |
 
 If you can't or don't want to use Variables & Secrets, the plugin falls back to environment variables:
 
