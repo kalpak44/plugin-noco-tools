@@ -17,10 +17,6 @@ lib/
 build/
 *.tsbuildinfo
 
-# Legacy v1 client entry (not used in this plugin; keep ignored so nb doesn't scaffold them)
-client.js
-client.d.ts
-
 # Environment / secrets
 .env
 .env.*
