@@ -64,7 +64,7 @@ Then:
    https://nocobase.mycompany.com/api/googleConnections:callback   # production behind a domain / reverse proxy
    ```
 
-   > **Important:** the value you add here must **exactly** match the `redirectUri` returned by `POST /api/googleConnections:authorize`. If they differ, Google returns `redirect_uri_mismatch`. If you're behind a reverse proxy (Cloudflare, ingress, load balancer), set the `app_public_url` variable (next section) so the plugin generates the public URL instead of the internal `http://localhost:...`.
+   > **Important:** whatever URL you register here must **exactly** match the value of the `google_redirect_uri` variable you'll set in NocoBase next. If they differ, Google returns `redirect_uri_mismatch`.
 
 4. In **APIs & Services → Library** enable:
    - **Gmail API**
@@ -90,15 +90,13 @@ Requires the built-in **Variables and Secrets** plugin (enabled by default in re
 | --------------------- | -------- | ------------------------------------------------ |
 | `google_client_id`    | Variable | The OAuth Client ID from Google Cloud Console.   |
 | `google_client_secret`| Secret   | The OAuth Client Secret from Google Cloud Console. |
-| `app_public_url`      | Variable | Public base URL of your NocoBase instance (e.g. `https://nocobase.mycompany.com`). The plugin appends `/api/googleConnections:callback` to build the OAuth callback URL. **Required when running behind a reverse proxy / Kubernetes ingress / Cloudflare**, otherwise the callback resolves to `http://localhost:13000/...` and Google rejects it. |
-| `google_redirect_uri` | Variable | *(optional)* Full override of the callback URL, e.g. `https://nocobase.mycompany.com/api/googleConnections:callback`. Use only if `app_public_url` isn't enough. Must match the value you registered in the Google Cloud Console. |
+| `google_redirect_uri` | Variable | Full callback URL, e.g. `https://nocobase.mycompany.com/api/googleConnections:callback`. Must **exactly** match the Authorized redirect URI on your Google OAuth client. |
 
-If you can't or don't want to use Variables & Secrets, the plugin falls back to environment variables:
+If you can't or don't want to use Variables & Secrets, the plugin falls back to environment variables of the same names in upper case:
 
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
-- `GOOGLE_REDIRECT_URI` *(optional)*
-- `APP_PUBLIC_URL` *(optional)*
+- `GOOGLE_REDIRECT_URI`
 
 **Verify configuration** at any time:
 

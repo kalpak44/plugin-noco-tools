@@ -68,7 +68,7 @@ export class PluginNocoToolsServer extends Plugin {
     this.app.resourceManager.registerActionHandlers({
       'googleConnections:authorize': async (ctx, next) => {
         const userId = requireUserId(ctx);
-        const { url, redirectUri } = await buildAuthorizeUrl(this.app, userId, ctx);
+        const { url, redirectUri } = await buildAuthorizeUrl(this.app, userId);
         ctx.body = { authorizeUrl: url, redirectUri };
         await next();
       },
@@ -104,13 +104,16 @@ export class PluginNocoToolsServer extends Plugin {
       // Public: Google redirects the browser here with ?code&state.
       'googleConnections:callback': async (ctx, next) => {
         ctx.type = 'html';
+        // Skip NocoBase's dataWrapping middleware — the OAuth popup needs
+        // raw HTML to run its postMessage + window.close script.
+        (ctx as any).withoutDataWrapping = true;
         try {
           const { code, state, error, error_description } = ctx.action.params || (ctx.request as any).query || {};
           if (error) throw new Error(`${error}: ${error_description || ''}`);
           if (!code || !state) throw new Error('Missing code or state');
 
           const decoded = decodeState(this.app, String(state));
-          const token = await exchangeCodeForToken(this.app, String(code), ctx);
+          const token = await exchangeCodeForToken(this.app, String(code));
           if (!token.refresh_token) {
             // On repeat consent Google may omit refresh_token; require prompt=consent, which we already set.
             // If missing, tell the user to re-consent from Google account permissions.
@@ -194,7 +197,7 @@ export class PluginNocoToolsServer extends Plugin {
         },
         configStatus: async (ctx, next) => {
           try {
-            const creds = await resolveGoogleCredentials(this.app, ctx);
+            const creds = await resolveGoogleCredentials(this.app);
             ctx.body = { configured: true, redirectUri: creds.redirectUri, clientIdSuffix: creds.clientId.slice(-6) };
           } catch (err: any) {
             ctx.body = { configured: false, message: err?.message || String(err) };

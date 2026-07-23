@@ -71,9 +71,8 @@ function getStateSecret(app: Application): string {
 export async function buildAuthorizeUrl(
   app: Application,
   userId: number | string,
-  ctx?: any,
 ): Promise<{ url: string; state: string; redirectUri: string }> {
-  const { clientId, redirectUri } = await resolveGoogleCredentials(app, ctx);
+  const { clientId, redirectUri } = await resolveGoogleCredentials(app);
   const state = encodeState(app, { userId, nonce: crypto.randomBytes(12).toString('base64url'), ts: Date.now() });
   const params = new URLSearchParams({
     client_id: clientId,
@@ -91,9 +90,8 @@ export async function buildAuthorizeUrl(
 export async function exchangeCodeForToken(
   app: Application,
   code: string,
-  ctx?: any,
 ): Promise<GoogleTokenResponse> {
-  const { clientId, clientSecret, redirectUri } = await resolveGoogleCredentials(app, ctx);
+  const { clientId, clientSecret, redirectUri } = await resolveGoogleCredentials(app);
   const res = await fetch(GOOGLE_TOKEN_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

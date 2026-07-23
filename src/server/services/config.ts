@@ -19,15 +19,7 @@ export interface GoogleClientCredentials {
   redirectUri: string;
 }
 
-/**
- * Resolve Google OAuth credentials from NocoBase Variables & Secrets (plugin-environment-variables)
- * with a defensive fallback to process.env so the plugin still functions in local dev
- * where the environment plugin may not be enabled.
- */
-export async function resolveGoogleCredentials(
-  app: Application,
-  ctx?: { request?: { origin?: string; header?: any }; origin?: string } | any,
-): Promise<GoogleClientCredentials> {
+export async function resolveGoogleCredentials(app: Application): Promise<GoogleClientCredentials> {
   const vars = readEnv(app);
 
   const clientId =
@@ -40,18 +32,22 @@ export async function resolveGoogleCredentials(
     vars['GOOGLE_CLIENT_SECRET'] ||
     process.env.GOOGLE_CLIENT_SECRET;
 
+  const redirectUri =
+    vars['google_redirect_uri'] ||
+    vars['GOOGLE_REDIRECT_URI'] ||
+    process.env.GOOGLE_REDIRECT_URI;
+
   if (!clientId || !clientSecret) {
     throw new Error(
       'Google OAuth credentials not configured. Define Variable `google_client_id` and Secret `google_client_secret` in NocoBase → Settings → Variables and secrets (or set GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET env vars).',
     );
   }
 
-  const explicitRedirect =
-    vars['google_redirect_uri'] ||
-    vars['GOOGLE_REDIRECT_URI'] ||
-    process.env.GOOGLE_REDIRECT_URI;
-
-  const redirectUri = explicitRedirect || deriveRedirectUri(app, ctx);
+  if (!redirectUri) {
+    throw new Error(
+      'Google OAuth redirect URI not configured. Define Variable `google_redirect_uri` in NocoBase → Settings → Variables and secrets (e.g. `https://your-nocobase.example.com/api/googleConnections:callback`), or set GOOGLE_REDIRECT_URI. The value must match the Authorized redirect URI in your Google Cloud OAuth client.',
+    );
+  }
 
   return { clientId, clientSecret, redirectUri };
 }
@@ -60,25 +56,4 @@ function readEnv(app: Application): Record<string, string> {
   const env: any = (app as any).environment;
   if (env && typeof env.getVariables === 'function') return env.getVariables() || {};
   return {};
-}
-
-function deriveRedirectUri(app: Application, ctx?: any): string {
-  const vars = readEnv(app);
-  const appPublicUrl =
-    vars['app_public_url'] ||
-    vars['APP_PUBLIC_URL'] ||
-    process.env.APP_PUBLIC_URL ||
-    process.env.API_BASE_URL;
-
-  const fromReq =
-    ctx?.request?.origin ||
-    ctx?.origin ||
-    (ctx?.request?.header?.origin as string | undefined) ||
-    (ctx?.request?.header?.referer
-      ? new URL(ctx.request.header.referer as string).origin
-      : undefined);
-
-  const base = (appPublicUrl || fromReq || 'http://localhost:13000').replace(/\/+$/, '');
-  // NocoBase mounts REST resources under /api/<resource>:<action>
-  return `${base}/api/googleConnections:callback`;
 }
