@@ -189,6 +189,20 @@ export class PluginNocoToolsServer extends Plugin {
           ctx.body = await calendar.createEvent(this.app, userId, values);
           await next();
         },
+        updateEvent: async (ctx, next) => {
+          const userId = requireUserId(ctx);
+          const { values } = ctx.action.params;
+          if (!values?.eventId) ctx.throw(400, 'Missing required field: eventId');
+          ctx.body = await calendar.updateEvent(this.app, userId, values);
+          await next();
+        },
+        deleteEvent: async (ctx, next) => {
+          const userId = requireUserId(ctx);
+          const { values } = ctx.action.params;
+          if (!values?.eventId) ctx.throw(400, 'Missing required field: eventId');
+          ctx.body = await calendar.deleteEvent(this.app, userId, values);
+          await next();
+        },
         listSharedEvents: async (ctx, next) => {
           const userId = requireUserId(ctx);
           const { values } = ctx.action.params;

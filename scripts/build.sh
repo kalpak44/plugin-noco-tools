@@ -65,6 +65,7 @@ echo "==> ensuring build-time dev deps are installed"
     "@nocobase/client-v2@$NOCOBASE_VERSION" \
     "@nocobase/client@$NOCOBASE_VERSION" \
     "react@$REACT_VERSION" "react-dom@$REACT_VERSION" "antd@$ANTD_VERSION" \
+    zod \
     ts-node
 )
 

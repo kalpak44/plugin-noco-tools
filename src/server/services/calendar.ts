@@ -17,7 +17,9 @@ async function authFetch(app: Application, userId: number | string, path: string
     const body = await res.text();
     throw new Error(`Calendar API ${res.status}: ${body}`);
   }
-  return res.json();
+  if (res.status === 204) return null;
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
 }
 
 export interface CalendarEntry {
@@ -139,6 +141,59 @@ export async function createEvent(
     body: JSON.stringify(body),
   });
   return { ...normalizeEvent(res), calendarId };
+}
+
+export interface UpdateEventInput {
+  calendarId?: string;
+  eventId: string;
+  summary?: string;
+  description?: string;
+  location?: string;
+  start?: { dateTime?: string; date?: string; timeZone?: string };
+  end?: { dateTime?: string; date?: string; timeZone?: string };
+  attendees?: Array<{ email: string; optional?: boolean }>;
+  sendUpdates?: 'all' | 'externalOnly' | 'none';
+}
+
+export async function updateEvent(
+  app: Application,
+  userId: number | string,
+  input: UpdateEventInput,
+): Promise<CalendarEvent> {
+  const calendarId = input.calendarId || 'primary';
+  const params = new URLSearchParams();
+  if (input.sendUpdates) params.set('sendUpdates', input.sendUpdates);
+  const patch: Record<string, unknown> = {};
+  if (input.summary !== undefined) patch.summary = input.summary;
+  if (input.description !== undefined) patch.description = input.description;
+  if (input.location !== undefined) patch.location = input.location;
+  if (input.start !== undefined) patch.start = input.start;
+  if (input.end !== undefined) patch.end = input.end;
+  if (input.attendees !== undefined) patch.attendees = input.attendees;
+  const res = await authFetch(
+    app,
+    userId,
+    `/calendars/${encodeURIComponent(calendarId)}/events/${encodeURIComponent(input.eventId)}?${params.toString()}`,
+    { method: 'PATCH', body: JSON.stringify(patch) },
+  );
+  return { ...normalizeEvent(res), calendarId };
+}
+
+export async function deleteEvent(
+  app: Application,
+  userId: number | string,
+  input: { calendarId?: string; eventId: string; sendUpdates?: 'all' | 'externalOnly' | 'none' },
+): Promise<{ deleted: true; eventId: string; calendarId: string }> {
+  const calendarId = input.calendarId || 'primary';
+  const params = new URLSearchParams();
+  if (input.sendUpdates) params.set('sendUpdates', input.sendUpdates);
+  await authFetch(
+    app,
+    userId,
+    `/calendars/${encodeURIComponent(calendarId)}/events/${encodeURIComponent(input.eventId)}?${params.toString()}`,
+    { method: 'DELETE' },
+  );
+  return { deleted: true, eventId: input.eventId, calendarId };
 }
 
 function normalizeEvent(e: any): CalendarEvent {
