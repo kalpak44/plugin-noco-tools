@@ -70,12 +70,13 @@ Then:
    - **Gmail API**
    - **Google Calendar API**
 
-5. In **APIs & Services → OAuth consent screen**, add the following scopes (Google will surface them to the user on the consent page):
+5. In **Google Auth Platform → Data Access** (<https://console.cloud.google.com/auth/scopes>), click **Add or Remove Scopes** and add:
    - `openid`, `email`, `profile`
-   - `https://www.googleapis.com/auth/gmail.readonly`
-   - `https://www.googleapis.com/auth/gmail.send`
-   - `https://www.googleapis.com/auth/calendar.readonly`
-   - `https://www.googleapis.com/auth/calendar.events`
+   - `https://www.googleapis.com/auth/gmail.modify` — read, send, modify, and delete emails on the user's behalf (does not include Trash → Delete forever).
+   - `https://www.googleapis.com/auth/calendar` — read/write access to the user's calendars and events (including calendars shared with them).
+
+   > **Why the broader scopes?** `gmail.modify` covers reading, sending, replying, labelling, and trashing in a single grant — one consent prompt instead of two, and lets the AI employee mark emails as read after processing. Same idea for `calendar`: read + create in one grant, and it grants access to shared calendars.
+   > If the app is in **Testing**, Google only shows scopes to the user that are declared here. Skip this step and the consent screen will only ask for `email/profile`, and any Gmail/Calendar call will 403.
 
    > While the app is in **Testing**, add every NocoBase user you want to connect as a **Test user**. Publish the OAuth consent screen for broader access.
 
