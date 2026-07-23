@@ -1,7 +1,6 @@
 # Build tooling — not served
 Dockerfile
 .dockerignore
-nginx.conf
 
 # macOS
 .DS_Store
