@@ -441,30 +441,47 @@
 <!-- ABOUT / PURPOSE (required by Google OAuth verification) -->
 <section id="about" style="background:var(--bg2);">
   <div class="wrap">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;">
+
+    <div class="section-eyebrow">About</div>
+    <h2 class="section-h">What is noco-ai-tools?</h2>
+    <p class="section-p" style="max-width:680px;">
+      <strong style="color:var(--text);">noco-ai-tools</strong> is an open-source <a href="https://www.nocobase.com" target="_blank" rel="noopener">NocoBase</a> plugin that connects each user's Google account to their NocoBase AI employees via OAuth 2.0. Once a user grants consent, AI employees can read and send emails, and manage calendar events — acting entirely on behalf of that individual user. No shared service accounts. No cross-user data access.
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-top:2.5rem;">
 
       <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">What is noco-ai-tools?</div>
-        <p style="color:var(--text2);font-size:.9rem;line-height:1.7;margin:0;">
-          <strong style="color:var(--text);">noco-ai-tools</strong> is an open-source NocoBase plugin that connects each user's Google account to their NocoBase AI employees via OAuth 2.0. Once a user grants consent, AI employees can read and send emails, and create or update calendar events — acting entirely on behalf of that individual user.
-        </p>
-      </div>
-
-      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">Google data accessed</div>
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">Why Google access is needed</div>
         <ul style="padding-left:1.2rem;margin:0;">
-          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.5rem;"><strong style="color:var(--text);">Gmail</strong> — list, read, send, and reply to the user's emails (<code>gmail.modify</code> scope).</li>
-          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.5rem;"><strong style="color:var(--text);">Google Calendar</strong> — list, create, update, and delete events on the user's calendars, including shared ones (<code>calendar</code> scope).</li>
-          <li style="color:var(--text2);font-size:.875rem;"><strong style="color:var(--text);">Identity</strong> — email address and profile, to identify which account is connected (<code>openid email profile</code> scopes).</li>
+          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.9rem;">
+            <strong style="color:var(--text);">Gmail</strong> (<code>gmail.modify</code>) — AI employees need to read incoming emails to understand context, send replies and new messages on the user's behalf, and mark emails as read after processing. Without this, the AI cannot act as the user's email assistant.
+          </li>
+          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.9rem;">
+            <strong style="color:var(--text);">Google Calendar</strong> (<code>calendar</code>) — AI employees need to read the user's schedule to avoid conflicts, create new events when asked, update or cancel existing ones, and access shared calendars for team coordination. Without this, the AI cannot manage the user's calendar.
+          </li>
+          <li style="color:var(--text2);font-size:.875rem;">
+            <strong style="color:var(--text);">Identity</strong> (<code>openid email profile</code>) — needed to confirm which Google account the user connected, and to display it in the NocoBase interface so the user can verify and revoke their connection at any time.
+          </li>
         </ul>
       </div>
 
       <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">Who uses it &amp; how</div>
-        <p style="color:var(--text2);font-size:.875rem;line-height:1.7;margin:0 0 .75rem;">
-          Used by NocoBase workspace administrators and their end-users. Each user connects their <em>own</em> Google account — no shared service account. Data from Google APIs is never stored beyond the OAuth tokens required to make API calls, and is never sold or shared with third parties.
-        </p>
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">Data handling</div>
+        <ul style="padding-left:1.2rem;margin:0 0 .85rem;">
+          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.5rem;"><strong style="color:var(--text);">What is stored:</strong> only the OAuth access token, refresh token, and connected email address — encrypted at rest. No email content or calendar events are persisted.</li>
+          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.5rem;"><strong style="color:var(--text);">How it is used:</strong> solely to make Gmail and Calendar API calls on behalf of the user who granted consent. Never used for advertising, analytics, or any secondary purpose.</li>
+          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.5rem;"><strong style="color:var(--text);">Who can see it:</strong> only the authenticated NocoBase user whose account it belongs to. No cross-user access is possible.</li>
+          <li style="color:var(--text2);font-size:.875rem;"><strong style="color:var(--text);">Revocation:</strong> users can disconnect at any time from within NocoBase, or directly via <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener" style="color:var(--primary-l);">Google Account settings</a>. All tokens are immediately deleted.</li>
+        </ul>
         <a href="privacy.html" style="font-size:.85rem;color:var(--primary-l);">Read the full Privacy Policy →</a>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">Data use &amp; limited use policy</div>
+        <p style="color:var(--text2);font-size:.875rem;line-height:1.7;margin:0 0 .75rem;">
+          noco-ai-tools' use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener" style="color:var(--primary-l);">Google API Services User Data Policy</a>, including the Limited Use requirements. Google data is used only to provide the features described on this page and is not used for advertising, profiling, or any secondary purpose.
+        </p>
+        <a href="tos.html" style="font-size:.85rem;color:var(--primary-l);">Terms of Service →</a>
       </div>
 
     </div>
