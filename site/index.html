@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Noco Tools — Google (Gmail + Calendar)</title>
-  <meta name="description" content="Connect NocoBase AI employees to each user's Gmail and Google Calendar via per-user OAuth. Read, send emails; manage calendar events — all scoped to the individual user." />
+  <title>noco-ai-tools — Gmail &amp; Calendar for NocoBase AI employees</title>
+  <meta name="description" content="noco-ai-tools connects NocoBase AI employees to each user's Gmail and Google Calendar via per-user OAuth. Reads and sends email, manages calendar events — scoped strictly to the individual user who granted consent." />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236366F1'/%3E%3Cpath d='M8 10h16v2H8zm0 5h12v2H8zm0 5h10v2H8z' fill='white'/%3E%3C/svg%3E" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -373,7 +373,7 @@
       <div class="nav-logo-icon">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg>
       </div>
-      Noco Tools
+      noco-ai-tools
     </div>
     <div class="nav-links">
       <a href="#features" class="nm">Features</a>
@@ -396,10 +396,10 @@
 
   <div class="badge">
     <span class="badge-dot"></span>
-    NocoBase Plugin &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; v0.1.17
+    noco-ai-tools &nbsp;·&nbsp; NocoBase Plugin &nbsp;·&nbsp; MIT License
   </div>
 
-  <h1>AI employees that<br/>act on your <em>Gmail &amp; Calendar</em></h1>
+  <h1><em>noco-ai-tools</em><br/>Gmail &amp; Calendar for your AI employees</h1>
 
   <p class="hero-sub">
     Connect NocoBase AI agents to each user's Google account via per-user OAuth.
@@ -427,6 +427,41 @@
       <div class="g-pill"></div>
     </div>
     <span>Google APIs</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT / PURPOSE (required by Google OAuth verification) -->
+<section id="about" style="background:var(--bg2);">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;">
+
+      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">What is noco-ai-tools?</div>
+        <p style="color:var(--text2);font-size:.9rem;line-height:1.7;margin:0;">
+          <strong style="color:var(--text);">noco-ai-tools</strong> is an open-source NocoBase plugin that connects each user's Google account to their NocoBase AI employees via OAuth 2.0. Once a user grants consent, AI employees can read and send emails, and create or update calendar events — acting entirely on behalf of that individual user.
+        </p>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">Google data accessed</div>
+        <ul style="padding-left:1.2rem;margin:0;">
+          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.5rem;"><strong style="color:var(--text);">Gmail</strong> — list, read, send, and reply to the user's emails (<code>gmail.modify</code> scope).</li>
+          <li style="color:var(--text2);font-size:.875rem;margin-bottom:.5rem;"><strong style="color:var(--text);">Google Calendar</strong> — list, create, update, and delete events on the user's calendars, including shared ones (<code>calendar</code> scope).</li>
+          <li style="color:var(--text2);font-size:.875rem;"><strong style="color:var(--text);">Identity</strong> — email address and profile, to identify which account is connected (<code>openid email profile</code> scopes).</li>
+        </ul>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:.7rem;">Who uses it &amp; how</div>
+        <p style="color:var(--text2);font-size:.875rem;line-height:1.7;margin:0 0 .75rem;">
+          Used by NocoBase workspace administrators and their end-users. Each user connects their <em>own</em> Google account — no shared service account. Data from Google APIs is never stored beyond the OAuth tokens required to make API calls, and is never sold or shared with third parties.
+        </p>
+        <a href="privacy.html" style="font-size:.85rem;color:var(--primary-l);">Read the full Privacy Policy →</a>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -533,7 +568,7 @@
       <div class="step-card">
         <div class="step-num">1</div>
         <h3>Install the plugin</h3>
-        <p>Download the <code>.tgz</code> from the latest release, drop it into NocoBase's <code>storage/plugins/</code>, and enable it in Plugin Manager.</p>
+        <p>Download the release package from GitHub and upload it through NocoBase's Plugin Manager interface. Enable <strong>noco-ai-tools</strong> — no restart needed.</p>
       </div>
       <div class="step-card">
         <div class="step-num">2</div>
@@ -562,31 +597,43 @@
     <div class="section-eyebrow">Get started</div>
     <h2 class="section-h">Install &amp; configure</h2>
     <div class="install-cols">
+
       <div class="install-card">
         <h3>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary-l)" stroke-width="2.2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-          Quick install
+          Plugin installation
         </h3>
         <ol>
-          <li>Go to <a href="https://github.com/kalpak44/plugin-noco-tools/releases" target="_blank" rel="noopener">Releases</a> and download the latest <code>.tgz</code>.</li>
-          <li>Copy the file to your NocoBase app's <strong><code>storage/plugins/</code></strong>.</li>
-          <li>Open <strong>Plugin Manager</strong> in NocoBase and enable <em>Noco Tools — Google</em>.</li>
+          <li>Download the latest release package from <a href="https://github.com/kalpak44/plugin-noco-tools/releases" target="_blank" rel="noopener">GitHub Releases</a>.</li>
+          <li>Upload it through the NocoBase <strong>Plugin Manager</strong> interface, or place it in the <strong>plugins</strong> storage folder of your NocoBase instance.</li>
+          <li>Enable <strong>noco-ai-tools</strong> in Plugin Manager. No server restart is required.</li>
         </ol>
       </div>
+
       <div class="install-card">
         <h3>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
-          Required secrets
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Google Cloud setup
         </h3>
-        <div class="pre">
-<span class="c"># Settings → Variables and Secrets</span>
-<span class="k">google_client_id</span>      <span class="c"># Variable</span>
-<span class="k">google_client_secret</span>  <span class="c"># Secret</span>
-<span class="k">google_redirect_uri</span>   <span class="c"># Variable</span>
-
-<span class="c"># Callback URL pattern:</span>
-https://&lt;your-app&gt;/api/googleConnections:callback</div>
+        <ol>
+          <li>Create an <strong>OAuth 2.0 Web Application</strong> client in <a href="https://console.cloud.google.com/auth/clients" target="_blank" rel="noopener">Google Cloud Console</a>.</li>
+          <li>Add your NocoBase callback URL as an authorised redirect URI:<br/><code>https://your-app/api/googleConnections:callback</code></li>
+          <li>Enable the <strong>Gmail API</strong> and <strong>Google Calendar API</strong> in your project.</li>
+        </ol>
       </div>
+
+      <div class="install-card">
+        <h3>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+          NocoBase configuration
+        </h3>
+        <ol>
+          <li>Go to <strong>Settings → Variables and Secrets</strong> in NocoBase.</li>
+          <li>Add <strong>google_client_id</strong> (Variable) and <strong>google_client_secret</strong> (Secret) from your Google Cloud OAuth client.</li>
+          <li>Add <strong>google_redirect_uri</strong> (Variable) matching the callback URL you registered with Google.</li>
+        </ol>
+      </div>
+
     </div>
   </div>
 </section>
