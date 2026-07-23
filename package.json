@@ -1,6 +1,6 @@
 {
   "name": "@kalpak44/plugin-noco-tools",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "NocoBase plugin — connect NocoBase (and its AI employees) to Gmail and Google Calendar via user-consented OAuth. Adds a Connect-Google block, a public OAuth callback endpoint, token rotation, REST tools, and AI-plugin tool registration.",
   "displayName": "Noco Tools — Google (Gmail + Calendar)",
   "keywords": [
