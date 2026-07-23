@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noco Tools — Google (Gmail + Calendar)</title>
+  <meta name="description" content="Connect NocoBase AI employees to each user's Gmail and Google Calendar via per-user OAuth. Read, send emails; manage calendar events — all scoped to the individual user." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236366F1'/%3E%3Cpath d='M8 10h16v2H8zm0 5h12v2H8zm0 5h10v2H8z' fill='white'/%3E%3C/svg%3E" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #060B18;
+      --bg2:       #0D1426;
+      --surface:   rgba(255,255,255,.04);
+      --surface2:  rgba(255,255,255,.07);
+      --border:    rgba(255,255,255,.08);
+      --border2:   rgba(255,255,255,.14);
+      --primary:   #6366F1;
+      --primary-l: #818CF8;
+      --primary-d: #4F46E5;
+      --cyan:      #22D3EE;
+      --green:     #34D399;
+      --text:      #F1F5F9;
+      --text2:     #CBD5E1;
+      --muted:     #64748B;
+      --r:         14px;
+      --g-blue:    #4285F4;
+      --g-red:     #EA4335;
+      --g-yellow:  #FBBC05;
+      --g-green:   #34A853;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--primary-l); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+      background-size: 200px;
+      opacity: .4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 0 1.5rem;
+      background: rgba(6,11,24,.7);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .55rem;
+      font-weight: 700; font-size: .95rem; color: var(--text);
+    }
+    .nav-logo-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, #6366F1, #8B5CF6);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.1);
+    }
+    .nav-links { display: flex; align-items: center; gap: 1rem; }
+    .nav-links a {
+      color: var(--muted); font-size: .85rem;
+      transition: color .15s; padding: .25rem .1rem;
+    }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-gh {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .4rem .85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      color: var(--text) !important;
+      font-size: .82rem; font-weight: 500;
+      background: var(--surface);
+      transition: background .15s, border-color .15s;
+    }
+    .nav-gh:hover { background: var(--surface2); border-color: rgba(255,255,255,.2); text-decoration: none !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 1.5rem 5rem;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(ellipse, rgba(99,102,241,.22) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-glow2 {
+      position: absolute; bottom: -100px; left: 20%;
+      width: 500px; height: 500px;
+      background: radial-gradient(ellipse, rgba(34,211,238,.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .35rem 1rem; border-radius: 999px;
+      background: rgba(99,102,241,.12);
+      border: 1px solid rgba(99,102,241,.3);
+      font-size: .75rem; font-weight: 600; letter-spacing: .04em;
+      color: var(--primary-l); margin-bottom: 2rem;
+      backdrop-filter: blur(8px);
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--primary-l);
+      box-shadow: 0 0 6px var(--primary-l);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -.035em;
+      background: linear-gradient(160deg, #fff 20%, rgba(148,163,184,.7) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.4rem;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(130deg, var(--primary-l), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      max-width: 580px; margin: 0 auto 2.5rem;
+      color: var(--text2); font-size: 1.1rem; line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.5rem; border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary-d), var(--primary));
+      color: #fff !important; font-weight: 600; font-size: .95rem;
+      box-shadow: 0 4px 24px rgba(99,102,241,.45), inset 0 1px 0 rgba(255,255,255,.15);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(99,102,241,.55), inset 0 1px 0 rgba(255,255,255,.15); text-decoration: none !important; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.5rem; border-radius: 10px;
+      border: 1px solid var(--border2);
+      color: var(--text) !important; font-weight: 600; font-size: .95rem;
+      background: var(--surface);
+      backdrop-filter: blur(8px);
+      transition: background .15s, border-color .15s, transform .15s;
+    }
+    .btn-outline:hover { background: var(--surface2); border-color: rgba(255,255,255,.2); transform: translateY(-1px); text-decoration: none !important; }
+
+    /* Google color dots */
+    .g-brand {
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      color: var(--muted); font-size: .8rem;
+    }
+    .g-pills { display: flex; gap: .4rem; }
+    .g-pill {
+      width: 8px; height: 8px; border-radius: 50%;
+      animation: float-dot 3s ease-in-out infinite;
+    }
+    .g-pill:nth-child(1) { background: var(--g-blue);   animation-delay: 0s; }
+    .g-pill:nth-child(2) { background: var(--g-red);    animation-delay: .2s; }
+    .g-pill:nth-child(3) { background: var(--g-yellow); animation-delay: .4s; }
+    .g-pill:nth-child(4) { background: var(--g-green);  animation-delay: .6s; }
+    @keyframes float-dot {
+      0%,100%{ transform: translateY(0); }
+      50%     { transform: translateY(-4px); }
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    section { position: relative; z-index: 1; padding: 5rem 1.5rem; }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--cyan);
+      margin-bottom: .6rem;
+    }
+    .section-h {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800; letter-spacing: -.025em;
+      line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-p { color: var(--text2); max-width: 540px; font-size: .975rem; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border2), transparent);
+      margin: 0;
+    }
+
+    /* ─── FEATURES ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-top: 3rem;
+    }
+    .feat {
+      padding: 1.8rem;
+      background: var(--bg2);
+      transition: background .2s;
+    }
+    .feat:hover { background: var(--surface2); }
+    .feat-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.1rem;
+      border: 1px solid var(--border2);
+    }
+    .feat h3 { font-size: .975rem; font-weight: 650; margin-bottom: .4rem; }
+    .feat p { color: var(--text2); font-size: .875rem; line-height: 1.6; }
+
+    /* ─── TOOLS TABLE ─── */
+    .tools-section { background: var(--bg2); }
+    .tbl-wrap {
+      margin-top: 2.5rem;
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    thead { background: rgba(255,255,255,.04); }
+    th {
+      padding: .8rem 1.2rem; text-align: left;
+      font-size: .7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .07em;
+      color: var(--muted); border-bottom: 1px solid var(--border);
+    }
+    td { padding: .8rem 1.2rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text2); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr { transition: background .15s; }
+    tbody tr:hover td { background: rgba(255,255,255,.03); }
+    code {
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+      font-size: .8rem;
+      background: rgba(99,102,241,.18);
+      color: #A5B4FC;
+      padding: .15rem .45rem; border-radius: 5px;
+      white-space: nowrap;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .step-card {
+      position: relative;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
+      backdrop-filter: blur(8px);
+    }
+    .step-card::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: var(--r);
+      background: linear-gradient(135deg, rgba(99,102,241,.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .step-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-d), var(--primary));
+      color: #fff; font-size: .8rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 0 4px rgba(99,102,241,.15);
+    }
+    .step-card h3 { font-size: .95rem; font-weight: 650; margin-bottom: .4rem; }
+    .step-card p { color: var(--text2); font-size: .85rem; line-height: 1.6; }
+
+    /* ─── INSTALL ─── */
+    .install-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 680px) { .install-cols { grid-template-columns: 1fr; } }
+    .install-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+    .install-card h3 {
+      font-size: .9rem; font-weight: 650;
+      display: flex; align-items: center; gap: .5rem;
+      margin-bottom: 1.1rem;
+      color: var(--text);
+    }
+    .install-card ol, .install-card ul { padding-left: 1.3rem; }
+    .install-card li { color: var(--text2); font-size: .875rem; margin-bottom: .5rem; }
+    .install-card li strong { color: var(--text); }
+    .pre {
+      background: #06090F;
+      border: 1px solid var(--border2);
+      border-radius: 10px; padding: 1.1rem 1.2rem;
+      margin-top: .75rem;
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+      font-size: .8rem; color: #7DD3FC;
+      overflow-x: auto; line-height: 1.8;
+    }
+    .pre .c { color: var(--muted); }
+    .pre .k { color: #34D399; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    }
+    .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { color: var(--muted); font-size: .85rem; transition: color .15s; }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { color: var(--muted); font-size: .78rem; }
+
+    @media (max-width: 600px) {
+      .nm { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg>
+      </div>
+      Noco Tools
+    </div>
+    <div class="nav-links">
+      <a href="#features" class="nm">Features</a>
+      <a href="#tools" class="nm">Tools</a>
+      <a href="#install" class="nm">Install</a>
+      <a href="privacy.html" class="nm">Privacy</a>
+      <a href="tos.html" class="nm">Terms</a>
+      <a href="https://github.com/kalpak44/plugin-noco-tools" class="nav-gh" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-glow2" aria-hidden="true"></div>
+
+  <div class="badge">
+    <span class="badge-dot"></span>
+    NocoBase Plugin &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; v0.1.17
+  </div>
+
+  <h1>AI employees that<br/>act on your <em>Gmail &amp; Calendar</em></h1>
+
+  <p class="hero-sub">
+    Connect NocoBase AI agents to each user's Google account via per-user OAuth.
+    Every tool call runs under the caller's own tokens — no shared service accounts,
+    no data leakage between users.
+  </p>
+
+  <div class="hero-cta">
+    <a href="https://github.com/kalpak44/plugin-noco-tools/releases" class="btn-primary" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Download Plugin
+    </a>
+    <a href="https://github.com/kalpak44/plugin-noco-tools" class="btn-outline" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      View Source
+    </a>
+  </div>
+
+  <div class="g-brand">
+    <span>Powered by</span>
+    <div class="g-pills">
+      <div class="g-pill"></div>
+      <div class="g-pill"></div>
+      <div class="g-pill"></div>
+      <div class="g-pill"></div>
+    </div>
+    <span>Google APIs</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="section-eyebrow">Capabilities</div>
+    <h2 class="section-h">Everything your AI needs to act on<br/>email &amp; calendar</h2>
+    <p class="section-p">One plugin install, one consent per user. After that, AI employees work autonomously on behalf of the person they're talking to.</p>
+
+    <div class="features-grid">
+
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(66,133,244,.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+        </div>
+        <h3>Gmail — Read &amp; Send</h3>
+        <p>List emails by search query, read full message bodies (text + HTML), send and reply on the user's behalf. Marks as read after processing.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(52,168,83,.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <h3>Calendar — Full CRUD</h3>
+        <p>List, create, update, and delete events on the primary calendar. List events on shared calendars. Invite attendees with a single tool call.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(99,102,241,.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <h3>Per-user OAuth</h3>
+        <p>Each user connects their own Google account. User A's AI employee cannot access User B's data. Tokens are encrypted at rest by NocoBase.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(34,211,238,.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Automatic Token Refresh</h3>
+        <p>Access tokens are refreshed transparently before every API call. Agents keep acting on the user's behalf without re-prompting for consent.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(251,188,5,.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBBC05" stroke-width="1.8" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73L13 2.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        </div>
+        <h3>Variables &amp; Secrets</h3>
+        <p>Client ID and Secret come from NocoBase's built-in Secrets store. No config files, rotate credentials centrally in one place.</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(52,211,153,.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="1.8" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        </div>
+        <h3>REST Endpoints</h3>
+        <p>Every operation is also accessible over HTTP — useful for testing, scripts, or any client that can make authenticated POST requests.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TOOLS -->
+<section class="tools-section" id="tools">
+  <div class="wrap">
+    <div class="section-eyebrow">AI Tools</div>
+    <h2 class="section-h">Tools registered for AI employees</h2>
+    <p class="section-p">When the NocoBase AI plugin is active, these tools are automatically available. Bind them to any employee under Settings → AI.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Tool name</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>google.gmail.listEmails</code></td><td>List emails matching a Gmail search query (up to 50 results).</td></tr>
+          <tr><td><code>google.gmail.getEmail</code></td><td>Read one email — headers, plain-text body, HTML body.</td></tr>
+          <tr><td><code>google.gmail.sendEmail</code></td><td>Send or reply to an email on the connected user's behalf.</td></tr>
+          <tr><td><code>google.calendar.listCalendars</code></td><td>List all calendars the user owns or has been granted access to.</td></tr>
+          <tr><td><code>google.calendar.listEvents</code></td><td>List events on a specific calendar within a time window.</td></tr>
+          <tr><td><code>google.calendar.createEvent</code></td><td>Create an event with title, time, description, attendees, location.</td></tr>
+          <tr><td><code>google.calendar.updateEvent</code></td><td>Update any field of an existing event.</td></tr>
+          <tr><td><code>google.calendar.deleteEvent</code></td><td>Delete an event (optionally notify attendees).</td></tr>
+          <tr><td><code>google.calendar.listSharedEvents</code></td><td>List events across all calendars shared with the user.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="wrap">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-h">From install to AI agent in minutes</h2>
+    <div class="how-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Install the plugin</h3>
+        <p>Download the <code>.tgz</code> from the latest release, drop it into NocoBase's <code>storage/plugins/</code>, and enable it in Plugin Manager.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Add Google OAuth credentials</h3>
+        <p>Create an OAuth 2.0 client in Google Cloud Console. Paste the Client ID, Secret, and callback URL into NocoBase Variables &amp; Secrets.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Users connect their accounts</h3>
+        <p>Drop the <strong>Connect Google</strong> block on any page. Users click once, consent in a popup, and the block shows their connected email.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Assign tools to AI employees</h3>
+        <p>In <strong>Settings → AI → Employees → Tools</strong>, add the <code>google.*</code> tools. The employee now acts on behalf of whichever user is chatting with it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INSTALL -->
+<section id="install" style="background:var(--bg2);">
+  <div class="wrap">
+    <div class="section-eyebrow">Get started</div>
+    <h2 class="section-h">Install &amp; configure</h2>
+    <div class="install-cols">
+      <div class="install-card">
+        <h3>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary-l)" stroke-width="2.2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Quick install
+        </h3>
+        <ol>
+          <li>Go to <a href="https://github.com/kalpak44/plugin-noco-tools/releases" target="_blank" rel="noopener">Releases</a> and download the latest <code>.tgz</code>.</li>
+          <li>Copy the file to your NocoBase app's <strong><code>storage/plugins/</code></strong>.</li>
+          <li>Open <strong>Plugin Manager</strong> in NocoBase and enable <em>Noco Tools — Google</em>.</li>
+        </ol>
+      </div>
+      <div class="install-card">
+        <h3>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+          Required secrets
+        </h3>
+        <div class="pre">
+<span class="c"># Settings → Variables and Secrets</span>
+<span class="k">google_client_id</span>      <span class="c"># Variable</span>
+<span class="k">google_client_secret</span>  <span class="c"># Secret</span>
+<span class="k">google_redirect_uri</span>   <span class="c"># Variable</span>
+
+<span class="c"># Callback URL pattern:</span>
+https://&lt;your-app&gt;/api/googleConnections:callback</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="https://github.com/kalpak44/plugin-noco-tools" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/kalpak44/plugin-noco-tools/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="https://github.com/kalpak44/plugin-noco-tools/issues" target="_blank" rel="noopener">Issues</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="tos.html">Terms of Service</a>
+    </div>
+    <p class="footer-copy">MIT License &copy; kalpak44 &nbsp;&mdash;&nbsp; Not affiliated with Google LLC or NocoBase Inc.</p>
+  </div>
+</footer>
+
+</body>
+</html>

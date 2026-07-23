@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Noco Tools</title>
+  <meta name="description" content="Privacy Policy for Noco Tools — Google (Gmail + Calendar) NocoBase plugin." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #060B18; --bg2: #0D1426;
+      --surface: rgba(255,255,255,.04); --surface2: rgba(255,255,255,.07);
+      --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.14);
+      --primary: #6366F1; --primary-l: #818CF8;
+      --cyan: #22D3EE; --text: #F1F5F9; --text2: #CBD5E1; --muted: #64748B;
+      --r: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.75; -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: var(--primary-l); }
+    a:hover { text-decoration: underline; }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+      background-size: 200px; opacity: .4;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(6,11,24,.7); backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+    }
+    .nav-inner {
+      max-width: 800px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .5rem;
+      font-weight: 700; font-size: .9rem; color: var(--text); text-decoration: none;
+    }
+    .nav-logo:hover { text-decoration: none; }
+    .nav-logo-icon {
+      width: 26px; height: 26px; border-radius: 7px;
+      background: linear-gradient(135deg, #6366F1, #8B5CF6);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-back {
+      color: var(--muted); font-size: .825rem;
+      display: flex; align-items: center; gap: .3rem;
+      transition: color .15s;
+    }
+    .nav-back:hover { color: var(--text); text-decoration: none; }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 800px; margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+
+    .page-header {
+      margin-bottom: 3.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border2);
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .28rem .8rem; border-radius: 999px;
+      background: rgba(34,211,238,.08);
+      border: 1px solid rgba(34,211,238,.2);
+      color: var(--cyan); font-size: .7rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 900; letter-spacing: -.03em;
+      line-height: 1.15; margin-bottom: .8rem;
+      background: linear-gradient(160deg, #fff 30%, rgba(148,163,184,.7));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .meta { color: var(--muted); font-size: .85rem; }
+    .meta strong { color: var(--text2); }
+
+    h2 {
+      font-size: 1.05rem; font-weight: 700;
+      margin: 2.75rem 0 .8rem;
+      color: var(--text); letter-spacing: -.01em;
+      display: flex; align-items: center; gap: .65rem;
+    }
+    h2::before {
+      content: ''; flex-shrink: 0;
+      width: 3px; height: 1.05em; border-radius: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--primary-l));
+    }
+
+    p { color: var(--text2); margin-bottom: 1rem; font-size: .925rem; }
+    ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+    li { color: var(--text2); margin-bottom: .45rem; font-size: .925rem; }
+    strong { color: var(--text); }
+
+    .callout {
+      background: rgba(99,102,241,.07);
+      border: 1px solid rgba(99,102,241,.2);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--r);
+      padding: 1rem 1.25rem; margin: 1.5rem 0;
+    }
+    .callout p { margin: 0; }
+
+    .tbl-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border2);
+      border-radius: var(--r); margin: 1.5rem 0;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    thead { background: rgba(255,255,255,.04); }
+    th {
+      padding: .7rem 1rem; text-align: left;
+      font-size: .68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .07em;
+      color: var(--muted); border-bottom: 1px solid var(--border);
+    }
+    td { padding: .7rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text2); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,.02); }
+    code {
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+      font-size: .78rem;
+      background: rgba(99,102,241,.18); color: #A5B4FC;
+      padding: .12rem .4rem; border-radius: 4px; white-space: nowrap;
+    }
+
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+    }
+    .footer-inner { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: .8rem; }
+    .footer-links { display: flex; gap: 1.75rem; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { color: var(--muted); font-size: .82rem; transition: color .15s; }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { color: var(--muted); font-size: .75rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg>
+      </div>
+      Noco Tools
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to home
+    </a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div class="chip">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Last updated: <strong>July 2025</strong> &nbsp;&middot;&nbsp; Applies to: <strong>Noco Tools — Google (Gmail + Calendar)</strong></p>
+  </div>
+
+  <p>This Privacy Policy describes how the <strong>Noco Tools — Google (Gmail + Calendar)</strong> NocoBase plugin ("the Plugin") handles data when users connect their Google accounts. The Plugin is open-source software distributed under the MIT License.</p>
+
+  <div class="callout">
+    <p><strong>Google API Services User Data Policy:</strong> The Plugin's use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+  </div>
+
+  <h2>What data we collect</h2>
+  <p>When a user connects their Google account, the Plugin stores the following in the NocoBase database (<code>googleConnections</code> table), encrypted at rest:</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Field</th><th>What it is</th><th>Why it's stored</th></tr></thead>
+      <tbody>
+        <tr><td><code>googleEmail</code></td><td>Gmail address of the connected account</td><td>Displayed to the user to confirm which account is connected</td></tr>
+        <tr><td><code>accessToken</code></td><td>Short-lived OAuth 2.0 access token</td><td>Authorises calls to Gmail and Calendar APIs</td></tr>
+        <tr><td><code>refreshToken</code></td><td>Long-lived OAuth 2.0 refresh token (encrypted)</td><td>Obtains new access tokens without requiring re-consent</td></tr>
+        <tr><td><code>tokenExpiresAt</code></td><td>Expiry timestamp of the current access token</td><td>Triggers automatic refresh before the token expires</td></tr>
+        <tr><td><code>scopes</code></td><td>OAuth scopes granted by the user</td><td>Records exactly what permissions were consented to</td></tr>
+        <tr><td><code>status</code></td><td><code>active</code> or <code>error</code></td><td>Surfaces token revocation errors to the user</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The Plugin does <strong>not</strong> store the content of emails or calendar events. Email bodies and event details are returned to the AI employee during a tool call and are subject to the data-handling policy of your NocoBase instance and its AI provider.</p>
+
+  <h2>Google OAuth scopes requested</h2>
+  <ul>
+    <li><code>openid</code>, <code>email</code>, <code>profile</code> — identifies the connected account.</li>
+    <li><code>https://www.googleapis.com/auth/gmail.modify</code> — read, send, modify, and label emails. Does not include permanent deletion.</li>
+    <li><code>https://www.googleapis.com/auth/calendar</code> — read and write the user's calendars and events, including shared calendars.</li>
+  </ul>
+
+  <h2>How data is used</h2>
+  <p>Stored credentials are used exclusively to:</p>
+  <ul>
+    <li>Make Gmail and Google Calendar API calls on behalf of the specific user who granted consent.</li>
+    <li>Refresh access tokens automatically before they expire.</li>
+    <li>Revoke tokens when the user disconnects their account.</li>
+  </ul>
+  <p>No data is shared with third parties, advertising networks, or analytics services. Credentials are never transferred outside your NocoBase instance.</p>
+
+  <h2>Data isolation between users</h2>
+  <p>Every API call is scoped to the individual NocoBase user who initiated the request. The Plugin verifies the caller's identity before each API call and uses only that user's stored tokens. No user can access another user's email or calendar data through the Plugin.</p>
+
+  <h2>Data storage and security</h2>
+  <ul>
+    <li>Tokens are stored using NocoBase's <strong>encrypted field type</strong> (AES encryption at rest).</li>
+    <li>OAuth Client ID and Secret are stored in <strong>NocoBase Variables &amp; Secrets</strong>, separate from application data.</li>
+    <li>Transport between your NocoBase server and Google APIs uses HTTPS.</li>
+    <li>The Plugin does not log token values or email content to application logs.</li>
+  </ul>
+
+  <h2>Data retention and deletion</h2>
+  <ul>
+    <li><strong>User disconnect:</strong> Clicking "Disconnect" revokes both tokens with Google and deletes the row from the database.</li>
+    <li><strong>Plugin disable:</strong> All tokens are revoked with Google and deleted from the database.</li>
+    <li><strong>Plugin uninstall:</strong> All tokens are revoked and the <code>googleConnections</code> table is dropped.</li>
+  </ul>
+
+  <h2>Your rights</h2>
+  <p>You may revoke the Plugin's access to your Google account at any time:</p>
+  <ul>
+    <li><strong>Within NocoBase:</strong> Use the "Disconnect" button in the Connect Google block.</li>
+    <li><strong>Directly with Google:</strong> Visit <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a> and revoke access.</li>
+  </ul>
+
+  <h2>Third-party services</h2>
+  <p>The Plugin communicates exclusively with Google APIs (<code>accounts.google.com</code>, <code>www.googleapis.com</code>). No other external services are contacted.</p>
+
+  <h2>Children's privacy</h2>
+  <p>The Plugin is not directed at children under 13. It is intended for deployment within enterprise or personal NocoBase instances administered by adults.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>Material changes will be reflected by updating the "Last updated" date and noted in the GitHub repository's release notes.</p>
+
+  <h2>Contact</h2>
+  <p>For questions or data deletion requests, open an issue on the <a href="https://github.com/kalpak44/plugin-noco-tools/issues" target="_blank" rel="noopener">GitHub repository</a>.</p>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="tos.html">Terms of Service</a>
+      <a href="https://github.com/kalpak44/plugin-noco-tools" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Policy</a>
+    </div>
+    <p class="footer-copy">MIT License &copy; kalpak44 &nbsp;&mdash;&nbsp; Not affiliated with Google LLC or NocoBase Inc.</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Noco Tools</title>
+  <meta name="description" content="Terms of Service for Noco Tools — Google (Gmail + Calendar) NocoBase plugin." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #060B18; --bg2: #0D1426;
+      --surface: rgba(255,255,255,.04); --surface2: rgba(255,255,255,.07);
+      --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.14);
+      --primary: #6366F1; --primary-l: #818CF8;
+      --cyan: #22D3EE; --text: #F1F5F9; --text2: #CBD5E1; --muted: #64748B;
+      --r: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.75; -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: var(--primary-l); }
+    a:hover { text-decoration: underline; }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+      background-size: 200px; opacity: .4;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(6,11,24,.7); backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+    }
+    .nav-inner {
+      max-width: 800px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .5rem;
+      font-weight: 700; font-size: .9rem; color: var(--text); text-decoration: none;
+    }
+    .nav-logo:hover { text-decoration: none; }
+    .nav-logo-icon {
+      width: 26px; height: 26px; border-radius: 7px;
+      background: linear-gradient(135deg, #6366F1, #8B5CF6);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-back {
+      color: var(--muted); font-size: .825rem;
+      display: flex; align-items: center; gap: .3rem;
+      transition: color .15s;
+    }
+    .nav-back:hover { color: var(--text); text-decoration: none; }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 800px; margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+
+    .page-header {
+      margin-bottom: 3.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border2);
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .28rem .8rem; border-radius: 999px;
+      background: rgba(34,211,238,.08);
+      border: 1px solid rgba(34,211,238,.2);
+      color: var(--cyan); font-size: .7rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 900; letter-spacing: -.03em;
+      line-height: 1.15; margin-bottom: .8rem;
+      background: linear-gradient(160deg, #fff 30%, rgba(148,163,184,.7));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .meta { color: var(--muted); font-size: .85rem; }
+    .meta strong { color: var(--text2); }
+
+    h2 {
+      font-size: 1.05rem; font-weight: 700;
+      margin: 2.75rem 0 .8rem;
+      color: var(--text); letter-spacing: -.01em;
+      display: flex; align-items: center; gap: .65rem;
+    }
+    h2::before {
+      content: ''; flex-shrink: 0;
+      width: 3px; height: 1.05em; border-radius: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--primary-l));
+    }
+
+    p { color: var(--text2); margin-bottom: 1rem; font-size: .925rem; }
+    ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+    li { color: var(--text2); margin-bottom: .45rem; font-size: .925rem; }
+    strong { color: var(--text); }
+
+    .callout {
+      background: rgba(34,211,238,.05);
+      border: 1px solid rgba(34,211,238,.15);
+      border-left: 3px solid var(--cyan);
+      border-radius: var(--r);
+      padding: 1rem 1.25rem; margin: 1.5rem 0;
+    }
+    .callout p { margin: 0; }
+
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+    }
+    .footer-inner { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: .8rem; }
+    .footer-links { display: flex; gap: 1.75rem; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { color: var(--muted); font-size: .82rem; transition: color .15s; }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { color: var(--muted); font-size: .75rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg>
+      </div>
+      Noco Tools
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to home
+    </a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div class="chip">Legal</div>
+    <h1>Terms of Service</h1>
+    <p class="meta">Last updated: <strong>July 2025</strong> &nbsp;&middot;&nbsp; Applies to: <strong>Noco Tools — Google (Gmail + Calendar)</strong></p>
+  </div>
+
+  <p>These Terms of Service ("Terms") govern your use of the <strong>Noco Tools — Google (Gmail + Calendar)</strong> NocoBase plugin ("the Plugin"), available at <a href="https://github.com/kalpak44/plugin-noco-tools" target="_blank" rel="noopener">github.com/kalpak44/plugin-noco-tools</a> under the MIT License.</p>
+  <p>By installing, enabling, or using the Plugin, you agree to these Terms.</p>
+
+  <div class="callout">
+    <p>The Plugin is open-source software provided <strong>"as is"</strong>. It is a self-hosted tool — you are responsible for the NocoBase instance on which it runs and for all data stored within it.</p>
+  </div>
+
+  <h2>1. Description of the service</h2>
+  <p>The Plugin enables NocoBase AI employees to access a user's Google Gmail and Google Calendar on that user's behalf, following an explicit per-user OAuth 2.0 consent flow. No centralised service is operated on your behalf; all processing happens within your own NocoBase instance.</p>
+
+  <h2>2. Eligibility</h2>
+  <p>You must be at least 18 years old and have the authority to agree to these Terms on behalf of yourself or your organisation. The Plugin is intended for administrative, enterprise, or personal productivity contexts — not for consumer applications directed at minors.</p>
+
+  <h2>3. Acceptable use</h2>
+  <p>You agree to use the Plugin only for lawful purposes. You must not:</p>
+  <ul>
+    <li>Access another user's email or calendar data without their explicit consent.</li>
+    <li>Use the Plugin in violation of Google's <a href="https://developers.google.com/terms/" target="_blank" rel="noopener">APIs Terms of Service</a> or <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">API Services User Data Policy</a>.</li>
+    <li>Redistribute the Plugin in a way that violates the MIT License.</li>
+    <li>Collect, store, or transmit data in a manner that violates applicable privacy laws (GDPR, CCPA, or equivalent).</li>
+    <li>Circumvent the per-user isolation mechanisms to access data belonging to other users.</li>
+  </ul>
+
+  <h2>4. Google OAuth and data handling</h2>
+  <p>The Plugin facilitates an OAuth 2.0 connection between your NocoBase instance and Google. By using this integration:</p>
+  <ul>
+    <li>Your use of Google APIs is also governed by <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google's Terms of Service</a>.</li>
+    <li>You are responsible for configuring and maintaining your own Google Cloud project, OAuth consent screen, and credentials.</li>
+    <li>You are responsible for ensuring your consent screen accurately describes how your deployment uses Google user data.</li>
+    <li>You must not request scopes beyond those required for your stated use case.</li>
+  </ul>
+
+  <h2>5. Self-hosted responsibility</h2>
+  <p>The Plugin runs entirely within your own NocoBase instance. You are solely responsible for:</p>
+  <ul>
+    <li>Securing your NocoBase installation and the database that stores OAuth tokens.</li>
+    <li>Restricting access to the NocoBase admin interface and database appropriately.</li>
+    <li>Complying with applicable data protection laws regarding the storage of OAuth tokens and any email or calendar data processed by AI employees.</li>
+    <li>Maintaining backups and disaster recovery for your instance and its data.</li>
+  </ul>
+
+  <h2>6. Intellectual property</h2>
+  <p>The Plugin is released under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>. You are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Plugin subject to the license terms. Google, Gmail, and Google Calendar are trademarks of Google LLC. NocoBase is a trademark of NocoBase Inc. These names are used here for descriptive purposes only.</p>
+
+  <h2>7. Disclaimer of warranties</h2>
+  <p>THE PLUGIN IS PROVIDED <strong>"AS IS"</strong>, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. THE AUTHORS DO NOT WARRANT THAT THE PLUGIN WILL BE ERROR-FREE, SECURE, OR CONTINUOUSLY AVAILABLE.</p>
+
+  <h2>8. Limitation of liability</h2>
+  <p>IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY — WHETHER IN CONTRACT, TORT, OR OTHERWISE — ARISING FROM, OUT OF, OR IN CONNECTION WITH THE PLUGIN OR ITS USE. THIS INCLUDES, WITHOUT LIMITATION, ANY LOSS OF DATA, LOSS OF REVENUE, OR UNAUTHORISED ACCESS TO YOUR GOOGLE ACCOUNT OR NOCOBASE INSTANCE.</p>
+
+  <h2>9. Modifications to these Terms</h2>
+  <p>These Terms may be updated from time to time. Material changes will be reflected by updating the "Last updated" date and noted in the GitHub repository's release notes. Continued use of the Plugin after such changes constitutes acceptance of the revised Terms.</p>
+
+  <h2>10. Governing law</h2>
+  <p>These Terms shall be governed by applicable laws without regard to conflict of law principles. Any disputes arising from these Terms or your use of the Plugin shall be resolved in a court of competent jurisdiction.</p>
+
+  <h2>11. Contact</h2>
+  <p>For questions about these Terms, open an issue on the <a href="https://github.com/kalpak44/plugin-noco-tools/issues" target="_blank" rel="noopener">GitHub repository</a>.</p>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="https://github.com/kalpak44/plugin-noco-tools" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p class="footer-copy">MIT License &copy; kalpak44 &nbsp;&mdash;&nbsp; Not affiliated with Google LLC or NocoBase Inc.</p>
+  </div>
+</footer>
+
+</body>
+</html>

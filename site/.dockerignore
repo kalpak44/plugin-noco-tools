@@ -1,0 +1,16 @@
+# Build tooling — not served
+Dockerfile
+.dockerignore
+nginx.conf
+
+# macOS
+.DS_Store
+
+# Editors
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs
+*.log
