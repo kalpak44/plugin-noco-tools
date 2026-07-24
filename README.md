@@ -117,41 +117,31 @@ Returns `{ configured: true, redirectUri, clientIdSuffix }` when the plugin can 
 3. Click **Connect Google** in the block. A popup opens the Google consent screen; on success the popup closes automatically and the block flips to **Connected as `<your email>`**.
 4. **Disconnect** revokes the tokens with Google and removes the row from `googleConnections`.
 
-**Screenshot target** (this is the layout the block renders):
+The block appears in **Settings → Connect Google** and looks like this:
 
-```
-┌───────────────────────────────────────────────┐
-│ 🔗 Connect Google Account       ● Not connected│
-├───────────────────────────────────────────────┤
-│ Connect your Google account to let AI employees│
-│ read and summarize your emails, send emails on │
-│ your behalf, view your calendar events, ...    │
-│                                                │
-│ ┌───────────────────────────┐                  │
-│ │  Connect Google           │                  │
-│ └───────────────────────────┘                  │
-│                                                │
-│ This block only shows configuration state for  │
-│ the currently logged-in user.                  │
-└───────────────────────────────────────────────┘
-```
+![Connect Google settings page](assets/screen.png)
 
 ## Use with AI employees
 
 If the [NocoBase AI plugin](https://docs.nocobase.com/handbook/ai) is enabled, this plugin registers these tools with `aiManager.toolsManager` on load:
 
-| Tool name                       | Purpose                                                  |
-| ------------------------------- | -------------------------------------------------------- |
-| `google.gmail.listEmails`       | List emails (Gmail search query, `maxResults` up to 50). |
-| `google.gmail.getEmail`         | Read one email (headers + text + HTML bodies).           |
-| `google.gmail.sendEmail`        | Send an email on the connected user's behalf.            |
-| `google.calendar.listEvents`    | List events on a specific calendar (default: `primary`). |
-| `google.calendar.createEvent`   | Create an event.                                         |
-| `google.calendar.listSharedEvents` | List events across calendars **shared** with the user. |
+| Tool name                        | Purpose                                                  |
+| -------------------------------- | -------------------------------------------------------- |
+| `googleGmailListEmails`          | List emails (Gmail search query, `maxResults` up to 50). |
+| `googleGmailGetEmail`            | Read one email (headers + text + HTML bodies).           |
+| `googleGmailSendEmail`           | Send an email on the connected user's behalf.            |
+| `googleCalendarListCalendars`    | List every calendar the user owns or has access to.      |
+| `googleCalendarListEvents`       | List events on a specific calendar (default: `primary`). |
+| `googleCalendarCreateEvent`      | Create an event (optionally invite attendees).           |
+| `googleCalendarUpdateEvent`      | Partial-update an existing event (reschedule / edit).    |
+| `googleCalendarDeleteEvent`      | Cancel / delete an event (optionally notify attendees).  |
+| `googleCalendarListSharedEvents` | List events across calendars **shared** with the user.   |
 
 Bind them to an AI employee in **Settings → AI → Employees → Tools**. Tools run in the caller's user context, so each employee acts on behalf of the user who is chatting with it — no shared service account.
 
-> **Summarization** is intentionally not a separate tool. The employee should call `google.gmail.getEmail` and summarize the returned body itself — that leaves the whole email visible in the conversation and doesn't hard-code a summarization prompt.
+> **Summarization** is intentionally not a separate tool. The employee should call `googleGmailGetEmail` and summarize the returned body itself — that leaves the whole email visible in the conversation and doesn't hard-code a summarization prompt.
+
+See the [website's System Prompt example](https://noco-ai-tools.pavel-usanli.online/#system-prompt) for a ready-to-paste prompt with worked examples of every call shape.
 
 ## REST endpoints
 

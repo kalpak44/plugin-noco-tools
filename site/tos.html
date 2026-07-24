@@ -5,128 +5,293 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terms of Service — noco-ai-tools</title>
   <meta name="description" content="Terms of Service for noco-ai-tools — Google (Gmail + Calendar) NocoBase plugin." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://noco-ai-tools.pavel-usanli.online/tos.html" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235B4FE9'/%3E%3Cpath d='M8 10h16v2H8zm0 5h12v2H8zm0 5h10v2H8z' fill='white'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('noco_theme');
+        var sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored === 'light' || stored === 'dark' ? stored : (sysDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #060B18; --bg2: #0D1426;
-      --surface: rgba(255,255,255,.04); --surface2: rgba(255,255,255,.07);
-      --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.14);
-      --primary: #6366F1; --primary-l: #818CF8;
-      --cyan: #22D3EE; --text: #F1F5F9; --text2: #CBD5E1; --muted: #64748B;
-      --r: 12px;
+      --bg:       #FAFBFF;
+      --bg2:      #F2F3FB;
+      --bg3:      #EAECF6;
+      --border:   #E4E7F0;
+      --border2:  #CDD1E0;
+      --pri:      #5B4FE9;
+      --pri-d:    #4338CA;
+      --pri-l:    #7C6FF5;
+      --pri-bg:   #EEEDFB;
+      --pri-bd:   #C4BFFA;
+      --grn:      #059669;
+      --grn-bg:   #ECFDF5;
+      --grn-bd:   #A7F3D0;
+      --text:     #111827;
+      --text2:    #4B5563;
+      --text3:    #9CA3AF;
+      --r:        14px;
+
+      --nav-bg:     rgba(255,255,255,.92);
+
+      --hero-bg:        #F5F3FE;
+      --hero-fg:        var(--text);
+      --hero-fg-2:      var(--text2);
+      --hero-fg-3:      var(--text3);
+      --hero-grid:      rgba(91,79,233,.05);
+      --hero-bloom-1:   rgba(91,79,233,.18);
+      --hero-bloom-2:   rgba(124,58,237,.10);
+      --hero-badge-bg:  rgba(91,79,233,.10);
+      --hero-badge-bd:  rgba(91,79,233,.28);
+      --hero-badge-fg:  var(--pri-d);
+
+      --footer-bg:      var(--bg2);
+      --footer-fg:      var(--text);
+      --footer-fg-2:    var(--text2);
+      --footer-fg-3:    var(--text3);
     }
+
+    [data-theme="dark"] {
+      --bg:       #0E1020;
+      --bg2:      #14162A;
+      --bg3:      #1B1D35;
+      --border:   rgba(255,255,255,.08);
+      --border2:  rgba(255,255,255,.16);
+      --pri:      #7C6FF5;
+      --pri-d:    #6366F1;
+      --pri-l:    #A5B4FC;
+      --pri-bg:   rgba(124,111,245,.14);
+      --pri-bd:   rgba(124,111,245,.32);
+      --grn:      #34D399;
+      --grn-bg:   rgba(52,211,153,.08);
+      --grn-bd:   rgba(52,211,153,.28);
+      --text:     #F1F5F9;
+      --text2:    #B4BDD1;
+      --text3:    #64748B;
+      --nav-bg:   rgba(6,7,14,.85);
+
+      --hero-bg:        #06070E;
+      --hero-fg:        #FFFFFF;
+      --hero-fg-2:      rgba(255,255,255,.6);
+      --hero-fg-3:      rgba(255,255,255,.32);
+      --hero-grid:      rgba(255,255,255,.028);
+      --hero-bloom-1:   rgba(91,79,233,.32);
+      --hero-bloom-2:   rgba(124,58,237,.14);
+      --hero-badge-bg:  rgba(91,79,233,.14);
+      --hero-badge-bd:  rgba(91,79,233,.32);
+      --hero-badge-fg:  #A5B4FC;
+
+      --footer-bg:      var(--hero-bg);
+      --footer-fg:      rgba(255,255,255,.88);
+      --footer-fg-2:    rgba(255,255,255,.38);
+      --footer-fg-3:    rgba(255,255,255,.22);
+    }
+
     html { scroll-behavior: smooth; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg); color: var(--text);
-      line-height: 1.75; -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      line-height: 1.7; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--primary-l); }
+    h1, h2, h3 { font-family: 'Bricolage Grotesque', sans-serif; }
+    a { color: var(--pri); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
-      background-size: 200px; opacity: .4;
-    }
-
+    /* ── NAV ── */
     nav {
-      position: sticky; top: 0; z-index: 200;
-      background: rgba(6,11,24,.7); backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid var(--border);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       padding: 0 1.5rem;
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px) saturate(180%);
+      border-bottom: 1px solid var(--border);
     }
     .nav-inner {
-      max-width: 800px; margin: 0 auto;
+      max-width: 1140px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
-      height: 56px;
+      height: 64px;
     }
     .nav-logo {
-      display: flex; align-items: center; gap: .5rem;
-      font-weight: 700; font-size: .9rem; color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: .6rem;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700; font-size: 1rem; color: var(--text);
     }
     .nav-logo:hover { text-decoration: none; }
     .nav-logo-icon {
-      width: 26px; height: 26px; border-radius: 7px;
-      background: linear-gradient(135deg, #6366F1, #8B5CF6);
+      width: 32px; height: 32px; border-radius: 9px;
+      background: linear-gradient(135deg, #5B4FE9, #7C3AED);
       display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(91,79,233,.35);
     }
-    .nav-back {
-      color: var(--muted); font-size: .825rem;
-      display: flex; align-items: center; gap: .3rem;
-      transition: color .15s;
+    .nav-links { display: flex; align-items: center; gap: .15rem; }
+    .navl {
+      color: var(--text2); font-size: .875rem; font-weight: 500;
+      padding: .4rem .75rem; border-radius: 8px;
+      transition: color .15s, background .15s;
     }
-    .nav-back:hover { color: var(--text); text-decoration: none; }
+    .navl:hover { color: var(--text); background: var(--bg2); text-decoration: none; }
+    .nav-gh {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .55rem 1.1rem; border-radius: 10px;
+      border: 1.5px solid var(--border2);
+      color: var(--text) !important; font-size: .875rem; font-weight: 600;
+      background: var(--bg); line-height: 1; margin-left: .4rem;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    .nav-gh:hover { background: var(--bg2); border-color: var(--pri); box-shadow: 0 0 0 3px var(--pri-bg); text-decoration: none !important; }
 
-    .page {
-      position: relative; z-index: 1;
+    .theme-toggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 10px;
+      border: 1.5px solid var(--border2);
+      background: var(--bg); color: var(--text2);
+      cursor: pointer; margin-left: .35rem;
+      transition: color .15s, background .15s, border-color .15s, box-shadow .15s;
+    }
+    .theme-toggle:hover {
+      color: var(--text); background: var(--bg2);
+      border-color: var(--pri); box-shadow: 0 0 0 3px var(--pri-bg);
+    }
+    .theme-toggle svg { width: 16px; height: 16px; }
+    .theme-toggle .icon-sun  { display: none; }
+    .theme-toggle .icon-moon { display: block; }
+    [data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+    /* ── PAGE HEADER (theme-aware) ── */
+    .page-hero {
+      background: var(--hero-bg);
+      position: relative; overflow: hidden;
+      padding: 9rem 1.5rem 4.5rem;
+      text-align: center;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% -10%, var(--hero-bloom-1) 0%, transparent 62%),
+        radial-gradient(ellipse 35% 30% at 90% 90%, var(--hero-bloom-2) 0%, transparent 55%);
+    }
+    .page-hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(var(--hero-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .page-hero-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .35rem 1rem; border-radius: 999px;
+      background: var(--hero-badge-bg); border: 1px solid var(--hero-badge-bd);
+      font-size: .7rem; font-weight: 700; letter-spacing: .09em;
+      color: var(--hero-badge-fg); text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .page-hero h1 {
+      font-size: clamp(2.1rem, 4.6vw, 3rem);
+      font-weight: 800; line-height: 1.12; letter-spacing: -.03em;
+      color: var(--hero-fg); margin-bottom: .9rem;
+    }
+    .page-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(125deg, #6366F1 0%, #7C6FF5 45%, #34A853 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    [data-theme="dark"] .page-hero h1 em {
+      background: linear-gradient(125deg, #A5B4FC 0%, #7C6FF5 45%, #34D399 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-meta { color: var(--hero-fg-2); font-size: .88rem; }
+    .page-meta strong { color: var(--hero-fg); font-weight: 600; }
+
+    /* ── DOC BODY ── */
+    .doc {
       max-width: 800px; margin: 0 auto;
-      padding: 4rem 1.5rem 6rem;
+      padding: 4rem 1.5rem 5rem;
     }
+    .doc p { color: var(--text2); font-size: .95rem; margin-bottom: 1rem; line-height: 1.75; }
+    .doc strong { color: var(--text); font-weight: 600; }
+    .doc ul, .doc ol { padding-left: 1.4rem; margin-bottom: 1.15rem; }
+    .doc li { color: var(--text2); font-size: .95rem; margin-bottom: .5rem; line-height: 1.7; }
 
-    .page-header {
-      margin-bottom: 3.5rem;
-      padding-bottom: 2.5rem;
-      border-bottom: 1px solid var(--border2);
+    .doc h2 {
+      font-size: 1.32rem; font-weight: 700; letter-spacing: -.015em;
+      color: var(--text); margin: 3rem 0 .9rem;
+      padding-left: 1rem; position: relative;
     }
-    .chip {
-      display: inline-flex; align-items: center; gap: .4rem;
-      padding: .28rem .8rem; border-radius: 999px;
-      background: rgba(34,211,238,.08);
-      border: 1px solid rgba(34,211,238,.2);
-      color: var(--cyan); font-size: .7rem; font-weight: 700;
-      letter-spacing: .07em; text-transform: uppercase;
-      margin-bottom: 1.1rem;
+    .doc h2::before {
+      content: ''; position: absolute; left: 0; top: .18em; bottom: .18em;
+      width: 4px; border-radius: 3px;
+      background: linear-gradient(to bottom, var(--pri), var(--pri-l));
     }
-    h1 {
-      font-size: clamp(1.8rem, 4vw, 2.4rem);
-      font-weight: 900; letter-spacing: -.03em;
-      line-height: 1.15; margin-bottom: .8rem;
-      background: linear-gradient(160deg, #fff 30%, rgba(148,163,184,.7));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .meta { color: var(--muted); font-size: .85rem; }
-    .meta strong { color: var(--text2); }
+    .doc h2:first-of-type { margin-top: 0; }
 
-    h2 {
-      font-size: 1.05rem; font-weight: 700;
-      margin: 2.75rem 0 .8rem;
-      color: var(--text); letter-spacing: -.01em;
-      display: flex; align-items: center; gap: .65rem;
-    }
-    h2::before {
-      content: ''; flex-shrink: 0;
-      width: 3px; height: 1.05em; border-radius: 2px;
-      background: linear-gradient(to bottom, var(--primary), var(--primary-l));
-    }
-
-    p { color: var(--text2); margin-bottom: 1rem; font-size: .925rem; }
-    ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; }
-    li { color: var(--text2); margin-bottom: .45rem; font-size: .925rem; }
-    strong { color: var(--text); }
-
-    .callout {
-      background: rgba(34,211,238,.05);
-      border: 1px solid rgba(34,211,238,.15);
-      border-left: 3px solid var(--cyan);
+    .doc .callout {
+      background: var(--pri-bg);
+      border: 1px solid var(--pri-bd);
+      border-left: 3px solid var(--pri);
       border-radius: var(--r);
       padding: 1rem 1.25rem; margin: 1.5rem 0;
     }
-    .callout p { margin: 0; }
+    .doc .callout p { margin: 0; color: var(--text); font-size: .9rem; }
 
-    footer {
-      position: relative; z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 2rem 1.5rem;
+    .doc code {
+      font-family: 'SF Mono','Menlo',Consolas,monospace;
+      font-size: .78rem;
+      background: var(--pri-bg); color: var(--pri);
+      padding: .18rem .45rem; border-radius: 5px;
+      border: 1px solid var(--pri-bd);
+      white-space: nowrap;
     }
-    .footer-inner { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: .8rem; }
+
+    /* ── FOOTER (theme-aware) ── */
+    footer {
+      background: var(--footer-bg); padding: 3rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    [data-theme="dark"] footer { border-top: none; }
+    .footer-inner {
+      max-width: 1140px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+    }
+    .footer-logo {
+      display: flex; align-items: center; gap: .55rem;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700; font-size: .95rem; color: var(--footer-fg);
+    }
+    .footer-logo-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--pri), #7C3AED);
+      display: flex; align-items: center; justify-content: center;
+    }
     .footer-links { display: flex; gap: 1.75rem; flex-wrap: wrap; justify-content: center; }
-    .footer-links a { color: var(--muted); font-size: .82rem; transition: color .15s; }
-    .footer-links a:hover { color: var(--text); text-decoration: none; }
-    .footer-copy { color: var(--muted); font-size: .75rem; }
+    .footer-links a { color: var(--footer-fg-2); font-size: .85rem; transition: color .15s; }
+    .footer-links a:hover { color: var(--footer-fg); text-decoration: none; }
+    .footer-copy { color: var(--footer-fg-3); font-size: .78rem; text-align: center; }
+
+    @media (max-width: 600px) {
+      .nm { display: none; }
+      .page-hero { padding: 7.5rem 1.25rem 3.5rem; }
+      .doc { padding: 3rem 1.25rem 4rem; }
+    }
   </style>
 </head>
 <body>
@@ -135,24 +300,37 @@
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
       <div class="nav-logo-icon">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg>
       </div>
       noco-ai-tools
     </a>
-    <a href="index.html" class="nav-back">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Back to home
-    </a>
+    <div class="nav-links">
+      <a href="index.html#features" class="navl nm">Features</a>
+      <a href="index.html#tools" class="navl nm">Tools</a>
+      <a href="index.html#data-transparency" class="navl nm">Data use</a>
+      <a href="privacy.html" class="navl nm">Privacy</a>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle light / dark theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <a href="https://github.com/kalpak44/plugin-noco-tools" class="nav-gh" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub
+      </a>
+    </div>
   </div>
 </nav>
 
-<div class="page">
-  <div class="page-header">
-    <div class="chip">Legal</div>
-    <h1>Terms of Service</h1>
-    <p class="meta">Last updated: <strong>July 2025</strong> &nbsp;&middot;&nbsp; Applies to: <strong>noco-ai-tools — Google (Gmail + Calendar)</strong></p>
+<section class="page-hero">
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="page-hero-inner">
+    <span class="badge">Legal</span>
+    <h1>Terms of <em>Service</em></h1>
+    <p class="page-meta">Last updated: <strong>July 2025</strong> &nbsp;·&nbsp; Applies to: <strong>noco-ai-tools — Google (Gmail + Calendar)</strong></p>
   </div>
+</section>
 
+<article class="doc">
   <p>These Terms of Service ("Terms") govern your use of the <strong>noco-ai-tools</strong> NocoBase plugin ("the Plugin"), available at <a href="https://github.com/kalpak44/plugin-noco-tools" target="_blank" rel="noopener">github.com/kalpak44/plugin-noco-tools</a> under the MIT License.</p>
   <p>By installing, enabling, or using the Plugin, you agree to these Terms.</p>
 
@@ -211,10 +389,14 @@
 
   <h2>11. Contact</h2>
   <p>For questions about these Terms, open an issue on the <a href="https://github.com/kalpak44/plugin-noco-tools/issues" target="_blank" rel="noopener">GitHub repository</a>.</p>
-</div>
+</article>
 
 <footer>
   <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="footer-logo-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg></div>
+      noco-ai-tools
+    </div>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="privacy.html">Privacy Policy</a>
@@ -223,6 +405,32 @@
     <p class="footer-copy">MIT License &copy; kalpak44 &nbsp;&mdash;&nbsp; Not affiliated with Google LLC or NocoBase Inc.</p>
   </div>
 </footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    var root = document.documentElement;
+    var KEY = 'noco_theme';
+    btn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+    });
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      var onSys = function (e) {
+        var stored = null;
+        try { stored = localStorage.getItem(KEY); } catch (err) {}
+        if (stored !== 'light' && stored !== 'dark') {
+          root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSys);
+      else if (mq.addListener) mq.addListener(onSys);
+    }
+  })();
+</script>
 
 </body>
 </html>
