@@ -1,5 +1,9 @@
 # @kalpak44/plugin-noco-tools
 
+[![Site](https://img.shields.io/badge/site-noco--ai--tools.pavel--usanli.online-6366F1?style=flat-square&logo=googlechrome&logoColor=white)](https://noco-ai-tools.pavel-usanli.online/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-22D3EE?style=flat-square)](https://opensource.org/licenses/MIT)
+[![GitHub release](https://img.shields.io/github/v/release/kalpak44/plugin-noco-tools?style=flat-square&color=34D399)](https://github.com/kalpak44/plugin-noco-tools/releases)
+
 Connect your **NocoBase** app (and its **AI employees**) to **Google Gmail** and
 **Google Calendar** via user-consented OAuth.
 
