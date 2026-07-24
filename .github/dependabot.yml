@@ -1,0 +1,20 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      nocobase:
+        patterns:
+          - "@nocobase/*"
+    ignore:
+      # @nocobase/* packages must be upgraded together as a set;
+      # individual bumps break the build. The upstream vulnerabilities
+      # in @nocobase/server, @nocobase/database etc. have no fix
+      # available — ignore until a patched release lands.
+      - dependency-name: "@nocobase/*"
+        update-types:
+          - version-update:semver-patch
+          - version-update:semver-minor
+          - version-update:semver-major
