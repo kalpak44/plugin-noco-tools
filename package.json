@@ -1,6 +1,6 @@
 {
   "name": "@kalpak44/plugin-noco-tools",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "NocoBase plugin that connects NocoBase (and its AI employees) to each user's Google account via OAuth. AI employees can read/send/reply to Gmail, list emails by Gmail search query, list calendars (owned + shared), list/create/update/delete events on the primary calendar, list events on shared calendars, and invite attendees. Tools are per-user: every call runs against the caller's own tokens, so User A's AI employee only ever touches User A's mailbox and calendars. Ships a Settings → Connect Google page for the OAuth flow, a public OAuth callback endpoint, transparent access-token refresh via refresh_token, and matching REST endpoints that any HTTP client can call.",
   "displayName": "Noco Tools — Google (Gmail + Calendar)",
   "keywords": [

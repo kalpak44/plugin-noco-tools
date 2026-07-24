@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, Button, Card, Space, Tag, Tooltip, Typography, message as antdMessage } from 'antd';
-
-const { Text, Paragraph } = Typography;
+import { Alert, Button, message as antdMessage } from 'antd';
 
 interface ConnectionStatus {
   connected: boolean;
@@ -25,11 +23,48 @@ export interface ConnectionCardProps {
   showScopes?: boolean;
 }
 
+const GoogleLogo: React.FC = () => (
+  <svg width="42" height="42" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+  </svg>
+);
+
+const IconMail: React.FC<{ size?: number; color?: string }> = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2"/>
+    <path d="M2 8l10 6 10-6"/>
+  </svg>
+);
+
+const IconCalendar: React.FC<{ size?: number; color?: string }> = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="4" width="18" height="18" rx="2"/>
+    <path d="M16 2v4M8 2v4M3 10h18"/>
+  </svg>
+);
+
+const IconPlug: React.FC = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22v-5"/>
+    <path d="M9 8V2"/>
+    <path d="M15 8V2"/>
+    <path d="M18 8H6a1 1 0 00-1 1v3a5 5 0 0010 0V9a1 1 0 00-1-1z"/>
+  </svg>
+);
+
+const IconUnlink: React.FC = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+    <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+  </svg>
+);
+
 export const ConnectionCard: React.FC<ConnectionCardProps> = ({
   api,
   t,
-  title = '',
-  showScopes = true,
 }) => {
   const [status, setStatus] = useState<ConnectionStatus | null>(null);
   const [loading, setLoading] = useState(true);
@@ -123,69 +158,170 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
 
   const connected = !!status?.connected;
 
+  if (loading) {
+    return (
+      <div style={cardStyle}>
+        <div style={{ color: '#999', fontSize: 14 }}>Loading…</div>
+      </div>
+    );
+  }
+
   return (
-    <Card
-      loading={loading}
-      title={<Space><span role="img" aria-label="google">🔗</span><span>{title || t('Connect Google Account')}</span></Space>}
-      extra={
-        connected ? (
-          <Tag color="green">{t('Connected')}</Tag>
-        ) : (
-          <Tag color="default">{t('Not connected')}</Tag>
-        )
-      }
-    >
-      <Paragraph type="secondary" style={{ marginBottom: 16 }}>
-        {t(
-          'Connect your Google account to let AI employees read and summarize your emails, send emails on your behalf, view your calendar events, create events, and check events on calendars shared with you.',
-        )}
-      </Paragraph>
+    <div style={cardStyle}>
+      {/* Status badge */}
+      <div style={{
+        position: 'absolute',
+        top: 24,
+        right: 28,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 7,
+        background: connected ? 'rgba(52,199,89,0.13)' : '#EBEBEB',
+        borderRadius: 999,
+        padding: '6px 16px',
+        fontSize: 14,
+        fontWeight: 600,
+        color: connected ? '#1A8A3C' : '#8A8A8A',
+      }}>
+        <span style={{
+          width: 8, height: 8, borderRadius: '50%', display: 'inline-block',
+          background: connected ? '#34C759' : '#ABABAB',
+        }} />
+        {connected ? t('Connected') : t('Not connected')}
+      </div>
 
+      {/* Header row: Google logo + title + description */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, marginBottom: 24 }}>
+        <div style={{
+          width: 72, height: 72, flexShrink: 0,
+          background: '#fff',
+          border: '1.5px solid #E4E4E4',
+          borderRadius: 18,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <GoogleLogo />
+        </div>
+        <div style={{ paddingTop: 4 }}>
+          <div style={{ fontSize: 22, fontWeight: 800, color: '#111', lineHeight: 1.25, marginBottom: 6 }}>
+            Google Workspace
+          </div>
+          <div style={{ fontSize: 15, color: '#666', lineHeight: 1.55 }}>
+            {t('Sync email and calendar events from Gmail and Google Calendar.')}
+          </div>
+        </div>
+      </div>
+
+      {/* Alerts */}
       {status?.lastError && (
-        <Alert
-          type="warning"
-          showIcon
-          message={status.lastError}
-          style={{ marginBottom: 16 }}
-        />
+        <Alert type="warning" showIcon message={status.lastError} style={{ marginBottom: 16, borderRadius: 10 }} />
       )}
-
       {popupWarning && (
-        <Alert type="warning" showIcon message={popupWarning} style={{ marginBottom: 16 }} />
+        <Alert type="warning" showIcon message={popupWarning} style={{ marginBottom: 16, borderRadius: 10 }} />
       )}
 
-      {connected ? (
-        <Space direction="vertical" size={12} style={{ width: '100%' }}>
-          <Text strong>{t('Connected as {{email}}', { email: status?.googleEmail || '—' })}</Text>
-          {showScopes && status?.scopes?.length ? (
-            <div>
-              <Text type="secondary">{t('Scopes granted')}:</Text>
-              <div style={{ marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                {status.scopes.map((s) => (
-                  <Tag key={s} bordered={false}>{s}</Tag>
-                ))}
-              </div>
-            </div>
-          ) : null}
-          <Space>
-            <Tooltip title={t('Reconnect')}>
-              <Button onClick={startConnect} loading={busy}>{t('Reconnect')}</Button>
-            </Tooltip>
-            <Button danger onClick={disconnect} loading={busy}>{t('Disconnect')}</Button>
-          </Space>
-        </Space>
-      ) : (
-        <Space direction="vertical" size={12} style={{ width: '100%' }}>
-          <Button type="primary" size="large" onClick={startConnect} loading={busy}>
-            {busy ? t('Connecting…') : t('Connect Google')}
-          </Button>
-          <Text type="secondary" style={{ fontSize: 12 }}>
-            {t('This page shows configuration state for the currently logged-in user.')}
-          </Text>
-        </Space>
+      {/* Connected email */}
+      {connected && status?.googleEmail && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+          <IconMail size={18} color="#555" />
+          <span style={{
+            background: '#EBEBEB',
+            borderRadius: 8,
+            padding: '5px 14px',
+            fontSize: 14,
+            fontFamily: '"SF Mono", "Menlo", "Consolas", monospace',
+            color: '#333',
+            fontWeight: 500,
+          }}>
+            {status.googleEmail}
+          </span>
+        </div>
       )}
-    </Card>
+
+      {/* Service pills */}
+      <div style={{ display: 'flex', gap: 10, marginBottom: 28 }}>
+        <div style={pillStyle}>
+          <IconMail size={15} />
+          Gmail
+        </div>
+        <div style={pillStyle}>
+          <IconCalendar size={15} />
+          Calendar
+        </div>
+      </div>
+
+      {/* Action button */}
+      {connected ? (
+        <Button
+          onClick={disconnect}
+          loading={busy}
+          style={disconnectBtnStyle}
+          icon={<IconUnlink />}
+        >
+          {t('Disconnect')}
+        </Button>
+      ) : (
+        <Button
+          onClick={startConnect}
+          loading={busy}
+          style={connectBtnStyle}
+          icon={<IconPlug />}
+        >
+          {busy ? t('Connecting…') : t('Connect')}
+        </Button>
+      )}
+    </div>
   );
+};
+
+const cardStyle: React.CSSProperties = {
+  position: 'relative',
+  background: '#F8F9FA',
+  border: '1.5px solid #E4E4E4',
+  borderRadius: 20,
+  padding: '28px 32px 32px',
+  maxWidth: 660,
+};
+
+const pillStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+  background: '#EBEBEB',
+  borderRadius: 999,
+  padding: '8px 18px',
+  fontSize: 14,
+  fontWeight: 600,
+  color: '#444',
+};
+
+const connectBtnStyle: React.CSSProperties = {
+  height: 54,
+  paddingInline: 36,
+  borderRadius: 14,
+  fontSize: 16,
+  fontWeight: 700,
+  background: '#7C3AED',
+  borderColor: '#7C3AED',
+  color: '#fff',
+  boxShadow: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+};
+
+const disconnectBtnStyle: React.CSSProperties = {
+  height: 54,
+  paddingInline: 36,
+  borderRadius: 14,
+  fontSize: 16,
+  fontWeight: 700,
+  background: '#fff',
+  borderColor: '#D0D0D0',
+  color: '#333',
+  boxShadow: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
 };
 
 export default ConnectionCard;
