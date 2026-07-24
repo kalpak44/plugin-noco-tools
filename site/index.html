@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>noco-ai-tools — Gmail &amp; Google Calendar for NocoBase AI Employees</title>
-  <meta name="description" content="noco-ai-tools is an open-source NocoBase plugin that connects each user's Gmail and Google Calendar to their personal AI employee via per-user OAuth 2.0. Triage email, send replies, and manage calendar events — all from a single chat." />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>noco-ai-tools | Gmail and Google Calendar integration for NocoBase</title>
+  <meta name="description"
+        content="noco-ai-tools is an open-source NocoBase plugin that connects each user's Gmail and Google Calendar to their personal AI employee via per-user OAuth 2.0. Triage email, send replies, and manage calendar events — all from a single chat."/>
 
-  <meta name="robots" content="index, follow" />
-  <meta name="author" content="kalpak44" />
-  <meta name="keywords" content="NocoBase plugin, Gmail AI, Google Calendar AI, AI employee, NocoBase AI tools, OAuth plugin, email automation, calendar automation" />
-  <link rel="canonical" href="https://noco-ai-tools.pavel-usanli.online/" />
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="kalpak44"/>
+  <meta name="keywords"
+        content="NocoBase plugin, Gmail AI, Google Calendar AI, AI employee, NocoBase AI tools, OAuth plugin, email automation, calendar automation"/>
+  <link rel="canonical" href="https://noco-ai-tools.pavel-usanli.online/"/>
 
-  <meta property="og:type"        content="website" />
-  <meta property="og:site_name"   content="noco-ai-tools" />
-  <meta property="og:title"       content="noco-ai-tools — Gmail &amp; Google Calendar for NocoBase AI Employees" />
-  <meta property="og:description" content="Connect your NocoBase AI employee to Gmail and Google Calendar via per-user OAuth. Triage email, send replies, manage events — from a single chat, with your own tokens." />
-  <meta property="og:url"         content="https://noco-ai-tools.pavel-usanli.online/" />
-  <meta property="og:image"       content="https://noco-ai-tools.pavel-usanli.online/og-image.png" />
-  <meta property="og:image:width"  content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:locale"      content="en_US" />
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="noco-ai-tools"/>
+  <meta property="og:title" content="noco-ai-tools — Gmail &amp; Google Calendar for NocoBase AI Employees"/>
+  <meta property="og:description"
+        content="Connect your NocoBase AI employee to Gmail and Google Calendar via per-user OAuth. Triage email, send replies, manage events — from a single chat, with your own tokens."/>
+  <meta property="og:url" content="https://noco-ai-tools.pavel-usanli.online/"/>
+  <meta property="og:image" content="https://noco-ai-tools.pavel-usanli.online/og-image.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:locale" content="en_US"/>
 
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="noco-ai-tools — Gmail &amp; Google Calendar for NocoBase AI Employees" />
-  <meta name="twitter:description" content="Connect your NocoBase AI employee to Gmail and Google Calendar via per-user OAuth. Triage email, send replies, manage events — from a single chat." />
-  <meta name="twitter:image"       content="https://noco-ai-tools.pavel-usanli.online/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="noco-ai-tools — Gmail &amp; Google Calendar for NocoBase AI Employees"/>
+  <meta name="twitter:description"
+        content="Connect your NocoBase AI employee to Gmail and Google Calendar via per-user OAuth. Triage email, send replies, manage events — from a single chat."/>
+  <meta name="twitter:image" content="https://noco-ai-tools.pavel-usanli.online/og-image.png"/>
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235B4FE9'/%3E%3Cpath d='M8 10h16v2H8zm0 5h12v2H8zm0 5h10v2H8z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235B4FE9'/%3E%3Cpath d='M8 10h16v2H8zm0 5h12v2H8zm0 5h10v2H8z' fill='white'/%3E%3C/svg%3E"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
 
   <script>
     (function () {
@@ -46,128 +53,134 @@
   </script>
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       /* Base palette (light default) */
-      --bg:       #FAFBFF;
-      --bg2:      #F2F3FB;
-      --bg3:      #EAECF6;
-      --border:   #E4E7F0;
-      --border2:  #CDD1E0;
-      --pri:      #5B4FE9;
-      --pri-d:    #4338CA;
-      --pri-l:    #7C6FF5;
-      --pri-bg:   #EEEDFB;
-      --pri-bd:   #C4BFFA;
-      --grn:      #059669;
-      --grn-bg:   #ECFDF5;
-      --grn-bd:   #A7F3D0;
-      --text:     #111827;
-      --text2:    #4B5563;
-      --text3:    #9CA3AF;
-      --r:        14px;
-      --g-blue:   #4285F4;
-      --g-red:    #EA4335;
+      --bg: #FAFBFF;
+      --bg2: #F2F3FB;
+      --bg3: #EAECF6;
+      --border: #E4E7F0;
+      --border2: #CDD1E0;
+      --pri: #5B4FE9;
+      --pri-d: #4338CA;
+      --pri-l: #7C6FF5;
+      --pri-bg: #EEEDFB;
+      --pri-bd: #C4BFFA;
+      --grn: #059669;
+      --grn-bg: #ECFDF5;
+      --grn-bd: #A7F3D0;
+      --text: #111827;
+      --text2: #4B5563;
+      --text3: #9CA3AF;
+      --r: 14px;
+      --g-blue: #4285F4;
+      --g-red: #EA4335;
       --g-yellow: #FBBC05;
-      --g-green:  #34A853;
+      --g-green: #34A853;
 
-      --nav-bg:     rgba(255,255,255,.92);
-      --card:       var(--bg2);
-      --card-2:     #FFFFFF;
+      --nav-bg: rgba(255, 255, 255, .92);
+      --card: var(--bg2);
+      --card-2: #FFFFFF;
       --table-head: #FFFFFF;
-      --table-alt:  rgba(0,0,0,.016);
-      --dt-grad:    linear-gradient(150deg, #F5F3FF 0%, #EEF2FF 60%, #F0FDF4 100%);
+      --table-alt: rgba(0, 0, 0, .016);
+      --dt-grad: linear-gradient(150deg, #F5F3FF 0%, #EEF2FF 60%, #F0FDF4 100%);
 
       /* Hero / SP / footer palette (light-theme values) */
-      --hero-bg:        #F5F3FE;
-      --hero-bg2:       #EEEDFB;
-      --hero-fg:        var(--text);
-      --hero-fg-2:      var(--text2);
-      --hero-fg-3:      var(--text3);
-      --hero-grid:      rgba(91,79,233,.05);
-      --hero-bloom-1:   rgba(91,79,233,.18);
-      --hero-bloom-2:   rgba(124,58,237,.10);
-      --hero-surface:   rgba(255,255,255,.72);
-      --hero-surface-bd:var(--pri-bd);
-      --hero-badge-bg:  rgba(91,79,233,.10);
-      --hero-badge-bd:  rgba(91,79,233,.28);
-      --hero-badge-fg:  var(--pri-d);
-      --hero-hbox-lbl:  var(--pri-d);
-      --hero-htitle:    var(--text);
-      --hero-hdesc:     var(--text2);
-      --hero-btn-bg:    #FFFFFF;
-      --hero-btn-bd:    var(--border2);
-      --hero-btn-fg:    var(--text);
-      --hero-btn-bg-h:  var(--bg);
-      --hero-btn-bd-h:  var(--pri);
-      --hero-btn-fg-h:  var(--text);
-      --hero-fade-end:  var(--bg);
-      --footer-bg:      var(--bg2);
-      --footer-fg:      var(--text);
-      --footer-fg-2:    var(--text2);
-      --footer-fg-3:    var(--text3);
+      --hero-bg: #F5F3FE;
+      --hero-bg2: #EEEDFB;
+      --hero-fg: var(--text);
+      --hero-fg-2: var(--text2);
+      --hero-fg-3: var(--text3);
+      --hero-grid: rgba(91, 79, 233, .05);
+      --hero-bloom-1: rgba(91, 79, 233, .18);
+      --hero-bloom-2: rgba(124, 58, 237, .10);
+      --hero-surface: rgba(255, 255, 255, .72);
+      --hero-surface-bd: var(--pri-bd);
+      --hero-badge-bg: rgba(91, 79, 233, .10);
+      --hero-badge-bd: rgba(91, 79, 233, .28);
+      --hero-badge-fg: var(--pri-d);
+      --hero-hbox-lbl: var(--pri-d);
+      --hero-htitle: var(--text);
+      --hero-hdesc: var(--text2);
+      --hero-btn-bg: #FFFFFF;
+      --hero-btn-bd: var(--border2);
+      --hero-btn-fg: var(--text);
+      --hero-btn-bg-h: var(--bg);
+      --hero-btn-bd-h: var(--pri);
+      --hero-btn-fg-h: var(--text);
+      --hero-fade-end: var(--bg);
+      --footer-bg: var(--bg2);
+      --footer-fg: var(--text);
+      --footer-fg-2: var(--text2);
+      --footer-fg-3: var(--text3);
       --footer-fade-from: var(--bg2);
     }
 
     [data-theme="dark"] {
-      --bg:       #0E1020;
-      --bg2:      #14162A;
-      --bg3:      #1B1D35;
-      --border:   rgba(255,255,255,.08);
-      --border2:  rgba(255,255,255,.16);
-      --pri:      #7C6FF5;
-      --pri-d:    #6366F1;
-      --pri-l:    #A5B4FC;
-      --pri-bg:   rgba(124,111,245,.14);
-      --pri-bd:   rgba(124,111,245,.32);
-      --grn:      #34D399;
-      --grn-bg:   rgba(52,211,153,.08);
-      --grn-bd:   rgba(52,211,153,.28);
-      --text:     #F1F5F9;
-      --text2:    #B4BDD1;
-      --text3:    #64748B;
+      --bg: #0E1020;
+      --bg2: #14162A;
+      --bg3: #1B1D35;
+      --border: rgba(255, 255, 255, .08);
+      --border2: rgba(255, 255, 255, .16);
+      --pri: #7C6FF5;
+      --pri-d: #6366F1;
+      --pri-l: #A5B4FC;
+      --pri-bg: rgba(124, 111, 245, .14);
+      --pri-bd: rgba(124, 111, 245, .32);
+      --grn: #34D399;
+      --grn-bg: rgba(52, 211, 153, .08);
+      --grn-bd: rgba(52, 211, 153, .28);
+      --text: #F1F5F9;
+      --text2: #B4BDD1;
+      --text3: #64748B;
 
-      --nav-bg:     rgba(6,7,14,.85);
-      --card:       var(--bg2);
-      --card-2:     var(--bg3);
-      --table-head: rgba(255,255,255,.03);
-      --table-alt:  rgba(255,255,255,.02);
-      --dt-grad:    radial-gradient(ellipse 65% 60% at 15% 15%, rgba(124,111,245,.18) 0%, transparent 60%),
-                    radial-gradient(ellipse 65% 60% at 85% 85%, rgba(52,211,153,.10) 0%, transparent 60%),
-                    linear-gradient(160deg, #12142A 0%, #14162A 60%, #0F1B1B 100%);
+      --nav-bg: rgba(6, 7, 14, .85);
+      --card: var(--bg2);
+      --card-2: var(--bg3);
+      --table-head: rgba(255, 255, 255, .03);
+      --table-alt: rgba(255, 255, 255, .02);
+      --dt-grad: radial-gradient(ellipse 65% 60% at 15% 15%, rgba(124, 111, 245, .18) 0%, transparent 60%),
+      radial-gradient(ellipse 65% 60% at 85% 85%, rgba(52, 211, 153, .10) 0%, transparent 60%),
+      linear-gradient(160deg, #12142A 0%, #14162A 60%, #0F1B1B 100%);
 
-      --hero-bg:        #06070E;
-      --hero-bg2:       #0F1122;
-      --hero-fg:        #FFFFFF;
-      --hero-fg-2:      rgba(255,255,255,.6);
-      --hero-fg-3:      rgba(255,255,255,.32);
-      --hero-grid:      rgba(255,255,255,.028);
-      --hero-bloom-1:   rgba(91,79,233,.38);
-      --hero-bloom-2:   rgba(124,58,237,.16);
-      --hero-surface:   rgba(255,255,255,.055);
-      --hero-surface-bd:rgba(255,255,255,.1);
-      --hero-badge-bg:  rgba(91,79,233,.14);
-      --hero-badge-bd:  rgba(91,79,233,.32);
-      --hero-badge-fg:  #A5B4FC;
-      --hero-hbox-lbl:  rgba(165,180,252,.75);
-      --hero-htitle:    #E2E8F0;
-      --hero-hdesc:     rgba(255,255,255,.42);
-      --hero-btn-bg:    rgba(255,255,255,.06);
-      --hero-btn-bd:    rgba(255,255,255,.16);
-      --hero-btn-fg:    rgba(255,255,255,.78);
-      --hero-btn-bg-h:  rgba(255,255,255,.11);
-      --hero-btn-bd-h:  rgba(255,255,255,.3);
-      --hero-btn-fg-h:  #FFFFFF;
-      --hero-fade-end:  var(--bg);
-      --footer-bg:      var(--hero-bg);
-      --footer-fg:      rgba(255,255,255,.88);
-      --footer-fg-2:    rgba(255,255,255,.38);
-      --footer-fg-3:    rgba(255,255,255,.22);
+      --hero-bg: #06070E;
+      --hero-bg2: #0F1122;
+      --hero-fg: #FFFFFF;
+      --hero-fg-2: rgba(255, 255, 255, .6);
+      --hero-fg-3: rgba(255, 255, 255, .32);
+      --hero-grid: rgba(255, 255, 255, .028);
+      --hero-bloom-1: rgba(91, 79, 233, .38);
+      --hero-bloom-2: rgba(124, 58, 237, .16);
+      --hero-surface: rgba(255, 255, 255, .055);
+      --hero-surface-bd: rgba(255, 255, 255, .1);
+      --hero-badge-bg: rgba(91, 79, 233, .14);
+      --hero-badge-bd: rgba(91, 79, 233, .32);
+      --hero-badge-fg: #A5B4FC;
+      --hero-hbox-lbl: rgba(165, 180, 252, .75);
+      --hero-htitle: #E2E8F0;
+      --hero-hdesc: rgba(255, 255, 255, .42);
+      --hero-btn-bg: rgba(255, 255, 255, .06);
+      --hero-btn-bd: rgba(255, 255, 255, .16);
+      --hero-btn-fg: rgba(255, 255, 255, .78);
+      --hero-btn-bg-h: rgba(255, 255, 255, .11);
+      --hero-btn-bd-h: rgba(255, 255, 255, .3);
+      --hero-btn-fg-h: #FFFFFF;
+      --hero-fade-end: var(--bg);
+      --footer-bg: var(--hero-bg);
+      --footer-fg: rgba(255, 255, 255, .88);
+      --footer-fg-2: rgba(255, 255, 255, .38);
+      --footer-fg-3: rgba(255, 255, 255, .22);
       --footer-fade-from: transparent;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -178,472 +191,1118 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    h1, h2, h3 { font-family: 'Bricolage Grotesque', sans-serif; }
-    a { color: var(--pri); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    h1, h2, h3 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
+
+    a {
+      color: var(--pri);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
 
     /* ── NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
       padding: 0 1.5rem;
       background: var(--nav-bg);
       backdrop-filter: blur(14px) saturate(180%);
       border-bottom: 1px solid var(--border);
     }
+
     .nav-inner {
-      max-width: 1140px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       height: 64px;
     }
+
     .nav-logo {
-      display: flex; align-items: center; gap: .6rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
       font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700; font-size: 1rem; color: var(--text);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
     }
-    .nav-logo:hover { text-decoration: none; }
+
+    .nav-logo:hover {
+      text-decoration: none;
+    }
+
     .nav-logo-icon {
-      width: 32px; height: 32px; border-radius: 9px;
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
       background: linear-gradient(135deg, #5B4FE9, #7C3AED);
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 8px rgba(91,79,233,.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(91, 79, 233, .35);
     }
-    .nav-links { display: flex; align-items: center; gap: .15rem; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: .15rem;
+    }
+
     .navl {
-      color: var(--text2); font-size: .875rem; font-weight: 500;
-      padding: .4rem .75rem; border-radius: 8px;
+      color: var(--text2);
+      font-size: .875rem;
+      font-weight: 500;
+      padding: .4rem .75rem;
+      border-radius: 8px;
       transition: color .15s, background .15s;
     }
-    .navl:hover { color: var(--text); background: var(--bg2); text-decoration: none; }
+
+    .navl:hover {
+      color: var(--text);
+      background: var(--bg2);
+      text-decoration: none;
+    }
+
     .nav-gh {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .55rem 1.1rem; border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .55rem 1.1rem;
+      border-radius: 10px;
       border: 1.5px solid var(--border2);
-      color: var(--text) !important; font-size: .875rem; font-weight: 600;
-      background: var(--bg); line-height: 1; margin-left: .4rem;
+      color: var(--text) !important;
+      font-size: .875rem;
+      font-weight: 600;
+      background: var(--bg);
+      line-height: 1;
+      margin-left: .4rem;
       transition: border-color .15s, box-shadow .15s, background .15s;
     }
-    .nav-gh:hover { background: var(--bg2); border-color: var(--pri); box-shadow: 0 0 0 3px var(--pri-bg); text-decoration: none !important; }
+
+    .nav-gh:hover {
+      background: var(--bg2);
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px var(--pri-bg);
+      text-decoration: none !important;
+    }
 
     /* Theme toggle button */
     .theme-toggle {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px; border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
       border: 1.5px solid var(--border2);
-      background: var(--bg); color: var(--text2);
-      cursor: pointer; margin-left: .35rem;
+      background: var(--bg);
+      color: var(--text2);
+      cursor: pointer;
+      margin-left: .35rem;
       transition: color .15s, background .15s, border-color .15s, box-shadow .15s;
     }
+
     .theme-toggle:hover {
-      color: var(--text); background: var(--bg2);
-      border-color: var(--pri); box-shadow: 0 0 0 3px var(--pri-bg);
+      color: var(--text);
+      background: var(--bg2);
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px var(--pri-bg);
     }
-    .theme-toggle svg { width: 16px; height: 16px; }
-    .theme-toggle .icon-sun  { display: none; }
-    .theme-toggle .icon-moon { display: block; }
-    [data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
-    [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+    .theme-toggle svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .theme-toggle .icon-sun {
+      display: none;
+    }
+
+    .theme-toggle .icon-moon {
+      display: block;
+    }
+
+    [data-theme="dark"] .theme-toggle .icon-sun {
+      display: block;
+    }
+
+    [data-theme="dark"] .theme-toggle .icon-moon {
+      display: none;
+    }
 
     /* ── HERO ── */
     .hero {
       background: var(--hero-bg);
-      position: relative; min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 8rem 1.5rem 7rem;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 1.5rem 7rem;
       overflow: hidden;
     }
+
     .hero::before {
       content: '';
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 80% 55% at 50% -5%, var(--hero-bloom-1) 0%, transparent 62%),
-        radial-gradient(ellipse 45% 35% at 85% 85%, var(--hero-bloom-2) 0%, transparent 55%);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 80% 55% at 50% -5%, var(--hero-bloom-1) 0%, transparent 62%),
+      radial-gradient(ellipse 45% 35% at 85% 85%, var(--hero-bloom-2) 0%, transparent 55%);
     }
+
     .hero::after {
       content: '';
-      position: absolute; left: 0; right: 0; bottom: 0; height: 160px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 160px;
       pointer-events: none;
       background: linear-gradient(to bottom, transparent 0%, var(--hero-fade-end) 100%);
     }
+
     .hero-grid-bg {
-      position: absolute; inset: 0; pointer-events: none;
-      background-image:
-        linear-gradient(var(--hero-grid) 1px, transparent 1px),
-        linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(var(--hero-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px);
       background-size: 64px 64px;
     }
+
     .badge {
-      position: relative; z-index: 1;
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .4rem 1.1rem; border-radius: 999px;
-      background: var(--hero-badge-bg); border: 1px solid var(--hero-badge-bd);
-      font-size: .72rem; font-weight: 700; letter-spacing: .06em;
-      color: var(--hero-badge-fg); text-transform: uppercase; margin-bottom: 1.75rem;
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem 1.1rem;
+      border-radius: 999px;
+      background: var(--hero-badge-bg);
+      border: 1px solid var(--hero-badge-bd);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: var(--hero-badge-fg);
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
     }
+
     .badge-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--pri); box-shadow: 0 0 8px var(--pri);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--pri);
+      box-shadow: 0 0 8px var(--pri);
       animation: bdot 2.2s ease-in-out infinite;
     }
-    @keyframes bdot { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    @keyframes bdot {
+      0%, 100% {
+        opacity: 1
+      }
+      50% {
+        opacity: .3
+      }
+    }
 
     .hero h1 {
-      position: relative; z-index: 1;
+      position: relative;
+      z-index: 1;
       font-size: clamp(2.6rem, 6vw, 4.4rem);
-      font-weight: 800; line-height: 1.07; letter-spacing: -.03em;
-      color: var(--hero-fg); margin-bottom: 1.5rem; max-width: 840px;
+      font-weight: 800;
+      line-height: 1.07;
+      letter-spacing: -.03em;
+      color: var(--hero-fg);
+      margin-bottom: 1.5rem;
+      max-width: 840px;
     }
+
     .hero h1 em {
       font-style: normal;
       background: linear-gradient(125deg, #6366F1 0%, #7C6FF5 45%, #34A853 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+
     [data-theme="dark"] .hero h1 em {
       background: linear-gradient(125deg, #A5B4FC 0%, #7C6FF5 45%, #34D399 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero-sub {
-      position: relative; z-index: 1;
-      max-width: 580px; margin: 0 auto 2.5rem;
-      color: var(--hero-fg-2); font-size: 1.075rem; line-height: 1.75;
+      position: relative;
+      z-index: 1;
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      color: var(--hero-fg-2);
+      font-size: 1.075rem;
+      line-height: 1.75;
     }
-    .hero-sub strong { color: var(--hero-fg); }
+
+    .hero-sub strong {
+      color: var(--hero-fg);
+    }
 
     .hero-box {
-      position: relative; z-index: 1;
-      max-width: 660px; width: 100%; margin: 0 auto 2.75rem;
+      position: relative;
+      z-index: 1;
+      max-width: 660px;
+      width: 100%;
+      margin: 0 auto 2.75rem;
       background: var(--hero-surface);
       border: 1px solid var(--hero-surface-bd);
-      border-radius: 18px; padding: 1.5rem 1.75rem;
-      text-align: left; backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 1.5rem 1.75rem;
+      text-align: left;
+      backdrop-filter: blur(10px);
     }
+
     .hero-box-label {
-      font-size: .67rem; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--hero-hbox-lbl); margin-bottom: 1.1rem;
+      font-size: .67rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--hero-hbox-lbl);
+      margin-bottom: 1.1rem;
     }
-    .hgrid { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem 1.75rem; }
-    .hitem { display: flex; gap: .65rem; align-items: flex-start; }
+
+    .hgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .9rem 1.75rem;
+    }
+
+    .hitem {
+      display: flex;
+      gap: .65rem;
+      align-items: flex-start;
+    }
+
     .hicon {
-      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; margin-top: 1px;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
     }
-    .htitle { font-size: .82rem; font-weight: 600; color: var(--hero-htitle); margin-bottom: .15rem; }
-    .hdesc  { font-size: .75rem; color: var(--hero-hdesc); line-height: 1.5; }
+
+    .htitle {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--hero-htitle);
+      margin-bottom: .15rem;
+    }
+
+    .hdesc {
+      font-size: .75rem;
+      color: var(--hero-hdesc);
+      line-height: 1.5;
+    }
 
     .hero-cta {
-      position: relative; z-index: 1;
-      display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: .75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
     }
+
     .btn-pri {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .82rem 1.6rem; border-radius: 10px;
-      background: var(--pri); color: #fff !important;
-      font-weight: 600; font-size: .9rem;
-      box-shadow: 0 4px 20px rgba(91,79,233,.5);
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .82rem 1.6rem;
+      border-radius: 10px;
+      background: var(--pri);
+      color: #fff !important;
+      font-weight: 600;
+      font-size: .9rem;
+      box-shadow: 0 4px 20px rgba(91, 79, 233, .5);
       transition: transform .15s, box-shadow .15s, background .15s;
     }
-    .btn-pri:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(91,79,233,.6); background: var(--pri-l); text-decoration: none !important; }
+
+    .btn-pri:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(91, 79, 233, .6);
+      background: var(--pri-l);
+      text-decoration: none !important;
+    }
+
     .btn-ghost {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .82rem 1.6rem; border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .82rem 1.6rem;
+      border-radius: 10px;
       border: 1px solid var(--hero-btn-bd);
-      color: var(--hero-btn-fg) !important; font-weight: 500; font-size: .9rem;
+      color: var(--hero-btn-fg) !important;
+      font-weight: 500;
+      font-size: .9rem;
       background: var(--hero-btn-bg);
       transition: background .15s, border-color .15s, color .15s, transform .15s;
     }
+
     .btn-ghost:hover {
-      background: var(--hero-btn-bg-h); border-color: var(--hero-btn-bd-h);
+      background: var(--hero-btn-bg-h);
+      border-color: var(--hero-btn-bd-h);
       color: var(--hero-btn-fg-h) !important;
-      transform: translateY(-1px); text-decoration: none !important;
+      transform: translateY(-1px);
+      text-decoration: none !important;
     }
 
     .hero-foot {
-      position: relative; z-index: 1;
-      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
     }
-    .hero-foot a { color: var(--hero-fg-3); font-size: .8rem; transition: color .15s; }
-    .hero-foot a:hover { color: var(--hero-fg); text-decoration: none; }
+
+    .hero-foot a {
+      color: var(--hero-fg-3);
+      font-size: .8rem;
+      transition: color .15s;
+    }
+
+    .hero-foot a:hover {
+      color: var(--hero-fg);
+      text-decoration: none;
+    }
 
     .gbrand {
-      position: relative; z-index: 1;
-      display: flex; align-items: center; gap: .85rem;
-      color: var(--hero-fg-3); font-size: .78rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      color: var(--hero-fg-3);
+      font-size: .78rem;
     }
-    .gdots { display: flex; gap: 5px; }
-    .gdot { width: 7px; height: 7px; border-radius: 50%; animation: bob 3s ease-in-out infinite; }
-    .gdot:nth-child(1){background:var(--g-blue);  animation-delay:0s}
-    .gdot:nth-child(2){background:var(--g-red);   animation-delay:.15s}
-    .gdot:nth-child(3){background:var(--g-yellow);animation-delay:.3s}
-    .gdot:nth-child(4){background:var(--g-green); animation-delay:.45s}
-    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+
+    .gdots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .gdot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      animation: bob 3s ease-in-out infinite;
+    }
+
+    .gdot:nth-child(1) {
+      background: var(--g-blue);
+      animation-delay: 0s
+    }
+
+    .gdot:nth-child(2) {
+      background: var(--g-red);
+      animation-delay: .15s
+    }
+
+    .gdot:nth-child(3) {
+      background: var(--g-yellow);
+      animation-delay: .3s
+    }
+
+    .gdot:nth-child(4) {
+      background: var(--g-green);
+      animation-delay: .45s
+    }
+
+    @keyframes bob {
+      0%, 100% {
+        transform: translateY(0)
+      }
+      50% {
+        transform: translateY(-4px)
+      }
+    }
 
     /* ── SECTION COMMONS ── */
-    section { position: relative; z-index: 1; padding: 5.5rem 1.5rem; }
-    .wrap { max-width: 1140px; margin: 0 auto; }
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 5.5rem 1.5rem;
+    }
+
+    .wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
     .divider {
-      height: 1px; border: 0;
+      height: 1px;
+      border: 0;
       background: linear-gradient(90deg, transparent 0%, var(--border) 20%, var(--border) 80%, transparent 100%);
     }
 
     .eyebrow {
-      display: inline-block;
-      font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--pri); background: var(--pri-bg);
-      padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--pri-bd);
-      margin-bottom: 1rem;
+      display: block;
+      width: fit-content;
+      margin: 0 auto 1rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--pri);
+      background: var(--pri-bg);
+      padding: .3rem .8rem;
+      border-radius: 999px;
+      border: 1px solid var(--pri-bd);
     }
+
     .sec-h {
       font-size: clamp(1.8rem, 3.5vw, 2.45rem);
-      font-weight: 800; letter-spacing: -.03em; line-height: 1.14;
-      margin-bottom: 1rem; color: var(--text);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.14;
+      margin-bottom: 1rem;
+      color: var(--text);
+      text-align: center;
     }
-    .sec-p { color: var(--text2); max-width: 560px; font-size: 1rem; line-height: 1.72; }
+
+    .sec-p {
+      color: var(--text2);
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1rem;
+      line-height: 1.72;
+      text-align: center;
+    }
 
     /* ── ABOUT ── */
-    .about-sec { background: var(--bg); }
+    .about-sec {
+      background: var(--bg);
+    }
 
     /* ── DATA TRANSPARENCY ── */
     .dt-sec {
       background: var(--dt-grad);
-      border-top: 1px solid var(--pri-bd); border-bottom: 1px solid var(--pri-bd);
+      border-top: 1px solid var(--pri-bd);
+      border-bottom: 1px solid var(--pri-bd);
     }
-    .scope-stack { display: flex; flex-direction: column; gap: 1rem; margin: 2.5rem 0 2rem; }
+
+    .scope-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 2.5rem 0 2rem;
+    }
+
     .scope-card {
-      background: var(--card-2); border: 1.5px solid var(--border);
-      border-radius: 16px; padding: 1.75rem 2rem;
+      background: var(--card-2);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem 2rem;
       transition: box-shadow .2s, border-color .2s;
     }
-    .scope-card:hover { box-shadow: 0 6px 28px rgba(91,79,233,.09); border-color: var(--pri-bd); }
-    .sc-head { display: flex; align-items: center; gap: .85rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+
+    .scope-card:hover {
+      box-shadow: 0 6px 28px rgba(91, 79, 233, .09);
+      border-color: var(--pri-bd);
+    }
+
+    .sc-head {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+
     .sc-badge {
-      display: inline-flex; align-items: center; gap: .4rem;
-      padding: .3rem .75rem; border-radius: 7px;
-      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
-      font-family: 'SF Mono','Menlo',Consolas,monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .3rem .75rem;
+      border-radius: 7px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      font-family: 'SF Mono', 'Menlo', Consolas, monospace;
     }
-    .sc-gmail { background: rgba(66,133,244,.1);  border: 1px solid rgba(66,133,244,.25); color: #1D4ED8; }
-    .sc-cal   { background: rgba(52,168,83,.1);   border: 1px solid rgba(52,168,83,.25);  color: #15803D; }
-    .sc-id    { background: rgba(91,79,233,.1);   border: 1px solid rgba(91,79,233,.25);  color: var(--pri); }
-    .sc-title { font-size: 1.05rem; font-weight: 700; color: var(--text); }
-    .sc-body  { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 2rem; }
+
+    .sc-gmail {
+      background: rgba(66, 133, 244, .1);
+      border: 1px solid rgba(66, 133, 244, .25);
+      color: #1D4ED8;
+    }
+
+    .sc-cal {
+      background: rgba(52, 168, 83, .1);
+      border: 1px solid rgba(52, 168, 83, .25);
+      color: #15803D;
+    }
+
+    .sc-id {
+      background: rgba(91, 79, 233, .1);
+      border: 1px solid rgba(91, 79, 233, .25);
+      color: var(--pri);
+    }
+
+    .sc-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .sc-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem 2rem;
+    }
+
     .sc-col-lbl {
-      font-size: .68rem; font-weight: 700; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--text3); margin-bottom: .4rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: .4rem;
     }
-    .sc-col-txt { font-size: .875rem; color: var(--text2); line-height: 1.7; }
-    .sc-col-txt strong { color: var(--text); }
+
+    .sc-col-txt {
+      font-size: .875rem;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    .sc-col-txt strong {
+      color: var(--text);
+    }
+
     .sc-never {
-      margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--border);
-      display: flex; align-items: flex-start; gap: .5rem;
-      font-size: .82rem; color: var(--grn); font-weight: 500; line-height: 1.5;
+      margin-top: 1.1rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      font-size: .82rem;
+      color: var(--grn);
+      font-weight: 500;
+      line-height: 1.5;
     }
-    .sc-never svg { flex-shrink: 0; margin-top: 1px; }
+
+    .sc-never svg {
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
 
     .never-box {
-      background: var(--grn-bg); border: 1.5px solid var(--grn-bd);
-      border-radius: 14px; padding: 1.5rem 1.75rem; margin-bottom: 2rem;
+      background: var(--grn-bg);
+      border: 1.5px solid var(--grn-bd);
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 2rem;
     }
+
     .never-lbl {
-      font-size: .68rem; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--grn); margin-bottom: 1rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--grn);
+      margin-bottom: 1rem;
     }
-    .never-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .6rem; }
-    .nitem { display: flex; gap: .6rem; align-items: flex-start; font-size: .875rem; color: var(--grn); }
-    [data-theme="light"] .nitem { color: #065F46; }
-    .nitem svg { flex-shrink: 0; margin-top: 2px; }
+
+    .never-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: .6rem;
+    }
+
+    .nitem {
+      display: flex;
+      gap: .6rem;
+      align-items: flex-start;
+      font-size: .875rem;
+      color: var(--grn);
+    }
+
+    [data-theme="light"] .nitem {
+      color: #065F46;
+    }
+
+    .nitem svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
 
     .dt-foot {
-      display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center;
-      padding-top: 1.5rem; border-top: 1px solid var(--pri-bd);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      align-items: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--pri-bd);
     }
-    .dt-foot p { font-size: .875rem; color: var(--text2); line-height: 1.7; flex: 1; max-width: 600px; }
-    .dt-links { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+    .dt-foot p {
+      font-size: .875rem;
+      color: var(--text2);
+      line-height: 1.7;
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .dt-links {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+
     .dt-links a {
-      display: inline-flex; align-items: center; gap: .4rem;
-      font-size: .85rem; font-weight: 600; color: var(--pri);
-      padding: .45rem .9rem; border-radius: 8px;
-      background: var(--card-2); border: 1.5px solid var(--pri-bd);
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--pri);
+      padding: .45rem .9rem;
+      border-radius: 8px;
+      background: var(--card-2);
+      border: 1.5px solid var(--pri-bd);
       transition: background .15s;
     }
-    .dt-links a:hover { background: var(--pri-bg); text-decoration: none; }
+
+    .dt-links a:hover {
+      background: var(--pri-bg);
+      text-decoration: none;
+    }
 
     /* ── FEATURES ── */
-    .feat-sec { background: var(--bg); }
-    .feat-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 1.25rem; margin-top: 3rem;
+    .feat-sec {
+      background: var(--bg);
     }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
     .feat-card {
-      background: var(--bg2); border: 1.5px solid var(--border);
-      border-radius: 16px; padding: 1.75rem;
-      position: relative; overflow: hidden;
+      background: var(--bg2);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
       transition: box-shadow .2s, border-color .2s, transform .2s;
     }
+
     .feat-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      border-radius: 16px 16px 0 0; background: var(--fa, var(--pri));
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 16px 16px 0 0;
+      background: var(--fa, var(--pri));
     }
-    .feat-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.08); border-color: var(--border2); transform: translateY(-2px); }
+
+    .feat-card:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .08);
+      border-color: var(--border2);
+      transform: translateY(-2px);
+    }
+
     .ficon {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.1rem;
     }
-    .feat-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .4rem; color: var(--text); }
-    .feat-card p  { color: var(--text2); font-size: .875rem; line-height: 1.65; }
+
+    .feat-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+      color: var(--text);
+    }
+
+    .feat-card p {
+      color: var(--text2);
+      font-size: .875rem;
+      line-height: 1.65;
+    }
 
     /* ── TOOLS ── */
-    .tools-sec { background: var(--bg2); }
-    .tbl-wrap { margin-top: 2.5rem; border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; }
-    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
-    thead { background: var(--table-head); }
-    th {
-      padding: .9rem 1.4rem; text-align: left;
-      font-size: .67rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .08em; color: var(--text3); border-bottom: 1.5px solid var(--border);
+    .tools-sec {
+      background: var(--bg2);
     }
-    td { padding: .9rem 1.4rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text2); }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr { transition: background .12s; }
-    tbody tr:nth-child(even) td { background: var(--table-alt); }
-    tbody tr:hover td { background: var(--pri-bg) !important; }
+
+    .tbl-wrap {
+      margin-top: 2.5rem;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+    }
+
+    thead {
+      background: var(--table-head);
+    }
+
+    th {
+      padding: .9rem 1.4rem;
+      text-align: left;
+      font-size: .67rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text3);
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    td {
+      padding: .9rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      color: var(--text2);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr {
+      transition: background .12s;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: var(--table-alt);
+    }
+
+    tbody tr:hover td {
+      background: var(--pri-bg) !important;
+    }
+
     code {
-      font-family: 'SF Mono','Menlo',Consolas,monospace;
-      font-size: .78rem; background: var(--pri-bg); color: var(--pri);
-      padding: .2rem .5rem; border-radius: 5px; border: 1px solid var(--pri-bd);
+      font-family: 'SF Mono', 'Menlo', Consolas, monospace;
+      font-size: .78rem;
+      background: var(--pri-bg);
+      color: var(--pri);
+      padding: .2rem .5rem;
+      border-radius: 5px;
+      border: 1px solid var(--pri-bd);
       white-space: nowrap;
     }
 
     /* ── SYSTEM PROMPT (echoes hero atmosphere; theme-aware) ── */
     .sp-sec {
       background: var(--hero-bg);
-      position: relative; overflow: hidden;
-      padding-top: 7rem; padding-bottom: 7rem;
+      position: relative;
+      overflow: hidden;
+      padding-top: 7rem;
+      padding-bottom: 7rem;
     }
+
     .sp-sec::before {
       content: '';
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 70% 55% at 15% 0%, var(--hero-bloom-1) 0%, transparent 60%),
-        radial-gradient(ellipse 55% 45% at 90% 100%, var(--hero-bloom-2) 0%, transparent 60%);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 70% 55% at 15% 0%, var(--hero-bloom-1) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 45% at 90% 100%, var(--hero-bloom-2) 0%, transparent 60%);
     }
+
     .sp-sec::after {
       content: '';
-      position: absolute; inset: 0; pointer-events: none;
-      background-image:
-        linear-gradient(var(--hero-grid) 1px, transparent 1px),
-        linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(var(--hero-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px);
       background-size: 64px 64px;
     }
-    .sp-sec > .wrap { position: relative; z-index: 1; }
+
+    .sp-sec > .wrap {
+      position: relative;
+      z-index: 1;
+    }
 
     .sp-sec .eyebrow {
-      color: var(--hero-badge-fg); background: var(--hero-badge-bg);
+      color: var(--hero-badge-fg);
+      background: var(--hero-badge-bg);
       border: 1px solid var(--hero-badge-bd);
     }
-    .sp-sec .sec-h { color: var(--hero-fg); }
-    .sp-sec .sec-p { color: var(--hero-fg-2); }
-    .sp-sec .sec-p strong { color: var(--hero-fg); }
+
+    .sp-sec .sec-h {
+      color: var(--hero-fg);
+    }
+
+    .sp-sec .sec-p {
+      color: var(--hero-fg-2);
+    }
+
+    .sp-sec .sec-p strong {
+      color: var(--hero-fg);
+    }
 
     .sp-lede {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.4rem;
+      margin-bottom: 2rem;
+      text-align: center;
     }
-    .sp-lede > div { max-width: 640px; }
+
+    .sp-lede > div {
+      max-width: 720px;
+    }
+
     .sp-copy {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem 1.05rem; border-radius: 10px;
-      background: var(--pri); color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem 1.05rem;
+      border-radius: 10px;
+      background: var(--pri);
+      color: #fff;
       font-family: 'Instrument Sans', sans-serif;
-      font-size: .82rem; font-weight: 600; border: none; cursor: pointer;
-      box-shadow: 0 6px 20px rgba(91,79,233,.45);
+      font-size: .82rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(91, 79, 233, .45);
       transition: transform .15s, box-shadow .15s, background .15s;
     }
-    .sp-copy:hover { transform: translateY(-1px); box-shadow: 0 8px 26px rgba(91,79,233,.55); background: var(--pri-l); }
-    .sp-copy.copied { background: var(--grn); box-shadow: 0 4px 14px rgba(5,150,105,.35); }
-    .sp-copy.copied:hover { background: var(--grn); }
+
+    .sp-copy:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 26px rgba(91, 79, 233, .55);
+      background: var(--pri-l);
+    }
+
+    .sp-copy.copied {
+      background: var(--grn);
+      box-shadow: 0 4px 14px rgba(5, 150, 105, .35);
+    }
+
+    .sp-copy.copied:hover {
+      background: var(--grn);
+    }
 
     .sp-frame {
-      background: linear-gradient(180deg, rgba(20,22,42,.85) 0%, rgba(12,14,26,.85) 100%);
+      background: linear-gradient(180deg, rgba(20, 22, 42, .85) 0%, rgba(12, 14, 26, .85) 100%);
       border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: 0 30px 70px -25px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.04);
+      border: 1px solid rgba(255, 255, 255, .08);
+      box-shadow: 0 30px 70px -25px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .04);
       overflow: hidden;
       backdrop-filter: blur(6px);
     }
+
     .sp-bar {
-      display: flex; align-items: center; gap: .5rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
       padding: .85rem 1.2rem;
-      background: rgba(255,255,255,.02);
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      background: rgba(255, 255, 255, .02);
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
     }
-    .sp-dot { width: 11px; height: 11px; border-radius: 50%; }
-    .sp-dot.r { background: #FF5F57; }
-    .sp-dot.y { background: #FEBC2E; }
-    .sp-dot.g { background: #28C840; }
+
+    .sp-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .sp-dot.r {
+      background: #FF5F57;
+    }
+
+    .sp-dot.y {
+      background: #FEBC2E;
+    }
+
+    .sp-dot.g {
+      background: #28C840;
+    }
+
     .sp-filename {
       margin-left: .6rem;
-      font-family: 'SF Mono','Menlo',Consolas,monospace;
-      font-size: .74rem; color: rgba(255,255,255,.42); letter-spacing: .02em;
+      font-family: 'SF Mono', 'Menlo', Consolas, monospace;
+      font-size: .74rem;
+      color: rgba(255, 255, 255, .42);
+      letter-spacing: .02em;
     }
+
     .sp-body {
-      margin: 0; padding: 1.6rem 1.75rem;
-      font-family: 'SF Mono','Menlo',Consolas,monospace;
-      font-size: .81rem; line-height: 1.75; color: #D1D5DB;
-      overflow-x: auto; white-space: pre;
+      margin: 0;
+      padding: 1.6rem 1.75rem;
+      font-family: 'SF Mono', 'Menlo', Consolas, monospace;
+      font-size: .81rem;
+      line-height: 1.75;
+      color: #D1D5DB;
+      overflow-x: auto;
+      white-space: pre;
       background: transparent;
     }
-    .sp-body .h { color: #A5B4FC; font-weight: 700; }
-    .sp-body .c { color: #6B7280; font-style: italic; }
-    .sp-body .k { color: #7CD48F; }
-    .sp-body .t { color: #F0B562; }
-    .sp-body .s { color: #A7F3D0; }
-    .sp-body .n { color: #F472B6; }
+
+    .sp-body .h {
+      color: #A5B4FC;
+      font-weight: 700;
+    }
+
+    .sp-body .c {
+      color: #6B7280;
+      font-style: italic;
+    }
+
+    .sp-body .k {
+      color: #7CD48F;
+    }
+
+    .sp-body .t {
+      color: #F0B562;
+    }
+
+    .sp-body .s {
+      color: #A7F3D0;
+    }
+
+    .sp-body .n {
+      color: #F472B6;
+    }
 
     .sp-note {
-      margin-top: 1.4rem; display: flex; gap: .55rem; align-items: flex-start;
-      font-size: .84rem; color: var(--hero-fg-2); line-height: 1.65;
+      margin-top: 1.4rem;
+      display: flex;
+      gap: .55rem;
+      align-items: flex-start;
+      font-size: .84rem;
+      color: var(--hero-fg-2);
+      line-height: 1.65;
     }
-    .sp-note svg { flex-shrink: 0; margin-top: 2px; color: var(--pri); }
+
+    .sp-note svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--pri);
+    }
 
     /* ── HOW IT WORKS ── */
-    .how-sec { background: var(--bg); }
-    .how-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1.5rem; margin-top: 3rem;
+    .how-sec {
+      background: var(--bg);
     }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
     .step-card {
-      background: var(--bg2); border: 1.5px solid var(--border);
-      border-radius: 16px; padding: 1.75rem;
+      background: var(--bg2);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
       transition: box-shadow .2s, border-color .2s;
     }
-    .step-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); border-color: var(--border2); }
-    .step-num {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: var(--pri); color: #fff; font-size: .85rem; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.1rem; box-shadow: 0 4px 12px rgba(91,79,233,.35);
+
+    .step-card:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .07);
+      border-color: var(--border2);
     }
-    .step-card h3 { font-size: .975rem; font-weight: 700; margin-bottom: .5rem; color: var(--text); }
-    .step-card p  { color: var(--text2); font-size: .875rem; line-height: 1.65; }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--pri);
+      color: #fff;
+      font-size: .85rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.1rem;
+      box-shadow: 0 4px 12px rgba(91, 79, 233, .35);
+    }
+
+    .step-card h3 {
+      font-size: .975rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      color: var(--text);
+    }
+
+    .step-card p {
+      color: var(--text2);
+      font-size: .875rem;
+      line-height: 1.65;
+    }
 
     /* ── INSTALL ── */
     .install-sec {
       background: var(--bg2);
-      position: relative; overflow: hidden;
+      position: relative;
+      overflow: hidden;
     }
+
     .install-sec::before {
-      content: ''; position: absolute; pointer-events: none;
-      inset: 0 0 auto 0; height: 320px;
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      inset: 0 0 auto 0;
+      height: 320px;
       background: radial-gradient(ellipse 55% 70% at 20% 0%, var(--pri-bg) 0%, transparent 70%);
       opacity: .6;
     }
-    .install-sec > .wrap { position: relative; z-index: 1; }
+
+    .install-sec > .wrap {
+      position: relative;
+      z-index: 1;
+    }
 
     .inst-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem; margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
     }
+
     .inst-card {
       position: relative;
       background: var(--bg);
@@ -652,98 +1311,205 @@
       padding: 2rem 1.75rem 1.85rem;
       transition: box-shadow .2s, border-color .2s, transform .2s;
     }
+
     .inst-card:hover {
-      box-shadow: 0 14px 34px -14px rgba(91,79,233,.22);
+      box-shadow: 0 14px 34px -14px rgba(91, 79, 233, .22);
       border-color: var(--pri-bd);
       transform: translateY(-2px);
     }
+
     .inst-num {
-      position: absolute; top: 1.1rem; right: 1.4rem;
+      position: absolute;
+      top: 1.1rem;
+      right: 1.4rem;
       font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 2rem; font-weight: 800; letter-spacing: -.03em;
-      color: var(--pri-bd); line-height: 1;
-      -webkit-user-select: none; user-select: none;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: var(--pri-bd);
+      line-height: 1;
+      -webkit-user-select: none;
+      user-select: none;
     }
+
     .inst-icon {
-      width: 46px; height: 46px; border-radius: 13px;
-      display: flex; align-items: center; justify-content: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 1.15rem;
     }
+
     .inst-card h3 {
-      font-size: 1.02rem; font-weight: 700; letter-spacing: -.015em;
-      margin-bottom: 1.15rem; color: var(--text);
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: -.015em;
+      margin-bottom: 1.15rem;
+      color: var(--text);
     }
+
     .inst-steps {
-      list-style: none; padding: 0; margin: 0;
-      display: flex; flex-direction: column; gap: .85rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: .85rem;
     }
+
     .inst-step {
-      display: flex; gap: .75rem; align-items: flex-start;
-      color: var(--text2); font-size: .9rem; line-height: 1.6;
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      color: var(--text2);
+      font-size: .9rem;
+      line-height: 1.6;
     }
+
     .inst-step-n {
-      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
-      background: var(--pri-bg); color: var(--pri);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .72rem; font-weight: 700; margin-top: 1px;
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--pri-bg);
+      color: var(--pri);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .72rem;
+      font-weight: 700;
+      margin-top: 1px;
       border: 1.5px solid var(--pri-bd);
       font-family: 'Instrument Sans', sans-serif;
     }
-    .inst-step-body { min-width: 0; flex: 1; }
-    .inst-step-body strong { color: var(--text); font-weight: 600; }
+
+    .inst-step-body {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .inst-step-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
     .inst-code {
-      display: inline-block; margin-top: .45rem;
-      padding: .35rem .6rem; border-radius: 7px;
-      background: var(--pri-bg); color: var(--pri);
+      display: inline-block;
+      margin-top: .45rem;
+      padding: .35rem .6rem;
+      border-radius: 7px;
+      background: var(--pri-bg);
+      color: var(--pri);
       border: 1px solid var(--pri-bd);
-      font-family: 'SF Mono','Menlo',Consolas,monospace;
-      font-size: .76rem; line-height: 1.4;
-      word-break: break-all; white-space: normal;
+      font-family: 'SF Mono', 'Menlo', Consolas, monospace;
+      font-size: .76rem;
+      line-height: 1.4;
+      word-break: break-all;
+      white-space: normal;
       max-width: 100%;
     }
 
     /* ── FOOTER ── */
     footer {
-      background: var(--footer-bg); padding: 3.5rem 1.5rem 3rem;
+      background: var(--footer-bg);
+      padding: 3.5rem 1.5rem 3rem;
       position: relative;
       border-top: 1px solid var(--border);
     }
+
     footer::before {
       content: '';
       position: absolute;
-      top: -80px; left: 0; right: 0; height: 80px;
+      top: -80px;
+      left: 0;
+      right: 0;
+      height: 80px;
       pointer-events: none;
       background: linear-gradient(to bottom, var(--footer-fade-from) 0%, var(--footer-bg) 100%);
       opacity: .55;
     }
-    [data-theme="dark"] footer { border-top: none; }
-    [data-theme="dark"] footer::before { opacity: 1; }
+
+    [data-theme="dark"] footer {
+      border-top: none;
+    }
+
+    [data-theme="dark"] footer::before {
+      opacity: 1;
+    }
+
     .footer-inner {
-      max-width: 1140px; margin: 0 auto;
-      display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
     }
+
     .footer-logo {
-      display: flex; align-items: center; gap: .55rem;
+      display: flex;
+      align-items: center;
+      gap: .55rem;
       font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700; font-size: .95rem; color: var(--footer-fg);
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--footer-fg);
     }
+
     .footer-logo-icon {
-      width: 28px; height: 28px; border-radius: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
       background: linear-gradient(135deg, var(--pri), #7C3AED);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .footer-links { display: flex; gap: 1.75rem; flex-wrap: wrap; justify-content: center; }
-    .footer-links a { color: var(--footer-fg-2); font-size: .85rem; transition: color .15s; }
-    .footer-links a:hover { color: var(--footer-fg); text-decoration: none; }
-    .footer-copy { color: var(--footer-fg-3); font-size: .78rem; text-align: center; }
+
+    .footer-links {
+      display: flex;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--footer-fg-2);
+      font-size: .85rem;
+      transition: color .15s;
+    }
+
+    .footer-links a:hover {
+      color: var(--footer-fg);
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      color: var(--footer-fg-3);
+      font-size: .78rem;
+      text-align: center;
+    }
 
     @media (max-width: 680px) {
-      .sc-body { grid-template-columns: 1fr; }
-      .hgrid { grid-template-columns: 1fr; }
+      .sc-body {
+        grid-template-columns: 1fr;
+      }
+
+      .hgrid {
+        grid-template-columns: 1fr;
+      }
     }
+
     @media (max-width: 600px) {
-      .nm { display: none; }
-      section { padding: 4rem 1.25rem; }
+      .nm {
+        display: none;
+      }
+
+      section {
+        padding: 4rem 1.25rem;
+      }
     }
   </style>
 </head>
@@ -754,7 +1520,10 @@
   <div class="nav-inner">
     <a href="/" class="nav-logo">
       <div class="nav-logo-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"
+             stroke-linecap="round">
+          <path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/>
+        </svg>
       </div>
       noco-ai-tools
     </a>
@@ -766,12 +1535,24 @@
       <a href="#install" class="navl nm">Install</a>
       <a href="privacy.html" class="navl">Privacy</a>
       <a href="tos.html" class="navl nm">Terms</a>
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle light / dark theme">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme"
+              title="Toggle light / dark theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
       </button>
       <a href="https://github.com/kalpak44/plugin-noco-tools" class="nav-gh" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+        </svg>
         GitHub
       </a>
     </div>
@@ -782,48 +1563,110 @@
 <section class="hero">
   <div class="hero-grid-bg" aria-hidden="true"></div>
 
-  <div class="badge"><span class="badge-dot"></span> NocoBase Plugin &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Open Source</div>
+  <div class="badge">
+    <span class="badge-dot"></span>
+    OAuth application for Gmail and Google Calendar
+  </div>
 
-  <h1>Gmail &amp; Google Calendar<br/>for <em>NocoBase AI Employees</em></h1>
+  <h1>
+    <strong>noco-ai-tools</strong><br/>
+    <em>Gmail and Google Calendar assistant for NocoBase</em>
+  </h1>
 
   <p class="hero-sub">
-    Stop switching between your inbox, calendar, and NocoBase workspace.
-    <strong>noco-ai-tools</strong> gives your AI employee direct access to Gmail and Google Calendar — so it handles email, scheduling, and events while you stay focused.
+    It is an open-source NocoBase plugin that lets
+    users connect their own Google account to a personal AI assistant using
+    Google OAuth 2.0.
+  </p>
+
+  <p class="hero-sub" style="margin-top:-1.5rem;">
+    After the user grants permission, the app can read and send Gmail messages
+    and read, create, update, and delete Google Calendar events on that user's
+    behalf. Google data is accessed only to perform actions requested by the
+    authenticated user.
   </p>
 
   <div class="hero-box">
     <div class="hero-box-label">How it helps you</div>
     <div class="hgrid">
       <div class="hitem">
-        <div class="hicon" style="background:rgba(66,133,244,.15)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg></div>
-        <div><div class="htitle">Zero-touch email handling</div><div class="hdesc">Ask your AI to summarise, reply, or forward — it acts directly in your inbox.</div></div>
+        <div class="hicon" style="background:rgba(66,133,244,.15)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2"
+               stroke-linecap="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 8l10 6 10-6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="htitle">Zero-touch email handling</div>
+          <div class="hdesc">Ask your AI to summarise, reply, or forward — it acts directly in your inbox.</div>
+        </div>
       </div>
       <div class="hitem">
-        <div class="hicon" style="background:rgba(52,168,83,.15)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-        <div><div class="htitle">Instant scheduling</div><div class="hdesc">"Book a call next Tuesday" — AI checks your calendar, creates the event, invites attendees.</div></div>
+        <div class="hicon" style="background:rgba(52,168,83,.15)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2"
+               stroke-linecap="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <path d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
+        </div>
+        <div>
+          <div class="htitle">Instant scheduling</div>
+          <div class="hdesc">"Book a call next Tuesday" — AI checks your calendar, creates the event, invites
+            attendees.
+          </div>
+        </div>
       </div>
       <div class="hitem">
-        <div class="hicon" style="background:rgba(165,180,252,.15)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
-        <div><div class="htitle">Your data stays yours</div><div class="hdesc">Each person connects their own Google account. No colleague's AI can touch your calendar.</div></div>
+        <div class="hicon" style="background:rgba(165,180,252,.15)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="2"
+               stroke-linecap="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
+        <div>
+          <div class="htitle">Your data stays yours</div>
+          <div class="hdesc">Each person connects their own Google account. No colleague's AI can touch your calendar.
+          </div>
+        </div>
       </div>
       <div class="hitem">
-        <div class="hicon" style="background:rgba(52,211,153,.15)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div><div class="htitle">One-click setup, revoke anytime</div><div class="hdesc">Connect in one click. Disconnect just as easily from NocoBase or Google's settings.</div></div>
+        <div class="hicon" style="background:rgba(52,211,153,.15)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2"
+               stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="htitle">One-click setup, revoke anytime</div>
+          <div class="hdesc">Connect in one click. Disconnect just as easily from NocoBase or Google's settings.</div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="hero-cta">
     <a href="https://github.com/kalpak44/plugin-noco-tools/releases" class="btn-pri" target="_blank" rel="noopener">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+      </svg>
       Download Plugin
     </a>
     <a href="https://github.com/kalpak44/plugin-noco-tools" class="btn-ghost" target="_blank" rel="noopener">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+      </svg>
       View Source
     </a>
     <a href="#data-transparency" class="btn-ghost">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 16v-4M12 8h.01"/>
+      </svg>
       Why Google access?
     </a>
   </div>
@@ -836,7 +1679,12 @@
 
   <div class="gbrand">
     <span>Powered by</span>
-    <div class="gdots"><div class="gdot"></div><div class="gdot"></div><div class="gdot"></div><div class="gdot"></div></div>
+    <div class="gdots">
+      <div class="gdot"></div>
+      <div class="gdot"></div>
+      <div class="gdot"></div>
+      <div class="gdot"></div>
+    </div>
     <span>Google APIs</span>
   </div>
 </section>
@@ -846,10 +1694,30 @@
 <!-- ABOUT -->
 <section id="about" class="about-sec">
   <div class="wrap">
-    <span class="eyebrow">About</span>
-    <h2 class="sec-h">What is noco-ai-tools?</h2>
+    <span class="eyebrow">Application purpose</span>
+
+    <h2 class="sec-h">What do noco-ai-tools?</h2>
+
     <p class="sec-p">
-      <strong>noco-ai-tools</strong> is an open-source <a href="https://www.nocobase.com" target="_blank" rel="noopener">NocoBase</a> plugin that connects each user's own Google account to their personal AI employee via OAuth 2.0. Once a user grants consent, the AI employee can read and send emails and manage calendar events — acting entirely on behalf of that individual. No shared service accounts. No cross-user data access.
+      <strong>noco-ai-tools</strong> is a plugin for
+      <a href="https://www.nocobase.com" target="_blank" rel="noopener">
+        NocoBase
+      </a>
+      that connects an authenticated user's Google account to an AI assistant.
+    </p>
+
+    <p class="sec-p" style="margin-top:1rem;">
+      The app uses Gmail permissions to display email messages, prepare replies,
+      send messages, and update message status when requested by the user. It
+      uses Google Calendar permissions to display availability and to create,
+      update, or delete calendar events when requested by the user.
+    </p>
+
+    <p class="sec-p" style="margin-top:1rem;">
+      Each user authorizes their own Google account through OAuth 2.0.
+      Authorization credentials are associated only with that user's NocoBase
+      account. The app does not use shared Google accounts and does not allow
+      one user to access another user's Google data.
     </p>
   </div>
 </section>
@@ -862,7 +1730,11 @@
     <span class="eyebrow">Data Transparency</span>
     <h2 class="sec-h">Why we request your Google data</h2>
     <p class="sec-p" style="margin-bottom:0">
-      When you connect your Google account, we request exactly the permissions below — nothing more. Here is what each permission allows, why the app cannot function without it, and what we <em>never</em> do with your data.
+      noco-ai-tools request Google permissions only after a user chooses to
+      connect their Google account. These permissions are used to provide the
+      Gmail and Google Calendar features described on this homepage.
+      The app does not request Google access for advertising, profiling, or
+      unrelated purposes.
     </p>
 
     <div class="scope-stack">
@@ -871,7 +1743,9 @@
       <div class="scope-card">
         <div class="sc-head">
           <span class="sc-badge sc-gmail">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path
+              d="M2 8l10 6 10-6"/></svg>
             gmail.modify
           </span>
           <span class="sc-title">Read and send Gmail on your behalf</span>
@@ -879,16 +1753,23 @@
         <div class="sc-body">
           <div>
             <div class="sc-col-lbl">What it allows</div>
-            <p class="sc-col-txt">The AI employee can list your inbox, read individual message content, send new emails, reply to threads, and mark messages as read after processing.</p>
+            <p class="sc-col-txt">The AI employee can list your inbox, read individual message content, send new emails,
+              reply to threads, and mark messages as read after processing.</p>
           </div>
           <div>
             <div class="sc-col-lbl">Why it is needed</div>
-            <p class="sc-col-txt">Without read access the AI cannot understand the context of incoming mail or draft relevant replies. Without send access it cannot act as your email assistant — you would have to copy-paste every response manually.</p>
+            <p class="sc-col-txt">Without read access the AI cannot understand the context of incoming mail or draft
+              relevant replies. Without send access it cannot act as your email assistant — you would have to copy-paste
+              every response manually.</p>
           </div>
         </div>
         <div class="sc-never">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
-          Email content is <strong>&nbsp;never stored&nbsp;</strong> on our servers — fetched live per request, used to generate a response, then discarded. We never analyse, index, or share your email content.
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Email content is <strong>&nbsp;never stored&nbsp;</strong> on our servers — fetched live per request, used to
+          generate a response, then discarded. We never analyse, index, or share your email content.
         </div>
       </div>
 
@@ -896,7 +1777,9 @@
       <div class="scope-card">
         <div class="sc-head">
           <span class="sc-badge sc-cal">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path
+              d="M16 2v4M8 2v4M3 10h18"/></svg>
             calendar
           </span>
           <span class="sc-title">Read and manage Google Calendar events</span>
@@ -904,16 +1787,23 @@
         <div class="sc-body">
           <div>
             <div class="sc-col-lbl">What it allows</div>
-            <p class="sc-col-txt">The AI employee can list your calendars, read existing events, create new events with title/time/attendees, update or cancel events, and read events on calendars shared with you.</p>
+            <p class="sc-col-txt">The AI employee can list your calendars, read existing events, create new events with
+              title/time/attendees, update or cancel events, and read events on calendars shared with you.</p>
           </div>
           <div>
             <div class="sc-col-lbl">Why it is needed</div>
-            <p class="sc-col-txt">To schedule a meeting the AI must check your existing schedule for conflicts. To create or update events it needs write access. Read-only access would prevent it from making any calendar changes on your behalf.</p>
+            <p class="sc-col-txt">To schedule a meeting the AI must check your existing schedule for conflicts. To
+              create or update events it needs write access. Read-only access would prevent it from making any calendar
+              changes on your behalf.</p>
           </div>
         </div>
         <div class="sc-never">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
-          Calendar event data is <strong>&nbsp;never stored&nbsp;</strong> persistently — fetched live per request and used only to fulfil the action you asked for.
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Calendar event data is <strong>&nbsp;never stored&nbsp;</strong> persistently — fetched live per request and
+          used only to fulfil the action you asked for.
         </div>
       </div>
 
@@ -921,7 +1811,8 @@
       <div class="scope-card">
         <div class="sc-head">
           <span class="sc-badge sc-id">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
             openid email profile
           </span>
           <span class="sc-title">Identify which Google account is connected</span>
@@ -929,16 +1820,23 @@
         <div class="sc-body">
           <div>
             <div class="sc-col-lbl">What it allows</div>
-            <p class="sc-col-txt">We receive your Google account's email address and basic profile information after you grant consent.</p>
+            <p class="sc-col-txt">We receive your Google account's email address and basic profile information after you
+              grant consent.</p>
           </div>
           <div>
             <div class="sc-col-lbl">Why it is needed</div>
-            <p class="sc-col-txt">We store your email address so the NocoBase UI can show which Google account is connected and so you can verify or revoke the connection at any time. Without it we cannot associate OAuth tokens with your NocoBase account.</p>
+            <p class="sc-col-txt">We store your email address so the NocoBase UI can show which Google account is
+              connected and so you can verify or revoke the connection at any time. Without it we cannot associate OAuth
+              tokens with your NocoBase account.</p>
           </div>
         </div>
         <div class="sc-never">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
-          Only your email address is stored — <strong>&nbsp;no profile picture or display name&nbsp;</strong> is retained. It is deleted immediately when you disconnect.
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Only your email address is stored — <strong>&nbsp;no profile picture or display name&nbsp;</strong> is
+          retained. It is deleted immediately when you disconnect.
         </div>
       </div>
 
@@ -947,20 +1845,69 @@
     <div class="never-box">
       <div class="never-lbl">What we never do with your Google data</div>
       <div class="never-items">
-        <div class="nitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Never sell or share your data with third parties</div>
-        <div class="nitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Never use your data for advertising or profiling</div>
-        <div class="nitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Never store email content or calendar events persistently</div>
-        <div class="nitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Never allow one user's AI to access another user's data</div>
-        <div class="nitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Never use data beyond the stated purpose</div>
-        <div class="nitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Never retain tokens after you disconnect</div>
+        <div class="nitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Never sell or share your data with third parties
+        </div>
+        <div class="nitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Never use your data for advertising or profiling
+        </div>
+        <div class="nitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Never store email content or calendar events persistently
+        </div>
+        <div class="nitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Never allow one user's AI to access another user's data
+        </div>
+        <div class="nitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Never use data beyond the stated purpose
+        </div>
+        <div class="nitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Never retain tokens after you disconnect
+        </div>
       </div>
     </div>
 
     <div class="dt-foot">
-      <p>noco-ai-tools' use of Google API data adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+      <p>noco-ai-tools' use of Google API data adheres to the <a
+        href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google
+        API Services User Data Policy</a>, including the Limited Use requirements.</p>
       <div class="dt-links">
-        <a href="privacy.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Privacy Policy</a>
-        <a href="tos.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> Terms of Service</a>
+        <a href="privacy.html">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Privacy Policy</a>
+        <a href="tos.html">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <path d="M14 2v6h6"/>
+          </svg>
+          Terms of Service</a>
       </div>
     </div>
   </div>
@@ -973,37 +1920,78 @@
   <div class="wrap">
     <span class="eyebrow">Capabilities</span>
     <h2 class="sec-h">Everything your AI needs to act on<br/>email &amp; calendar</h2>
-    <p class="sec-p">One plugin install, one consent per user. After that, AI employees work autonomously on behalf of the person they're talking to.</p>
+    <p class="sec-p">One plugin install, one consent per user. After that, AI employees work autonomously on behalf of
+      the person they're talking to.</p>
     <div class="feat-grid">
       <div class="feat-card" style="--fa:#4285F4">
-        <div class="ficon" style="background:rgba(66,133,244,.1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg></div>
+        <div class="ficon" style="background:rgba(66,133,244,.1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="1.8"
+               stroke-linecap="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 8l10 6 10-6"/>
+          </svg>
+        </div>
         <h3>Gmail — Read &amp; Send</h3>
-        <p>List emails by search query, read full message bodies (text + HTML), send and reply on the user's behalf. Marks as read after processing.</p>
+        <p>List emails by search query, read full message bodies (text + HTML), send and reply on the user's behalf.
+          Marks as read after processing.</p>
       </div>
       <div class="feat-card" style="--fa:#34A853">
-        <div class="ficon" style="background:rgba(52,168,83,.1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div class="ficon" style="background:rgba(52,168,83,.1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="1.8"
+               stroke-linecap="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <path d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
+        </div>
         <h3>Calendar — Full CRUD</h3>
-        <p>List, create, update, and delete events on the primary calendar. List events on shared calendars. Invite attendees with a single tool call.</p>
+        <p>List, create, update, and delete events on the primary calendar. List events on shared calendars. Invite
+          attendees with a single tool call.</p>
       </div>
       <div class="feat-card" style="--fa:var(--pri)">
-        <div class="ficon" style="background:var(--pri-bg)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div class="ficon" style="background:var(--pri-bg)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="1.8"
+               stroke-linecap="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
         <h3>Per-user OAuth</h3>
-        <p>Each user connects their own Google account. User A's AI employee cannot access User B's data. Tokens are encrypted at rest by NocoBase.</p>
+        <p>Each user connects their own Google account. User A's AI employee cannot access User B's data. Tokens are
+          encrypted at rest by NocoBase.</p>
       </div>
       <div class="feat-card" style="--fa:#0EA5E9">
-        <div class="ficon" style="background:rgba(14,165,233,.1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="ficon" style="background:rgba(14,165,233,.1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="1.8"
+               stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
         <h3>Automatic Token Refresh</h3>
-        <p>Access tokens are refreshed transparently before every API call. Agents keep acting on the user's behalf without re-prompting for consent.</p>
+        <p>Access tokens are refreshed transparently before every API call. Agents keep acting on the user's behalf
+          without re-prompting for consent.</p>
       </div>
       <div class="feat-card" style="--fa:#F59E0B">
-        <div class="ficon" style="background:rgba(245,158,11,.1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73L13 2.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+        <div class="ficon" style="background:rgba(245,158,11,.1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8"
+               stroke-linecap="round">
+            <path
+              d="M21 16V8a2 2 0 00-1-1.73L13 2.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+        </div>
         <h3>Variables &amp; Secrets</h3>
-        <p>Client ID and Secret come from NocoBase's built-in Secrets store. No config files, rotate credentials centrally in one place.</p>
+        <p>Client ID and Secret come from NocoBase's built-in Secrets store. No config files, rotate credentials
+          centrally in one place.</p>
       </div>
       <div class="feat-card" style="--fa:var(--grn)">
-        <div class="ficon" style="background:var(--grn-bg)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="1.8" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+        <div class="ficon" style="background:var(--grn-bg)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="1.8"
+               stroke-linecap="round">
+            <path d="M18 20V10M12 20V4M6 20v-6"/>
+          </svg>
+        </div>
         <h3>REST Endpoints</h3>
-        <p>Every operation is also accessible over HTTP — useful for testing, scripts, or any client that can make authenticated POST requests.</p>
+        <p>Every operation is also accessible over HTTP — useful for testing, scripts, or any client that can make
+          authenticated POST requests.</p>
       </div>
     </div>
   </div>
@@ -1016,20 +2004,53 @@
   <div class="wrap">
     <span class="eyebrow">AI Tools</span>
     <h2 class="sec-h">Tools registered for AI employees</h2>
-    <p class="sec-p">When the NocoBase AI plugin is active, these tools are automatically available. Bind them to any employee under Settings → AI.</p>
+    <p class="sec-p">When the NocoBase AI plugin is active, these tools are automatically available. Bind them to any
+      employee under Settings → AI.</p>
     <div class="tbl-wrap">
       <table>
-        <thead><tr><th>Tool name</th><th>What it does</th></tr></thead>
+        <thead>
+        <tr>
+          <th>Tool name</th>
+          <th>What it does</th>
+        </tr>
+        </thead>
         <tbody>
-          <tr><td><code>googleGmailListEmails</code></td><td>List emails matching a Gmail search query (up to 50 results).</td></tr>
-          <tr><td><code>googleGmailGetEmail</code></td><td>Read one email — headers, plain-text body, HTML body.</td></tr>
-          <tr><td><code>googleGmailSendEmail</code></td><td>Send or reply to an email on the connected user's behalf.</td></tr>
-          <tr><td><code>googleCalendarListCalendars</code></td><td>List all calendars the user owns or has been granted access to.</td></tr>
-          <tr><td><code>googleCalendarListEvents</code></td><td>List events on a specific calendar within a time window.</td></tr>
-          <tr><td><code>googleCalendarCreateEvent</code></td><td>Create an event with title, time, description, attendees, location.</td></tr>
-          <tr><td><code>googleCalendarUpdateEvent</code></td><td>Update any field of an existing event.</td></tr>
-          <tr><td><code>googleCalendarDeleteEvent</code></td><td>Delete an event (optionally notify attendees).</td></tr>
-          <tr><td><code>googleCalendarListSharedEvents</code></td><td>List events across all calendars shared with the user.</td></tr>
+        <tr>
+          <td><code>googleGmailListEmails</code></td>
+          <td>List emails matching a Gmail search query (up to 50 results).</td>
+        </tr>
+        <tr>
+          <td><code>googleGmailGetEmail</code></td>
+          <td>Read one email — headers, plain-text body, HTML body.</td>
+        </tr>
+        <tr>
+          <td><code>googleGmailSendEmail</code></td>
+          <td>Send or reply to an email on the connected user's behalf.</td>
+        </tr>
+        <tr>
+          <td><code>googleCalendarListCalendars</code></td>
+          <td>List all calendars the user owns or has been granted access to.</td>
+        </tr>
+        <tr>
+          <td><code>googleCalendarListEvents</code></td>
+          <td>List events on a specific calendar within a time window.</td>
+        </tr>
+        <tr>
+          <td><code>googleCalendarCreateEvent</code></td>
+          <td>Create an event with title, time, description, attendees, location.</td>
+        </tr>
+        <tr>
+          <td><code>googleCalendarUpdateEvent</code></td>
+          <td>Update any field of an existing event.</td>
+        </tr>
+        <tr>
+          <td><code>googleCalendarDeleteEvent</code></td>
+          <td>Delete an event (optionally notify attendees).</td>
+        </tr>
+        <tr>
+          <td><code>googleCalendarListSharedEvents</code></td>
+          <td>List events across all calendars shared with the user.</td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -1043,10 +2064,16 @@
       <div>
         <span class="eyebrow">AI Employee Setup</span>
         <h2 class="sec-h">System prompt for AI employees</h2>
-        <p class="sec-p">Paste this into the <strong>System prompt</strong> field of any NocoBase AI employee that has the <code>google.*</code> tools bound. It teaches the model how to choose tools, structure timestamps, and confirm destructive actions.</p>
+        <p class="sec-p">Paste this into the <strong>System prompt</strong> field of any NocoBase AI employee that has
+          the <code>google.*</code> tools bound. It teaches the model how to choose tools, structure timestamps, and
+          confirm destructive actions.</p>
       </div>
       <button class="sp-copy" id="sp-copy-btn" type="button" aria-label="Copy system prompt to clipboard">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
         <span id="sp-copy-label">Copy prompt</span>
       </button>
     </div>
@@ -1056,7 +2083,7 @@
         <span class="sp-dot r"></span><span class="sp-dot y"></span><span class="sp-dot g"></span>
         <span class="sp-filename">system-prompt.md</span>
       </div>
-<pre class="sp-body" id="sp-body"><span class="h"># Role</span>
+      <pre class="sp-body" id="sp-body"><span class="h"># Role</span>
 You are the user's personal AI employee for Gmail and Google
 Calendar. Your job is to help and assist them managing their
 mail and events — triage the inbox, summarise threads, draft
@@ -1205,7 +2232,8 @@ them freely to gather context before proposing an action.
 
 <span class="c">## 2. Reply to a specific message (thread + Re: preserved)</span>
 <span class="c">// step 1 — fetch source to get the RFC 822 Message-ID</span>
-src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: <span class="s">"18f0d3a5c9b1e4a2"</span> })
+src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: <span
+          class="s">"18f0d3a5c9b1e4a2"</span> })
 <span class="c">// src.headers["message-id"] === "&lt;CAABC=xyz@mail.gmail.com&gt;"</span>
 <span class="t">googleGmailSendEmail</span>({
   <span class="s">"to"</span>: src.from,
@@ -1223,8 +2251,10 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
 <span class="t">googleCalendarCreateEvent</span>({
   <span class="s">"summary"</span>: <span class="s">"Design review"</span>,
   <span class="s">"description"</span>: <span class="s">"Walk through the noco-ai-tools redesign."</span>,
-  <span class="s">"start"</span>: { <span class="s">"dateTime"</span>: <span class="s">"2026-08-15T09:00:00-07:00"</span>, <span class="s">"timeZone"</span>: <span class="s">"America/Los_Angeles"</span> },
-  <span class="s">"end"</span>:   { <span class="s">"dateTime"</span>: <span class="s">"2026-08-15T09:30:00-07:00"</span>, <span class="s">"timeZone"</span>: <span class="s">"America/Los_Angeles"</span> },
+  <span class="s">"start"</span>: { <span class="s">"dateTime"</span>: <span
+          class="s">"2026-08-15T09:00:00-07:00"</span>, <span class="s">"timeZone"</span>: <span class="s">"America/Los_Angeles"</span> },
+  <span class="s">"end"</span>:   { <span class="s">"dateTime"</span>: <span
+          class="s">"2026-08-15T09:30:00-07:00"</span>, <span class="s">"timeZone"</span>: <span class="s">"America/Los_Angeles"</span> },
   <span class="s">"attendees"</span>: [ { <span class="s">"email"</span>: <span class="s">"alice@example.com"</span> } ],
   <span class="s">"sendUpdates"</span>: <span class="s">"all"</span>
 })
@@ -1232,8 +2262,10 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
 <span class="c">## 4. Reschedule (PATCH — send only what changes)</span>
 <span class="t">googleCalendarUpdateEvent</span>({
   <span class="s">"eventId"</span>: <span class="s">"abc123"</span>,
-  <span class="s">"start"</span>: { <span class="s">"dateTime"</span>: <span class="s">"2026-08-16T09:00:00-07:00"</span>, <span class="s">"timeZone"</span>: <span class="s">"America/Los_Angeles"</span> },
-  <span class="s">"end"</span>:   { <span class="s">"dateTime"</span>: <span class="s">"2026-08-16T09:30:00-07:00"</span>, <span class="s">"timeZone"</span>: <span class="s">"America/Los_Angeles"</span> },
+  <span class="s">"start"</span>: { <span class="s">"dateTime"</span>: <span
+          class="s">"2026-08-16T09:00:00-07:00"</span>, <span class="s">"timeZone"</span>: <span class="s">"America/Los_Angeles"</span> },
+  <span class="s">"end"</span>:   { <span class="s">"dateTime"</span>: <span
+          class="s">"2026-08-16T09:30:00-07:00"</span>, <span class="s">"timeZone"</span>: <span class="s">"America/Los_Angeles"</span> },
   <span class="s">"sendUpdates"</span>: <span class="s">"all"</span>
 })
 
@@ -1241,7 +2273,8 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
 <span class="t">googleCalendarCreateEvent</span>({
   <span class="s">"summary"</span>: <span class="s">"Company offsite"</span>,
   <span class="s">"start"</span>: { <span class="s">"date"</span>: <span class="s">"2026-09-14"</span> },
-  <span class="s">"end"</span>:   { <span class="s">"date"</span>: <span class="s">"2026-09-16"</span> }  <span class="c">// Mon–Tue inclusive; Wed excluded</span>
+  <span class="s">"end"</span>:   { <span class="s">"date"</span>: <span class="s">"2026-09-16"</span> }  <span
+          class="c">// Mon–Tue inclusive; Wed excluded</span>
 })
 
 <span class="c">## 6. Cancel a meeting and notify attendees</span>
@@ -1263,7 +2296,11 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
     </div>
 
     <div class="sp-note">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 16v-4M12 8h.01"/>
+      </svg>
       <span>This is a starting point — trim it to the tools you've actually bound to the employee. Fewer instructions produce more predictable behaviour.</span>
     </div>
   </div>
@@ -1278,22 +2315,26 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
       <div class="step-card">
         <div class="step-num">1</div>
         <h3>Install the plugin</h3>
-        <p>Download the release package from GitHub and upload it through NocoBase's Plugin Manager interface. Enable <strong>noco-ai-tools</strong> — no restart needed.</p>
+        <p>Download the release package from GitHub and upload it through NocoBase's Plugin Manager interface. Enable
+          <strong>noco-ai-tools</strong> — no restart needed.</p>
       </div>
       <div class="step-card">
         <div class="step-num">2</div>
         <h3>Add Google OAuth credentials</h3>
-        <p>Create an OAuth 2.0 client in Google Cloud Console. Paste the Client ID, Secret, and callback URL into NocoBase Variables &amp; Secrets.</p>
+        <p>Create an OAuth 2.0 client in Google Cloud Console. Paste the Client ID, Secret, and callback URL into
+          NocoBase Variables &amp; Secrets.</p>
       </div>
       <div class="step-card">
         <div class="step-num">3</div>
         <h3>Users connect their accounts</h3>
-        <p>Drop the <strong>Connect Google</strong> block on any page. Users click once, consent in a popup, and the block shows their connected email.</p>
+        <p>Drop the <strong>Connect Google</strong> block on any page. Users click once, consent in a popup, and the
+          block shows their connected email.</p>
       </div>
       <div class="step-card">
         <div class="step-num">4</div>
         <h3>Assign tools to AI employees</h3>
-        <p>In <strong>Settings → AI → Employees → Tools</strong>, add the <code>googleGmail*</code> and <code>googleCalendar*</code> tools. The employee now acts on behalf of whichever user is chatting with it.</p>
+        <p>In <strong>Settings → AI → Employees → Tools</strong>, add the <code>googleGmail*</code> and <code>googleCalendar*</code>
+          tools. The employee now acts on behalf of whichever user is chatting with it.</p>
       </div>
     </div>
   </div>
@@ -1306,23 +2347,29 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
   <div class="wrap">
     <span class="eyebrow">Get started</span>
     <h2 class="sec-h">Install &amp; configure</h2>
-    <p class="sec-p">Three focused steps take you from a fresh release to a working OAuth flow — no CLI, no server restart.</p>
+    <p class="sec-p">Three focused steps take you from a fresh release to a working OAuth flow — no CLI, no server
+      restart.</p>
     <div class="inst-grid">
 
       <div class="inst-card">
         <div class="inst-num">01</div>
         <div class="inst-icon" style="background: var(--pri-bg)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+          </svg>
         </div>
         <h3>Plugin installation</h3>
         <ul class="inst-steps">
           <li class="inst-step">
             <span class="inst-step-n">1</span>
-            <span class="inst-step-body">Download the latest release from <a href="https://github.com/kalpak44/plugin-noco-tools/releases" target="_blank" rel="noopener">GitHub Releases</a>.</span>
+            <span class="inst-step-body">Download the latest release from <a
+              href="https://github.com/kalpak44/plugin-noco-tools/releases" target="_blank" rel="noopener">GitHub Releases</a>.</span>
           </li>
           <li class="inst-step">
             <span class="inst-step-n">2</span>
-            <span class="inst-step-body">Upload it through NocoBase <strong>Plugin Manager</strong>, or drop it in the <strong>plugins</strong> storage folder.</span>
+            <span
+              class="inst-step-body">Upload it through NocoBase <strong>Plugin Manager</strong>, or drop it in the <strong>plugins</strong> storage folder.</span>
           </li>
           <li class="inst-step">
             <span class="inst-step-n">3</span>
@@ -1334,13 +2381,18 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
       <div class="inst-card">
         <div class="inst-num">02</div>
         <div class="inst-icon" style="background: rgba(66,133,244,.12)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
         </div>
         <h3>Google Cloud setup</h3>
         <ul class="inst-steps">
           <li class="inst-step">
             <span class="inst-step-n">1</span>
-            <span class="inst-step-body">Create an <strong>OAuth 2.0 Web Application</strong> client in the <a href="https://console.cloud.google.com/auth/clients" target="_blank" rel="noopener">Google Cloud Console</a>.</span>
+            <span class="inst-step-body">Create an <strong>OAuth 2.0 Web Application</strong> client in the <a
+              href="https://console.cloud.google.com/auth/clients" target="_blank"
+              rel="noopener">Google Cloud Console</a>.</span>
           </li>
           <li class="inst-step">
             <span class="inst-step-n">2</span>
@@ -1359,7 +2411,11 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
       <div class="inst-card">
         <div class="inst-num">03</div>
         <div class="inst-icon" style="background: var(--grn-bg)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
         </div>
         <h3>NocoBase configuration</h3>
         <ul class="inst-steps">
@@ -1386,17 +2442,23 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">
-      <div class="footer-logo-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/></svg></div>
+      <div class="footer-logo-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"
+             stroke-linecap="round">
+          <path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h10v2H4z"/>
+        </svg>
+      </div>
       noco-ai-tools
     </div>
     <div class="footer-links">
       <a href="https://github.com/kalpak44/plugin-noco-tools" target="_blank" rel="noopener">GitHub</a>
       <a href="https://github.com/kalpak44/plugin-noco-tools/releases" target="_blank" rel="noopener">Releases</a>
       <a href="https://github.com/kalpak44/plugin-noco-tools/issues" target="_blank" rel="noopener">Issues</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="tos.html">Terms of Service</a>
+      <a href="./privacy.html">Privacy Policy</a>
+      <a href="./tos.html">Terms of Service</a>
     </div>
-    <p class="footer-copy">MIT License &copy; kalpak44 &nbsp;&mdash;&nbsp; Not affiliated with Google LLC or NocoBase Inc.</p>
+    <p class="footer-copy">MIT License &copy; kalpak44 &nbsp;&mdash;&nbsp; Not affiliated with Google LLC or NocoBase
+      Inc.</p>
   </div>
 </footer>
 
@@ -1418,8 +2480,10 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
   ">
     <div style="flex: 1; min-width: 240px;">
       <p style="margin: 0; font-size: .875rem; color: rgba(255,255,255,.85); line-height: 1.55;">
-        This site uses only essential, anonymous analytics cookies to understand page traffic — no personal data is collected, no third-party advertising or tracking.
-        See our <a href="privacy.html" style="color: #A5B4FC; text-decoration: underline;">Privacy Policy</a> for details.
+        This site uses only essential, anonymous analytics cookies to understand page traffic — no personal data is
+        collected, no third-party advertising or tracking.
+        See our <a href="privacy.html" style="color: #A5B4FC; text-decoration: underline;">Privacy Policy</a> for
+        details.
       </p>
     </div>
     <div style="display: flex; align-items: center; gap: .75rem; flex-shrink: 0;">
@@ -1428,7 +2492,7 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
         color: rgba(255,255,255,.7); font-family: inherit; font-size: .875rem; font-weight: 500;
         padding: .5rem 1.1rem; border-radius: 9px; transition: border-color .15s, color .15s;
       " onmouseover="this.style.borderColor='rgba(255,255,255,.5)';this.style.color='#fff'"
-         onmouseout="this.style.borderColor='rgba(255,255,255,.22)';this.style.color='rgba(255,255,255,.7)'">
+              onmouseout="this.style.borderColor='rgba(255,255,255,.22)';this.style.color='rgba(255,255,255,.7)'">
         Decline
       </button>
       <button id="gdpr-accept" style="
@@ -1439,7 +2503,7 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
         box-shadow: 0 2px 10px rgba(91,79,233,.45);
         transition: background .15s, box-shadow .15s;
       " onmouseover="this.style.background='#4338CA';this.style.boxShadow='0 4px 14px rgba(91,79,233,.55)'"
-         onmouseout="this.style.background='#5B4FE9';this.style.boxShadow='0 2px 10px rgba(91,79,233,.45)'">
+              onmouseout="this.style.background='#5B4FE9';this.style.boxShadow='0 2px 10px rgba(91,79,233,.45)'">
         Accept
       </button>
     </div>
@@ -1460,14 +2524,18 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
       localStorage.setItem(KEY, 'accepted');
       banner.style.opacity = '0';
       banner.style.transition = 'opacity .25s';
-      setTimeout(function () { banner.style.display = 'none'; }, 250);
+      setTimeout(function () {
+        banner.style.display = 'none';
+      }, 250);
     });
 
     document.getElementById('gdpr-decline').addEventListener('click', function () {
       localStorage.setItem(KEY, 'declined');
       banner.style.opacity = '0';
       banner.style.transition = 'opacity .25s';
-      setTimeout(function () { banner.style.display = 'none'; }, 250);
+      setTimeout(function () {
+        banner.style.display = 'none';
+      }, 250);
     });
   })();
 
@@ -1480,14 +2548,20 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
     btn.addEventListener('click', function () {
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
-      try { localStorage.setItem(KEY, next); } catch (e) {}
+      try {
+        localStorage.setItem(KEY, next);
+      } catch (e) {
+      }
     });
 
     if (window.matchMedia) {
       var mq = window.matchMedia('(prefers-color-scheme: dark)');
       var onSys = function (e) {
         var stored = null;
-        try { stored = localStorage.getItem(KEY); } catch (err) {}
+        try {
+          stored = localStorage.getItem(KEY);
+        } catch (err) {
+        }
         if (stored !== 'light' && stored !== 'dark') {
           root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
         }
@@ -1516,15 +2590,29 @@ src = <span class="t">googleGmailGetEmail</span>({ <span class="s">"id"</span>: 
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(done).catch(function () {
-          var r = document.createRange(); r.selectNodeContents(body);
-          var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-          try { document.execCommand('copy'); done(); } catch (e) {}
+          var r = document.createRange();
+          r.selectNodeContents(body);
+          var s = window.getSelection();
+          s.removeAllRanges();
+          s.addRange(r);
+          try {
+            document.execCommand('copy');
+            done();
+          } catch (e) {
+          }
           s.removeAllRanges();
         });
       } else {
-        var r = document.createRange(); r.selectNodeContents(body);
-        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-        try { document.execCommand('copy'); done(); } catch (e) {}
+        var r = document.createRange();
+        r.selectNodeContents(body);
+        var s = window.getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+        try {
+          document.execCommand('copy');
+          done();
+        } catch (e) {
+        }
         s.removeAllRanges();
       }
     });
