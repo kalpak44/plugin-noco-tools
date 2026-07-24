@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://noco-ai-tools.pavel-usanli.online/sitemap.xml
