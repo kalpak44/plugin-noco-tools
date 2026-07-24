@@ -206,7 +206,7 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
             Google Workspace
           </div>
           <div style={{ fontSize: 15, color: '#666', lineHeight: 1.55 }}>
-            {t('Sync email and calendar events from Gmail and Google Calendar.')}
+            {t('Allows AI employee access to Gmail and Google Calendar.')}
           </div>
         </div>
       </div>

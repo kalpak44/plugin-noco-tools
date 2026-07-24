@@ -12,7 +12,7 @@ ARG VCS_REF
 ARG VERSION
 
 LABEL org.opencontainers.image.title="noco-tools-site" \
-      org.opencontainers.image.description="Landing page for Noco Tools — Google (Gmail + Calendar) NocoBase plugin" \
+      org.opencontainers.image.description="Landing page for Noco AI Tools NocoBase plugin" \
       org.opencontainers.image.url="https://github.com/kalpak44/plugin-noco-tools" \
       org.opencontainers.image.source="https://github.com/kalpak44/plugin-noco-tools" \
       org.opencontainers.image.licenses="MIT" \
