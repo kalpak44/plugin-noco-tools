@@ -349,7 +349,7 @@
   <div class="page-hero-inner">
     <span class="badge">Legal</span>
     <h1>Privacy <em>Policy</em></h1>
-    <p class="page-meta">Last updated: <strong>July 2026</strong> &nbsp;·&nbsp; Applies to: <strong>noco-ai-tools</strong></p>
+    <p class="page-meta">Last updated: <strong>August 2026</strong> &nbsp;·&nbsp; Applies to: <strong>noco-ai-tools</strong></p>
   </div>
 </section>
 
@@ -375,7 +375,7 @@
       </tbody>
     </table>
   </div>
-  <p>The Plugin does <strong>not</strong> store the content of emails or calendar events. Email bodies and event details are returned to the AI employee during a tool call and are subject to the data-handling policy of your NocoBase instance and its AI provider.</p>
+  <p>The Plugin does <strong>not</strong> persistently store Gmail message content (subjects, bodies, headers) or Google Calendar event content (titles, descriptions, times, attendees, locations) in the NocoBase database. This data is fetched from Google, processed transiently in memory for the duration of the requested action, returned to the user or AI employee that requested it, and then discarded by the Plugin — it is not written to any Plugin-managed table. Where that data ends up afterward (e.g. an email body summarized by an AI employee, or shown in a chat transcript) is subject to the data-handling and retention behavior of your NocoBase instance and its configured AI provider, not the Plugin itself.</p>
 
   <h2>Google OAuth scopes requested</h2>
   <ul>
@@ -384,31 +384,73 @@
     <li><code>https://www.googleapis.com/auth/calendar</code> — read and write the user's calendars and events, including shared calendars.</li>
   </ul>
 
-  <h2>How data is used</h2>
-  <p>Stored credentials are used exclusively to:</p>
+  <h2>Google User Data Access</h2>
+  <p>Depending on which AI tool is invoked, the Plugin accesses the following Google user data on behalf of the connected user, and only at the moment a user-requested action needs it — data is not accessed in the background or on a schedule:</p>
+  <p><strong>Gmail data</strong></p>
   <ul>
-    <li>Make Gmail and Google Calendar API calls on behalf of the specific user who granted consent.</li>
-    <li>Refresh access tokens automatically before they expire.</li>
-    <li>Revoke tokens when the user disconnects their account.</li>
+    <li>Google account email address (for account identification)</li>
+    <li>Email messages</li>
+    <li>Message bodies / content (plain text and HTML)</li>
+    <li>Subject lines</li>
+    <li>Sender and recipient (From / To) information</li>
+    <li>Message and thread IDs</li>
+    <li>Labels (read-only, e.g. to determine read/unread status)</li>
+    <li>Other message metadata required for the requested Gmail functionality (e.g. date, snippet)</li>
   </ul>
-  <p>No data is shared with third parties, advertising networks, or analytics services. Credentials are never transferred outside your NocoBase instance.</p>
+  <p><strong>Google Calendar data</strong></p>
+  <ul>
+    <li>Calendar metadata (e.g. calendar id, name, access role)</li>
+    <li>Calendar events</li>
+    <li>Event titles (summary)</li>
+    <li>Event descriptions</li>
+    <li>Start and end times</li>
+    <li>Attendees</li>
+    <li>Locations</li>
+    <li>Other event information required for the requested Calendar functionality</li>
+  </ul>
+  <p>The Plugin only requests this data when a user (via an AI employee or a Connect Google block action) triggers a specific Gmail or Calendar operation. It does not run background sync jobs and does not pull Gmail or Calendar data without an explicit, user-initiated action.</p>
+
+  <h2>How Google User Data Is Used</h2>
+  <p>Google user data retrieved by the Plugin is used solely to carry out the specific action the user requested, and for no other purpose. Depending on the feature used, this includes:</p>
+  <ul>
+    <li>Listing and reading emails, including summarizing their content</li>
+    <li>Preparing draft replies</li>
+    <li>Sending emails and replies (including threaded replies) on the user's behalf</li>
+    <li>Reading message state and metadata (e.g. read/unread, sender, subject, thread)</li>
+    <li>Listing the calendars the user has access to</li>
+    <li>Reading calendar events, including on calendars shared with the user, to check schedules and availability</li>
+    <li>Creating, updating, rescheduling, or deleting calendar events, including inviting or notifying attendees when requested</li>
+  </ul>
+  <p>The Plugin does not currently modify Gmail labels, mark messages read/unread, or delete emails — Gmail access for those actions is read and send only, as reflected above. This policy will be updated if that functionality changes.</p>
+
+  <h2 id="sharing">Sharing, Transfer, and Disclosure of Google User Data</h2>
+  <ul>
+    <li><strong>Google user data is not sold</strong>, under any circumstances.</li>
+    <li><strong>Google user data is not used for advertising</strong>, and is never shared with advertising networks.</li>
+    <li><strong>Google user data is not shared with unrelated third parties.</strong> The Plugin does not transmit Gmail or Calendar data to any service other than those described below.</li>
+    <li>When a user invokes an AI-powered feature (for example, asking an AI employee to summarize an email or check their availability), the relevant Gmail or Calendar data retrieved for that request is passed to the <strong>NocoBase AI Employee</strong> feature (part of NocoBase core) and is then processed by the <strong>AI model/provider configured for that NocoBase instance</strong> (e.g. an LLM API such as OpenAI, Anthropic, or another provider selected by the instance administrator), solely to generate the response to the user's request.</li>
+    <li>The specific AI provider that processes this data depends entirely on how the administrator or user has configured their NocoBase instance — the Plugin itself does not choose or bundle an AI provider.</li>
+    <li>Outside of this AI-employee request/response flow, the Plugin itself does not independently send Google user data to advertising networks, analytics platforms, or data-broker services.</li>
+    <li>Google user data may also be visible to the NocoBase instance administrator to the extent NocoBase's own logging or audit features capture request content — this is governed by the administrator's NocoBase deployment, not by the Plugin.</li>
+  </ul>
 
   <h2>Data isolation between users</h2>
   <p>Every API call is scoped to the individual NocoBase user who initiated the request. The Plugin verifies the caller's identity before each API call and uses only that user's stored tokens. No user can access another user's email or calendar data through the Plugin.</p>
 
   <h2>Data storage and security</h2>
   <ul>
-    <li>Tokens are stored using NocoBase's <strong>encrypted field type</strong> (AES encryption at rest).</li>
+    <li>The only persistently stored data is the OAuth <strong>access token</strong> and <strong>refresh token</strong> (plus the connected account's email address, scope list, and token status) in the <code>googleConnections</code> table, using NocoBase's <strong>encrypted field type</strong> (AES encryption at rest).</li>
+    <li>Gmail messages and Calendar events themselves are never written to this or any other table — see "What data we collect" above.</li>
     <li>OAuth Client ID and Secret are stored in <strong>NocoBase Variables &amp; Secrets</strong>, separate from application data.</li>
     <li>Transport between your NocoBase server and Google APIs uses HTTPS.</li>
-    <li>The Plugin does not log token values or email content to application logs.</li>
+    <li>The Plugin does not log token values or email/event content to application logs.</li>
   </ul>
 
   <h2>Data retention and deletion</h2>
   <ul>
-    <li><strong>User disconnect:</strong> Clicking "Disconnect" revokes both tokens with Google and deletes the row from the database.</li>
-    <li><strong>Plugin disable:</strong> All tokens are revoked with Google and deleted from the database.</li>
-    <li><strong>Plugin uninstall:</strong> All tokens are revoked and the <code>googleConnections</code> table is dropped.</li>
+    <li><strong>User disconnect:</strong> Clicking "Disconnect" in the Connect Google block revokes the access and refresh tokens with Google and immediately deletes the corresponding row from the <code>googleConnections</code> table. No Gmail or Calendar content was retained in the first place, so there is nothing further to delete.</li>
+    <li><strong>Plugin disable:</strong> All stored tokens are revoked with Google and deleted from the database.</li>
+    <li><strong>Plugin uninstall:</strong> All tokens are revoked and the <code>googleConnections</code> table is dropped entirely.</li>
   </ul>
 
   <h2>Your rights</h2>
@@ -419,7 +461,7 @@
   </ul>
 
   <h2>Third-party services</h2>
-  <p>The Plugin communicates exclusively with Google APIs (<code>accounts.google.com</code>, <code>www.googleapis.com</code>). No other external services are contacted.</p>
+  <p>The Plugin's own code communicates exclusively with Google APIs (<code>accounts.google.com</code>, <code>www.googleapis.com</code>) to authenticate and to make Gmail/Calendar calls — it does not independently contact any other external service. Separately, when an AI-powered feature is used, Gmail or Calendar data needed for that request is passed through NocoBase's own AI Employee feature to the AI model/provider configured in that NocoBase instance, as described in <a href="#sharing">&#8220;Sharing, Transfer, and Disclosure of Google User Data&#8221;</a> above. That AI provider is chosen and configured by the NocoBase administrator, not bundled by the Plugin.</p>
 
   <h2>Children's privacy</h2>
   <p>The Plugin is not directed at children under 13. It is intended for deployment within enterprise or personal NocoBase instances administered by adults.</p>
