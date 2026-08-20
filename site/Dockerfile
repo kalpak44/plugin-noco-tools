@@ -1,5 +1,5 @@
 # ── build stage: validate HTML is well-formed ────────────────────────────────
-FROM node:22-alpine AS validate
+FROM node:26-alpine AS validate
 WORKDIR /src
 COPY . .
 RUN npx --yes html-validate "*.html" || true
