@@ -1746,21 +1746,22 @@
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                  stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path
               d="M2 8l10 6 10-6"/></svg>
-            gmail.modify
+            gmail.readonly
           </span>
-          <span class="sc-title">Read and send Gmail on your behalf</span>
+          <span class="sc-title">Read your Gmail</span>
         </div>
         <div class="sc-body">
           <div>
             <div class="sc-col-lbl">What it allows</div>
-            <p class="sc-col-txt">The AI employee can list your inbox, read individual message content, send new emails,
-              reply to threads, and mark messages as read after processing.</p>
+            <p class="sc-col-txt">The AI employee can list your inbox and read the content of an individual message you
+              ask it about. This scope is <strong>read-only</strong> — it cannot alter, label, archive, or delete
+              anything in your mailbox.</p>
           </div>
           <div>
             <div class="sc-col-lbl">Why it is needed</div>
-            <p class="sc-col-txt">Without read access the AI cannot understand the context of incoming mail or draft
-              relevant replies. Without send access it cannot act as your email assistant — you would have to copy-paste
-              every response manually.</p>
+            <p class="sc-col-txt">Without read access the AI cannot understand the context of incoming mail or draft a
+              relevant reply. No narrower Gmail scope returns message content, so this is the minimum that makes an
+              email assistant possible.</p>
           </div>
         </div>
         <div class="sc-never">
@@ -1770,6 +1771,39 @@
           </svg>
           Email content is <strong>&nbsp;never stored&nbsp;</strong> on our servers — fetched live per request, used to
           generate a response, then discarded. We never analyse, index, or share your email content.
+        </div>
+      </div>
+
+      <!-- Gmail send -->
+      <div class="scope-card">
+        <div class="sc-head">
+          <span class="sc-badge sc-gmail">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path
+              d="M2 8l10 6 10-6"/></svg>
+            gmail.send
+          </span>
+          <span class="sc-title">Send email on your behalf</span>
+        </div>
+        <div class="sc-body">
+          <div>
+            <div class="sc-col-lbl">What it allows</div>
+            <p class="sc-col-txt">The AI employee can send a new email or a reply to a thread, when you ask it to.
+              Send-only: this scope grants no ability to read, label, or delete anything.</p>
+          </div>
+          <div>
+            <div class="sc-col-lbl">Why it is needed</div>
+            <p class="sc-col-txt">Without send access the assistant cannot act on your behalf — you would have to
+              copy-paste every drafted response into Gmail manually.</p>
+          </div>
+        </div>
+        <div class="sc-never">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          We <strong>&nbsp;never request&nbsp;</strong><code>gmail.modify</code> — the plugin holds no authority to
+          label, archive, mark read, or trash your messages.
         </div>
       </div>
 

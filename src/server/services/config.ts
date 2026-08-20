@@ -1,10 +1,24 @@
 import type { Application } from '@nocobase/server';
 
+// Must stay in sync with the scopes registered on the Google Cloud OAuth
+// client (Google Auth Platform → Data Access). Requesting a scope that is not
+// registered there fails the consent flow; registering one that is never
+// requested is an over-broad grant that Google's restricted-scope review and
+// a CASA assessor will both flag. Each entry below maps to a shipped AI tool:
+//
+//   gmail.readonly  → googleGmailListEmails, googleGmailGetEmail
+//   gmail.send      → googleGmailSendEmail
+//   calendar        → googleCalendar{ListCalendars,ListEvents,CreateEvent,
+//                     UpdateEvent,DeleteEvent,ListSharedEvents}
+//
+// Adding a tool that needs broader authority means registering the scope in
+// the Cloud console first, and updating README.md + site/privacy.html.
 export const DEFAULT_SCOPES = [
   'openid',
   'email',
   'profile',
-  'https://www.googleapis.com/auth/gmail.modify',
+  'https://www.googleapis.com/auth/gmail.readonly',
+  'https://www.googleapis.com/auth/gmail.send',
   'https://www.googleapis.com/auth/calendar',
 ];
 

@@ -74,12 +74,25 @@ Then:
    - **Gmail API**
    - **Google Calendar API**
 
-5. In **Google Auth Platform → Data Access** (<https://console.cloud.google.com/auth/scopes>), click **Add or Remove Scopes** and add:
-   - `openid`, `email`, `profile`
-   - `https://www.googleapis.com/auth/gmail.modify` — read, send, modify, and delete emails on the user's behalf (does not include Trash → Delete forever).
-   - `https://www.googleapis.com/auth/calendar` — read/write access to the user's calendars and events (including calendars shared with them).
+5. In **Google Auth Platform → Data Access** (<https://console.cloud.google.com/auth/scopes>), click **Add or Remove Scopes** and add exactly these — no more:
 
-   > **Why the broader scopes?** `gmail.modify` covers reading, sending, replying, labelling, and trashing in a single grant — one consent prompt instead of two, and lets the AI employee mark emails as read after processing. Same idea for `calendar`: read + create in one grant, and it grants access to shared calendars.
+   | Scope | Google classification | Grants | Used by |
+   | --- | --- | --- | --- |
+   | `openid`, `email`, `profile` | Non-sensitive | Identify the connected Google account | Connection record (`googleEmail`) |
+   | `.../auth/gmail.readonly` | **Restricted** | View email messages and settings | `googleGmailListEmails`, `googleGmailGetEmail` |
+   | `.../auth/gmail.send` | Sensitive | Send email on the user's behalf | `googleGmailSendEmail` |
+   | `.../auth/calendar` | Sensitive | See, edit, share and delete calendars the user can access | `googleCalendarListCalendars`, `ListEvents`, `CreateEvent`, `UpdateEvent`, `DeleteEvent`, `ListSharedEvents` |
+
+   This set is the **minimum** for the tools the plugin ships, and it must match
+   [`DEFAULT_SCOPES`](src/server/services/config.ts) exactly. Two failure modes if it drifts:
+
+   - **Scope requested but not registered** → the consent flow fails, or Google silently withholds it and every API call 403s.
+   - **Scope registered but never requested** → an over-broad grant. Google's restricted-scope review asks you to justify why a narrower scope isn't sufficient, and you won't be able to.
+
+   > **On `gmail.readonly`:** this is a **restricted** scope. Any app using it that can move Google user data to a third-party server must pass an annual [CASA security assessment](https://appdefensealliance.dev/casa) and keep a valid Letter of Assessment. There is no non-restricted Gmail scope that returns message bodies, so this is unavoidable for `googleGmailGetEmail`. See [SECURITY.md](SECURITY.md).
+   >
+   > **On `gmail.send` vs `gmail.modify`:** the plugin deliberately does **not** request `gmail.modify`. It never labels, archives, marks read, or trashes messages — `readonly` + `send` covers every shipped tool, and `modify` would grant destructive authority nothing uses.
+   >
    > If the app is in **Testing**, Google only shows scopes to the user that are declared here. Skip this step and the consent screen will only ask for `email/profile`, and any Gmail/Calendar call will 403.
 
    > While the app is in **Testing**, add every NocoBase user you want to connect as a **Test user**. Publish the OAuth consent screen for broader access.

@@ -80,7 +80,13 @@ export async function buildAuthorizeUrl(
     response_type: 'code',
     scope: DEFAULT_SCOPES.join(' '),
     access_type: 'offline',
-    include_granted_scopes: 'true',
+    // Deliberately NOT setting include_granted_scopes=true. The plugin always
+    // requests the full DEFAULT_SCOPES set in one go, so incremental auth buys
+    // nothing — but it would make Google mint tokens carrying the *union* of
+    // DEFAULT_SCOPES and anything the user granted previously. A user who
+    // consented under an older, broader scope set (e.g. gmail.modify) would
+    // silently keep that authority on every reconnect. Omitting it means the
+    // issued token carries exactly the scopes listed above and nothing more.
     prompt: 'consent',
     state,
   });

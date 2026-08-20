@@ -380,9 +380,11 @@
   <h2>Google OAuth scopes requested</h2>
   <ul>
     <li><code>openid</code>, <code>email</code>, <code>profile</code> — identifies the connected account.</li>
-    <li><code>https://www.googleapis.com/auth/gmail.modify</code> — read, send, modify, and label emails. Does not include permanent deletion.</li>
+    <li><code>https://www.googleapis.com/auth/gmail.readonly</code> — <strong>restricted scope.</strong> Reads email messages and settings, so the AI employee can list the inbox and read an individual message. Grants no ability to alter or delete anything.</li>
+    <li><code>https://www.googleapis.com/auth/gmail.send</code> — sends email on the user's behalf. Send-only: it confers no read, label, or delete authority of its own.</li>
     <li><code>https://www.googleapis.com/auth/calendar</code> — read and write the user's calendars and events, including shared calendars.</li>
   </ul>
+  <p>The Plugin requests the narrowest scope set that supports its features. In particular it does <strong>not</strong> request <code>gmail.modify</code>, which would additionally permit labelling, archiving, marking read, and trashing messages — the Plugin performs none of those actions, so that authority is never requested.</p>
 
   <h2>Google User Data Access</h2>
   <p>Depending on which AI tool is invoked, the Plugin accesses the following Google user data on behalf of the connected user, and only at the moment a user-requested action needs it — data is not accessed in the background or on a schedule:</p>
@@ -421,7 +423,7 @@
     <li>Reading calendar events, including on calendars shared with the user, to check schedules and availability</li>
     <li>Creating, updating, rescheduling, or deleting calendar events, including inviting or notifying attendees when requested</li>
   </ul>
-  <p>The Plugin does not currently modify Gmail labels, mark messages read/unread, or delete emails — Gmail access for those actions is read and send only, as reflected above. This policy will be updated if that functionality changes.</p>
+  <p>The Plugin does not modify Gmail labels, mark messages read/unread, or delete emails. This is not merely a matter of the Plugin choosing not to: because it requests only <code>gmail.readonly</code> and <code>gmail.send</code>, the OAuth grant it holds carries no authority to perform those actions at all. Enabling any of them would require requesting a broader scope, re-obtaining user consent, and an update to this policy.</p>
 
   <h2 id="sharing">Sharing, Transfer, and Disclosure of Google User Data</h2>
   <ul>
