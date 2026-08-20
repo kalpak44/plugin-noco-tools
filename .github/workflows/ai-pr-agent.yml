@@ -1,0 +1,146 @@
+# Managed by homelab-infra — terraform/github/<repo>/workflows/ai-pr-agent.yml
+# Edits made here in the target repo are overwritten by `just deploy github <repo>`.
+#
+# One job, once a day (or on demand): Codex CLI driving DeepSeek, with the gh CLI,
+# walks the open bot PRs oldest first and merges the safe ones one at a time.
+#
+# The policy lives in the prompt below, not in bash. There is no matrix, no auto-merge
+# and no branch ruleset — the agent checks that CI is green and is itself the gate.
+#
+# DeepSeek serves the OpenAI Responses API directly, which is the only wire protocol
+# Codex still speaks, so Codex talks to it with no proxy in between.
+name: AI PR Agent
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # 06:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write # to start a PR check that never ran
+
+# Never let two sweeps merge into the same branch at once.
+concurrency:
+  group: ai-pr-agent
+  cancel-in-progress: false
+
+jobs:
+  agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      # gh is preinstalled on GitHub-hosted runners; this is what authenticates it.
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DEEPSEEK_APIKEY: ${{ secrets.DEEPSEEK_APIKEY }}
+      DEEPSEEK_MODEL: ${{ vars.DEEPSEEK_MODEL || 'deepseek-v4-flash' }}
+      REPO: ${{ github.repository }}
+      PR_CHECK_WORKFLOW: ${{ vars.PR_CHECK_WORKFLOW }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Codex CLI
+        run: npm install -g @openai/codex
+
+      - name: Point Codex at DeepSeek
+        run: |
+          set -euo pipefail
+          if [ -z "${DEEPSEEK_APIKEY:-}" ]; then
+            echo "DEEPSEEK_APIKEY is empty — is it set in the Dependabot secret store too?" >&2
+            exit 1
+          fi
+
+          mkdir -p ~/.codex
+          cat > ~/.codex/config.toml <<EOF
+          model = "${DEEPSEEK_MODEL}"
+          model_provider = "deepseek"
+
+          [model_providers.deepseek]
+          name = "DeepSeek"
+          base_url = "https://api.deepseek.com/v1"
+          env_key = "DEEPSEEK_APIKEY"
+          wire_api = "responses"
+          EOF
+
+      - name: Smoke-test the model
+        # One cheap call, so a credential or model-name problem is one line here rather
+        # than a stack trace part-way through a sweep.
+        run: |
+          set -euo pipefail
+          CODE=$(curl -sS -o smoke.json -w '%{http_code}' \
+            https://api.deepseek.com/v1/responses \
+            -H "Authorization: Bearer $DEEPSEEK_APIKEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"model\":\"${DEEPSEEK_MODEL}\",\"input\":\"reply with the single word: ok\"}")
+          echo "HTTP $CODE"
+          if [ "$CODE" != "200" ]; then head -c 500 smoke.json; echo; exit 1; fi
+
+      - name: Run the agent
+        run: |
+          set -euo pipefail
+
+          cat > prompt.md <<EOF
+          You are the pull-request agent for the GitHub repository ${REPO}.
+          The \`gh\` CLI is installed and already authenticated. Do all your work through it.
+
+          Your goal: merge the dependency-update pull requests that are clearly safe, one at
+          a time, and leave everything else alone.
+
+          Procedure:
+          1. List the open PRs, oldest first:
+             gh pr list --repo ${REPO} --state open --json number,title,author,createdAt
+          2. Drop every PR whose author is not a bot. In this listing Dependabot appears as
+             login "app/dependabot" with is_bot true — match on is_bot, not on the name.
+          3. Handle the remaining PRs one at a time, oldest first. Finish one completely
+             before you touch the next — they usually edit the same lockfile, so merging
+             them in parallel causes conflicts.
+
+             For each PR <n>:
+             a. Read the change:  gh pr diff <n> --repo ${REPO}
+             b. Decide. Merge only if ALL of these hold:
+                  - nothing but dependency manifests and lockfiles changed
+                  - the bump is a patch or minor version of a dependency that already existed
+                  - no new dependency is introduced
+                  - no workflow, build script or CI configuration is touched
+                Otherwise leave it open and comment briefly saying why.
+             c. If the PR is behind its base branch, update it:
+                  gh api -X PUT repos/${REPO}/pulls/<n>/update-branch
+             d. Check whether the head commit has any check runs. If it has none and
+                PR_CHECK_WORKFLOW is set (it is "${PR_CHECK_WORKFLOW}"), start it:
+                  gh workflow run "${PR_CHECK_WORKFLOW}" --repo ${REPO} --ref <head branch>
+                Give it a few seconds to register before looking again.
+             e. Wait until every check on the head commit has concluded. Poll patiently;
+                a build can take several minutes.
+             f. Merge only if every check succeeded:
+                  gh pr merge <n> --repo ${REPO} --squash
+             g. Confirm the PR really is merged before moving to the next one.
+             h. Leave one short comment on the PR saying what you did and why.
+
+          Hard rules — do not break these:
+            - Never merge a PR authored by a human.
+            - Never merge when a check is failing, pending, or absent.
+            - Never force-push, never close a PR, never commit to the default branch.
+            - If anything is unclear, leave the PR open and explain in a comment.
+            - Handle at most 10 PRs in one run.
+
+          Finish with a one-line summary per PR: number, decision, and outcome.
+          EOF
+
+          codex exec \
+            --skip-git-repo-check \
+            --sandbox danger-full-access \
+            --output-last-message summary.md \
+            "$(cat prompt.md)"
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ -f summary.md ]; then
+            { echo "## AI PR Agent"; echo; cat summary.md; } >> "$GITHUB_STEP_SUMMARY"
+          fi
