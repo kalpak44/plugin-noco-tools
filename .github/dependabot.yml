@@ -1,5 +1,6 @@
 version: 2
 updates:
+  # --- npm ----------------------------------------------------------------
   - package-ecosystem: npm
     directory: "/"
     schedule:
@@ -8,13 +9,61 @@ updates:
       nocobase:
         patterns:
           - "@nocobase/*"
+      # The dev/build toolchain moves independently of the NocoBase pin and is
+      # safe to batch — nothing here ships in the published tarball.
+      dev-tooling:
+        dependency-type: development
+        patterns:
+          - "typescript"
+          - "@cyclonedx/*"
+          - "@types/*"
     ignore:
-      # @nocobase/* packages must be upgraded together as a set;
-      # individual bumps break the build. The upstream vulnerabilities
-      # in @nocobase/server, @nocobase/database etc. have no fix
-      # available — ignore until a patched release lands.
+      # @nocobase/* packages must be upgraded together as a set; individual
+      # bumps break the build. They are also pinned to the exact runtime the
+      # plugin is built against (see NOCOBASE_VERSION in scripts/build.sh and
+      # `nocobase.supportedVersions` in package.json) — bumping them here
+      # without re-pinning the build produces an externalVersion.js that the
+      # plugin manager's compatibility check rejects.
+      #
+      # RISK ACCEPTANCE (CASA): the upstream advisories inherited through this
+      # set have no fix available at the pinned version. They reach this repo
+      # only via devDependencies installed so CI can typecheck against the
+      # NocoBase API surface; none of that code is present in the published
+      # package or executes at plugin runtime. The scheduled runtime-audit job
+      # in .github/workflows/security.yml keeps a dated record of the posture
+      # so a patched release is noticed. Reassess at each NocoBase version bump.
       - dependency-name: "@nocobase/*"
         update-types:
           - version-update:semver-patch
           - version-update:semver-minor
           - version-update:semver-major
+      # Pinned to exactly what the NocoBase 2.1.x runtime bundles, and to what
+      # scripts/build.sh installs, so dist/externalVersion.js matches the
+      # plugin manager's compatibility check. Must not float.
+      - dependency-name: "react"
+      - dependency-name: "react-dom"
+      - dependency-name: "antd"
+
+  # --- GitHub Actions -----------------------------------------------------
+  # Workflow actions are pinned to commit SHAs so the build cannot be changed
+  # under us by a retagged release (CWE-829). A pin with no update mechanism
+  # rots into an unpatched dependency, which is the failure mode this entry
+  # exists to prevent: Dependabot rewrites the SHA and updates the trailing
+  # version comment, so pinning stays cheap to maintain.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  # --- Docker -------------------------------------------------------------
+  # site/Dockerfile builds the nginx image serving the public privacy policy
+  # and terms of service. Those pages are a Google OAuth verification
+  # requirement, so the container serving them is in scope for the assessment.
+  - package-ecosystem: docker
+    directory: "/site"
+    schedule:
+      interval: weekly

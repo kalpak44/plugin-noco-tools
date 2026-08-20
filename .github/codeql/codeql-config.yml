@@ -1,0 +1,51 @@
+# CodeQL scan policy for @kalpak44/plugin-noco-tools
+#
+# ---------------------------------------------------------------------------
+# CASA AL1 evidence
+# ---------------------------------------------------------------------------
+# This file is the "AST configuration file" that an ADA authorized lab asks for
+# as part of an AL1 (formerly Tier 2) submission. It declares exactly what is
+# scanned and against which rule set, so the scan scope is auditable rather
+# than asserted. Keep it in the submission bundle alongside the plain-text
+# scan results produced by scripts/casa-report.mjs.
+#
+# Rule set: `security-extended` — the broader of CodeQL's two security suites.
+# It is chosen over the default suite deliberately: the default trades recall
+# for precision, and CASA's pass bar is defined in terms of CWE coverage, so
+# recall matters more here than a low false-positive rate. Triaging extra
+# findings is the cheaper failure mode.
+#
+# See docs/casa/AL1-evidence.md for how this maps to the CASA requirements.
+# ---------------------------------------------------------------------------
+
+name: 'plugin-noco-tools CASA AL1 static analysis'
+
+queries:
+  - uses: security-extended
+
+# Scanned. These are the three surfaces the project actually ships:
+#   src/     — the plugin itself: OAuth flow, token storage/encryption, Gmail
+#              and Calendar request construction, AI-tool handlers, ACL and
+#              per-user isolation logic. This is the security-relevant code.
+#   scripts/ — build and evidence tooling that runs in CI with repo context.
+#   site/    — the marketing/policy site deployed as an nginx container. Its
+#              inline JavaScript is part of the operated attack surface, so an
+#              assessor asking "did you scan the web frontend too?" gets a yes.
+paths:
+  - src
+  - scripts
+  - site
+
+# Excluded, with reasons — an assessor will ask about each of these.
+paths-ignore:
+  # Third-party NocoBase source tree, downloaded by scripts/build.sh purely as
+  # a build toolchain (`nb source download`). Not authored here and not shipped
+  # in the published tarball. Vulnerabilities in it are upstream NocoBase
+  # issues; see SECURITY.md "Out of scope" and the runtime-audit job in
+  # .github/workflows/security.yml, which tracks that tree's advisories
+  # separately rather than pretending it is first-party code.
+  - app
+  # Build output. Compiled from src/, so scanning it would double-report every
+  # finding against a generated path that maps back to source anyway.
+  - dist
+  - node_modules

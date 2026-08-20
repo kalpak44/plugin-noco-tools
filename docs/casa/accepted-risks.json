@@ -1,0 +1,26 @@
+{
+  "_readme": [
+    "Risk-acceptance register for the CASA AL1 scan gate.",
+    "",
+    "CASA expects accepted risk to be explicit and justified, not silently",
+    "suppressed. Entries here are still printed in full in the generated report",
+    "(section 4) — they are excluded from the pass/fail gate only. An assessor",
+    "reads this file directly, so every reason must stand on its own without a",
+    "conversation to explain it.",
+    "",
+    "Consumed by scripts/casa-report.mjs. Schema per entry:",
+    "  id       (required) CodeQL rule ID, or npm package name for an advisory.",
+    "  file     (optional) Restrict the acceptance to one path. Omit to accept",
+    "                      the rule everywhere — prefer scoping to a file.",
+    "  reason   (required) Why this is not exploitable here, or why the residual",
+    "                      risk is accepted. 'False positive' alone is not a",
+    "                      reason; say what makes it one.",
+    "  reviewBy (optional) ISO date for re-examination. Anything accepted",
+    "                      because an upstream fix is pending belongs here.",
+    "",
+    "Note: advisories in the dev/build toolchain tree do not need entries. They",
+    "are already reported as INFORMATIONAL and never gated — see",
+    "docs/casa/AL1-evidence.md section 'Scoping decisions'."
+  ],
+  "acceptedRisks": []
+}

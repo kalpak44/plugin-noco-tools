@@ -55,3 +55,9 @@ temp/
 
 # Local NocoBase dev app (created by `nb init` into ./app)
 app/
+
+# CASA scan output (scripts/casa-report.mjs, .github/workflows/security.yml).
+# Generated per run and published as a workflow artifact — the committed
+# inputs are the scan *config* (.github/codeql/codeql-config.yml) and the
+# risk-acceptance register (docs/casa/accepted-risks.json), never the results.
+evidence/

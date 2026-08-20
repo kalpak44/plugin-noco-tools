@@ -44,14 +44,34 @@
   ],
   "scripts": {
     "build": "bash scripts/build.sh",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "sbom": "cyclonedx-npm --output-format json --ignore-npm-errors",
+    "security:report": "node scripts/casa-report.mjs --evidence-dir evidence"
   },
   "peerDependencies": {
+    "@nocobase/client": "2.1.28",
     "@nocobase/client-v2": "2.1.28",
     "@nocobase/database": "2.1.28",
     "@nocobase/flow-engine": "2.1.28",
     "@nocobase/server": "2.1.28",
     "@nocobase/utils": "2.1.28",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@cyclonedx/cyclonedx-npm": "^6.0.1",
+    "@nocobase/client": "2.1.28",
+    "@nocobase/client-v2": "2.1.28",
+    "@nocobase/database": "2.1.28",
+    "@nocobase/flow-engine": "2.1.28",
+    "@nocobase/server": "2.1.28",
+    "@nocobase/utils": "2.1.28",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "antd": "5.24.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "^5.9.3",
     "zod": "^4.0.0"
   },
   "engines": {

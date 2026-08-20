@@ -1,0 +1,298 @@
+# CASA AL1 automated security scanning.
+#
+# Produces the evidence bundle an ADA authorized lab asks for at Assurance
+# Level 1 (formerly Tier 2): a declared scan configuration plus scan results in
+# plain text. Runs on every push and PR, so a regression fails the build, and
+# weekly so newly published advisories against unchanged code still surface.
+#
+# What this pipeline does and does not cover is stated explicitly in
+# docs/casa/AL1-evidence.md — read that before a submission.
+#
+# Every action is pinned to a commit SHA rather than a floating tag. A mutable
+# tag is a supply-chain weakness in its own right (CWE-829 and ASVS V14
+#  expect build-pipeline dependencies to be verifiable), and it is the first
+# thing an assessor looks for in a CI definition.
+
+name: security
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, Monday 03:17 UTC. Off-the-hour to avoid GitHub's cron contention,
+    # which silently delays jobs scheduled on the hour.
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+    inputs:
+      threshold:
+        description: 'Fail the build at this severity and above'
+        type: choice
+        default: high
+        options: [critical, high, medium, low]
+      runtime_audit:
+        description: 'Also audit the pinned @nocobase runtime dependency tree'
+        type: boolean
+        default: false
+
+# Least privilege by default; jobs widen this only where they must.
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # SAST + SCA + SBOM + the submittable report, in one job.
+  #
+  # Deliberately not split across jobs: the codebase is ~1.7k LOC, so parallel
+  # jobs would cost more in artifact plumbing than they save in wall-clock, and
+  # keeping every scanner in one workspace means the report step reads all
+  # output directly instead of round-tripping through upload/download-artifact.
+  # ---------------------------------------------------------------------------
+  casa-scan:
+    name: CASA AL1 scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      # Required to push SARIF into the repository's Security tab.
+      security-events: write
+
+    steps:
+      # CodeQL and npm audit both operate on the working tree only, so the
+      # default shallow fetch is enough and much faster than full history.
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Create evidence directory
+        run: mkdir -p evidence/codeql
+
+      # --- Install -------------------------------------------------------
+      # `npm ci` needs the lockfile to be in sync with package.json. It is
+      # committed precisely so this — and the SCA scan below — are reproducible.
+      - name: Install dependencies
+        run: npm ci
+
+      # --- Typecheck -----------------------------------------------------
+      # Not a security control on its own, but a type error in the OAuth or
+      # token-store paths is exactly the class of defect that turns into one,
+      # and it is cheap to gate here.
+      - name: Typecheck
+        run: npm run typecheck
+
+      # --- SCA -----------------------------------------------------------
+      # Two audits, deliberately kept apart.
+      #
+      # The gated one covers production dependencies — what actually ships in
+      # the published tarball. The plugin declares none (every @nocobase/* and
+      # zod is a peerDependency supplied by the host), so this is expected to
+      # come back empty. That is a real result, and the report labels it as
+      # such rather than as a scan that did not run.
+      #
+      # The informational one covers the whole tree including devDependencies,
+      # which exist so CI can typecheck against the NocoBase API surface. Those
+      # advisories are inherited from the @nocobase/client frontend chain, are
+      # absent from the published package, and mostly have no upstream fix at
+      # the pinned NocoBase version. They are recorded in full but not gated —
+      # see docs/casa/AL1-evidence.md for the reasoning an assessor will want.
+      #
+      # `npm audit` exits non-zero whenever it finds anything, which would abort
+      # the job before the report is written. The gate belongs in exactly one
+      # place — the report script — so both exit codes are swallowed here.
+      - name: Dependency audit — production tree (gated)
+        run: |
+          npm audit --omit=dev --json > evidence/npm-audit.json 2>evidence/npm-audit.stderr.txt || true
+          if [ ! -s evidence/npm-audit.json ]; then
+            echo "::warning::npm audit (prod) produced no output; see npm-audit.stderr.txt"
+            rm -f evidence/npm-audit.json
+          fi
+
+      - name: Dependency audit — build toolchain (informational)
+        run: |
+          npm audit --json > evidence/npm-audit-dev.json 2>evidence/npm-audit-dev.stderr.txt || true
+          if [ ! -s evidence/npm-audit-dev.json ]; then
+            echo "::warning::npm audit (dev) produced no output; see npm-audit-dev.stderr.txt"
+            rm -f evidence/npm-audit-dev.json
+          fi
+
+      - name: Dependency inventory
+        run: npm ls --all --json > evidence/npm-tree.json 2>/dev/null || true
+
+      # --- SBOM ----------------------------------------------------------
+      # A CycloneDX SBOM is not strictly required at AL1, but it answers the
+      # "what is actually in this build" question in one artifact instead of a
+      # conversation, and it costs one step.
+      - name: Generate SBOM (CycloneDX)
+        run: npm run sbom -- --output-file evidence/sbom.json || echo "::warning::SBOM generation failed"
+
+      # --- SAST ----------------------------------------------------------
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@f3712979fa5f215279b101dd0a2e3bdfb4353324 # v3
+        with:
+          languages: javascript-typescript
+          config-file: ./.github/codeql/codeql-config.yml
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@f3712979fa5f215279b101dd0a2e3bdfb4353324 # v3
+        with:
+          category: /language:javascript-typescript
+          # Write SARIF to disk as well as uploading it. The upload drives the
+          # Security tab; the file on the disk is what becomes the plain-text
+          # evidence a lab can actually read.
+          output: evidence/codeql
+          upload: true
+
+      # --- Report --------------------------------------------------------
+      # Runs even when an earlier scan step failed, so a partial run still
+      # yields evidence showing which scanner did not complete. The script
+      # reports a missing scanner as "NOT RUN" rather than as a clean result.
+      - name: Build CASA risk report
+        if: always()
+        run: |
+          node scripts/casa-report.mjs \
+            --evidence-dir evidence \
+            --threshold "${{ inputs.threshold || 'high' }}" \
+            --baseline docs/casa/accepted-risks.json
+
+      - name: Upload evidence bundle
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: casa-al1-evidence
+          path: |
+            evidence/
+            .github/codeql/codeql-config.yml
+            docs/casa/
+          if-no-files-found: error
+          # Long enough to cover a submission round-trip with a lab without
+          # keeping scan output around indefinitely.
+          retention-days: 90
+
+  # ---------------------------------------------------------------------------
+  # Blocks a PR that introduces a dependency with a known advisory, before it
+  # reaches main. Complements the audit above, which catches what is already in.
+  # ---------------------------------------------------------------------------
+  dependency-review:
+    name: Dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
+          # The plugin ships under MIT and is distributed publicly; a copyleft
+          # transitive dependency would be a licensing problem, and CASA asks
+          # about third-party component governance.
+          deny-licenses: AGPL-1.0-or-later, AGPL-3.0-or-later, GPL-2.0-or-later, GPL-3.0-or-later
+
+  # ---------------------------------------------------------------------------
+  # The plugin declares no runtime dependencies of its own — @nocobase/* and
+  # zod are peerDependencies supplied by the host application. That means the
+  # SCA scan above says nothing about the dependency tree the plugin actually
+  # executes inside.
+  #
+  # This job installs the pinned peer set and audits it, so there is a standing
+  # record of the host runtime's advisory posture. It is informational by
+  # design: those advisories are upstream NocoBase issues that this project
+  # cannot patch (see the ignored rationale in dependabot.yml), and failing the
+  # build on them would only train everyone to ignore a red X. What it does
+  # give us is a dated signal for when a patched NocoBase release lands.
+  # ---------------------------------------------------------------------------
+  runtime-audit:
+    name: Host runtime advisory audit (informational)
+    if: github.event_name == 'schedule' || inputs.runtime_audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+
+      - name: Install the pinned peer dependency set
+        run: |
+          mkdir -p /tmp/runtime-audit
+          cd /tmp/runtime-audit
+          npm init -y >/dev/null
+          # Install exactly the versions declared as peerDependencies, so the
+          # audit reflects what a conforming host installation resolves to.
+          node -e '
+            const peers = require("'"$GITHUB_WORKSPACE"'/package.json").peerDependencies || {};
+            const specs = Object.entries(peers).map(([n, v]) => n + "@" + v.replace(/^\^|~/, ""));
+            console.log(specs.join("\n"));
+          ' > specs.txt
+          cat specs.txt
+          # Peer resolution inside the NocoBase monorepo is not reproducible
+          # standalone, so conflicts are forced rather than failed on.
+          xargs -a specs.txt npm install --legacy-peer-deps --no-fund --no-audit || true
+
+      - name: Audit and summarise
+        run: |
+          cd /tmp/runtime-audit
+          npm audit --json > runtime-audit.json 2>/dev/null || true
+          node -e '
+            const fs = require("fs");
+            let a = {};
+            try { a = JSON.parse(fs.readFileSync("runtime-audit.json", "utf8")); } catch {}
+            const m = a.metadata?.vulnerabilities || {};
+            const rows = Object.entries(a.vulnerabilities || {})
+              .filter(([, v]) => ["high", "critical"].includes(v.severity))
+              .map(([n, v]) => `| \`${n}\` | ${v.severity} | ${v.range || ""} | ${v.fixAvailable === false ? "**no fix**" : "fix available"} |`);
+            const out = [
+              "## Host runtime advisory audit (informational)",
+              "",
+              "Audits the `peerDependencies` set the plugin is built against — i.e. the",
+              "host NocoBase runtime, not this package. Advisories here are upstream and",
+              "are not gated on. See `dependabot.yml` for the risk-acceptance rationale.",
+              "",
+              `Totals: critical ${m.critical || 0} · high ${m.high || 0} · moderate ${m.moderate || 0} · low ${m.low || 0}`,
+              "",
+              rows.length ? "| Package | Severity | Range | Fix |" : "_No high or critical advisories._",
+              rows.length ? "| --- | --- | --- | --- |" : "",
+              ...rows,
+            ].join("\n");
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, out + "\n");
+            console.log(out);
+          '
+
+      - name: Upload runtime audit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: runtime-advisory-audit
+          path: /tmp/runtime-audit/runtime-audit.json
+          if-no-files-found: warn
+          retention-days: 90
